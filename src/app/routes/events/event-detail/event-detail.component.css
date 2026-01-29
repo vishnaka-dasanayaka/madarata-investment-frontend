@@ -1,0 +1,18 @@
+.image-wrapper {
+  width: 100%;
+  height: 10rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.zoom-on-hover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.image-wrapper:hover .zoom-on-hover {
+  transform: scale(1.2);
+}

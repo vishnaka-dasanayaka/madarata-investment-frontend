@@ -1,0 +1,79 @@
+
+<app-header></app-header>
+
+<div *ngIf="loading" class="loading-spinner-overlay">
+  <div class="spinner"></div>
+</div>
+
+<div
+  class="h-[750px] py-3 bg-gradient-to-r from-[#001960] via-[#325EDA] to-[#001960]"
+>
+  <div class="w-full h-full bg-white p-3">
+    <div
+      class="bg-[url('/auth/verify_bg.jpg')] bg-cover bg-center bg-no-repeat bg-[#001960] w-full h-full flex justify-center rounded-b-[45px] p-[22.5px]"
+    >
+      <div
+        class="bg-white h-full w-[505px] rounded-[42px] px-[22.5px] py-[33px] flex flex-col items-center gap-8"
+      >
+        <div class="w-full flex flex-col items-center">
+          <div class="bg-[url('/auth/logo.png')] bg-cover bg-center bg-no-repeat w-[232px] h-[156px]"></div>
+          <h1 class="text-3xl font-bold leading-9 text-[#001960] mt-6">
+            Verify your email
+          </h1>
+          <p class="text-[14px] mt-2">
+            An 6-digit code has been sent to <br/>
+            {{email}}
+          </p>
+        </div>
+        <div class="w-full flex flex-col gap-6">
+          <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+            <div class="flex justify-center gap-3">
+              <input *ngFor="let digit of codeDigits; let i = index"
+                [(ngModel)]="codeDigits[i]"
+                [attr.data-index]="i"
+                (input)="onDigitInput($event, i)"
+                maxlength="1"
+                class="w-10 h-12 text-center border-2 rounded border-gray-300 focus:outline-none"
+                [ngClass]="{ 'border-black': codeDigits[i], 'border-gray-300': !codeDigits[i] }"
+                type="text"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+            <div class="w-full flex justify-center">
+              <p class="text-[14px] mt-2">
+                  Didn't receive code? 
+                  <span 
+                    class="text-[#325EDA] font-bold cursor-pointer"
+                    [class.opacity-50]="resendDisabled"
+                    [class.cursor-not-allowed]="resendDisabled"
+                    (click)="resend()"
+                    [style.pointer-events]="resendDisabled ? 'none' : 'auto'"
+                  >
+                    Resend{{ resendDisabled ? ' (' + countdown + 's)' : '' }}
+                  </span>
+              </p>
+            </div>
+            <div class="w-full flex flex-col gap-3">
+              <button
+                class="bg-[#325EDA] hover:bg-blue-700 text-white w-full py-2 px-3 rounded focus:outline-none focus:shadow-outline cursor-pointer"
+                type="submit"
+              >
+                Verify
+              </button>
+            </div>
+          </form>
+          <div class="w-full flex justify-between">
+            <label class="md:w-2/3 text-[#001960] flex">
+              <input class="mr-2 leading-tight" type="checkbox" />
+              <span class="text-sm"> Remember me </span>
+            </label>
+            <span class="text-sm text-[#325EDA]"> Forgot your password? </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>

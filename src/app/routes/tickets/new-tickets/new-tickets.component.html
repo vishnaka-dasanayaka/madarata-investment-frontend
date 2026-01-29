@@ -1,0 +1,67 @@
+
+<div class="flex flex-col items-center justify-center my-3 w-full">
+    <h1 class="font-semibold text-[#325EDA] text-4xl">Ticket booking confirmed</h1>
+    <p class="text-xs text-[#001960] w-[500px] text-center mt-2">
+        Your payment was successful. Thank you for trusting us.
+    </p>
+
+    <div class="mt-6 flex items-center" *ngFor="let ticket of data?.ticketList; let i = index">
+        <div [id]="'ticket-' + i" class="flex">
+            <div class="w-[424px] h-[159px] flex shadow-2xl p-2 rounded-xl">
+                <div class="w-[204px] h-full flex bg-[#001960] rounded-[8.76px] overflow-hidden">
+                    <img
+                        class="w-full h-full rounded-lg object-cover"
+                        [src]="data?.event.coverUrl"
+                        alt=""
+                    />
+                </div>
+                <div class="ml-6 flex flex-col justify-center">
+                    <p class="text-[10.83px]">
+                        Event name
+                    </p>
+                    <p class="text-[10.83px] font-bold">
+                        {{data?.event.eventTitle}}
+                    </p>
+                    <p class="text-[10.83px]">
+                        Event date & time
+                    </p>
+                    <p class="text-[10.83px] font-bold">
+                        {{ data?.event.date | date : "mediumDate" }} - {{ data?.event.time }}
+                    </p>
+                    <p class="text-[10.83px]">
+                        Location
+                    </p>
+                    <p class="text-[10.83px] font-bold">
+                        {{ data?.event.venue }}
+                    </p>
+                </div>
+            </div>
+            <div class="w-[228.5px] h-[159px] flex justify-between shadow-2xl p-2 rounded-xl border-l-1 border-dashed">
+                <div class="ml-2 flex flex-col justify-center">
+                    <p class="text-[10.83px]">
+                        Ticket type
+                    </p>
+                    <p class="text-[10.83px] font-bold">
+                        {{ ticket.ticketName }}
+                    </p>
+                    <p class="text-[10.83px]">
+                        Ticket no
+                    </p>
+                    <p class="text-[10.83px] font-bold">
+                        {{ ticket.ticketNo }}
+                    </p>
+                    <p class="text-[10.83px]">
+                        Price
+                    </p>
+                    <p class="text-[10.83px] font-bold">
+                        {{ ticket.price }} LKR
+                    </p>
+                </div>
+                <div class="aspect-square h-full flex justify-center items-center bg-[#001960] rounded-[8.76px] overflow-hidden">
+                    <qrcode [qrdata]="ticket.ticketHash" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
+                </div>
+            </div>
+        </div>
+        <i class="fa-solid fa-download ml-8 scale-150 cursor-pointer" (click)="downloadTicket(ticket)"></i>
+    </div>
+</div>

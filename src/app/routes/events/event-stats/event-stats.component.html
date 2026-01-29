@@ -1,0 +1,142 @@
+
+<div class="flex w-full">
+    <app-sidebar></app-sidebar>
+    <div
+        class="md:pl-[200px] lg:pl-[255px] p-5 w-full flex flex-col"
+    >
+        <button
+            class="bg-[#34C759] hover:bg-green-600 text-white w-fit text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+            type="button" 
+        >
+            Verify tickets
+        </button>
+        <form
+            [formGroup]="newsForm"
+            (submit)="addNews()"
+            action=""
+        >
+            <div class="flex flex-col items-end gap-2">
+                <textarea
+                    type="text"
+                    class="border-[1px] h-24 text-start mt-2 border-gray-300 w-full rounded-lg px-2 py-1 mb-0 placeholder-gray-300"
+                    placeholder="Add news"
+                    formControlName="news"
+                ></textarea>
+                <button
+                    class="bg-[#325EDA] hover:bg-blue-700 text-white w-20 text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                    type="button" 
+                    type="submit"
+                    [disabled]="loading"
+                >
+                    <span class="mr-1" *ngIf="loading">
+                        <i class="fa-solid fa-spinner fa-spin-pulse"></i
+                    ></span>
+                    <span *ngIf="!loading">
+                        submit
+                    </span>
+                </button>
+            </div>
+        </form>
+        <div class="w-full ml-5">
+            <h2 class="text-[#325EDA] font-semibold text-lg">News</h2>
+            <div class="h-64 overflow-y-auto pr-2 whitespace-nowrap scrollbar-hide">
+                <div
+                    *ngFor="let item of news"
+                    class="flex flex-col mt-3"
+                >
+                    <div class="flex gap-4">
+                        <div class="border-1 border-gray-300 rounded-xl py-2 px-3 w-full">{{ item.news }}</div>
+                        <button
+                            class="bg-[#da323d] hover:bg-red-700 text-white text-[10.83px] rounded-full px-2.5 py-1.5 cursor-pointer"
+                            type="button" 
+                            [disabled]="loading"
+                            (click)="deleteNews(item.newsId)"
+                        >
+                            <span class="mr-1" *ngIf="loading">
+                                <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+                            </span>
+                            <span *ngIf="!loading">
+                               <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="openVerifyTickets" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+    (click)="closePopup()">
+    <div class="bg-white text-black w-[600px] rounded-xl shadow-lg p-6 space-y-4" (click)="$event.stopPropagation()">
+        <div class="flex items-center gap-2">
+            <h2 class="text-[18px] font-Inter text-[#001960]">Verify Tickets</h2>
+            <span class="text-[30px] text-[#325EDA]">•</span>
+            <span class="text-[18px] text-[#325EDA] font-Inter">{{ selectedEvent.eventTitle }}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-30 items-center">
+            <div
+                class="w-[300px] h-[300px] bg-[#D8D8D8] rounded-[24px] flex items-center justify-center text-white text-center p-4"
+            >
+                <!-- For camera -->
+                <ngx-scanner-qrcode  #action="scanner" class="w-[300px]" [isBeep]="false"  [isMasked]="false"></ngx-scanner-qrcode>
+                <p *ngIf="action.isLoading">⌛ Loading...</p>
+                
+            </div>
+            <div class="h-full relative">
+                <div class="mb-4">
+                    <label class="block text-[11px] font-Inter text-[#001960]">Ticket Type</label>
+                    <div class=" mt-2 w-full border-b border-[#001960]"></div>
+
+                    <span class="w-full mt-3  text-[18px] font-Inter text-[#325EDA]">Loading...</span>
+
+                    <!-- <span>{{ action.data.value | json }}</span> -->
+                </div>
+                <div>
+                    <label
+                        class="block text-[11px] font-Inter text-[#001960] items-center justify-center">Status</label>
+                    <div class="mt-2 w-full border-b border-[#001960]"></div>
+                    <div
+                        class="w-[117px] h-[21px] mt-3 p-1 rounded-full flex items-center justify-center gap-2"
+                        [ngStyle]="{
+                            'background-color':
+                              confirmMessage === 'Rejected' ? '#FF000033' :
+                              confirmMessage === 'Confirmed' ? '#00FF0033' :
+                              '#FFCC0033'
+                            }"
+                    >
+                        <span
+                            class="w-3 h-3 rounded-full"
+                            [ngStyle]="{
+                            backgroundColor:
+                                confirmMessage === 'Rejected' ? '#FF0000' :
+                                confirmMessage === 'Confirmed' ? '#00FF00' :
+                                '#FBCC10'
+                            }"
+                        ></span>
+                        <span
+                            class="text-[18px] font-Inter"
+                            [ngStyle]="{
+                            color:
+                                confirmMessage === 'Rejected' ? '#FF0000' :
+                                confirmMessage === 'Confirmed' ? '#00FF00' :
+                                '#FBCC10'
+                            }"
+                        >
+                            {{ confirmMessage }}
+                        </span>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 right-0 h-[25px] w-[56px] rounded-none">
+                    <!-- <button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button> -->
+                    <button class="bg-[#D8D8D8] hover:bg-gray-400 text-black px-[10px] py-[6px] rounded-[8px] text-[10.83px] font-Inter"
+                        (click)="closePopup()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,359 @@
+<div *ngIf="LoadUI == false">
+  <app-card-loader></app-card-loader>
+</div>
+
+<section *ngIf="LoadUI == true" class="w-full flex items-end">
+  <div class="w-1/6"></div>
+  <div class="w-5/6 mt-3">
+    <div class="flex flex-col w-full justify-center items-start">
+      <h1 class="text-[#325EDA] ml-5 font-semibold text-2xl">Edit Event</h1>
+
+      <div class="w-2/3 p-5">
+        <form
+          [formGroup]="eventEditForm"
+          (submit)="submitEventForm($event, eventEditForm.value)"
+          action=""
+        >
+          <div>
+            <label class="font-medium" for=""
+              >Title<span class="text-red-600">*</span></label
+            >
+            <br />
+            <input
+              type="text"
+              class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+              placeholder="Enter Title"
+              formControlName="eventTitle"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                eventEditForm.controls['eventTitle'].hasError('required') &&
+                (eventEditForm.controls['eventTitle'].dirty ||
+                  eventEditForm.controls['eventTitle'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+          <div class="mt-4">
+            <label class="font-medium" for=""
+              >Description<span class="text-red-600">*</span></label
+            >
+            <br />
+            <textarea
+              type="text"
+              class="border-[1px] h-24 text-start mt-2 border-gray-300 w-full rounded-lg px-2 py-1 mb-0 placeholder-gray-300"
+              placeholder="Enter Description"
+              formControlName="description"
+            ></textarea>
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                eventEditForm.controls['description'].hasError('required') &&
+                (eventEditForm.controls['description'].dirty ||
+                  eventEditForm.controls['description'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+          <div class="mt-3">
+            <label class="font-medium" for=""
+              >Category<span class="text-red-600">*</span></label
+            >
+            <br />
+
+            <p-dropdown
+              [options]="categories"
+              [filter]="true"
+              inputStyleClass="form-control"
+              styleClass="fw"
+              [style]="{ width: '100%' }"
+              inputStyle="{'width':'100%'}"
+              [resetFilterOnHide]="true"
+              [showClear]="true"
+              formControlName="categoryID"
+              class="mt-2"
+            ></p-dropdown>
+
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                eventEditForm.controls['categoryID'].hasError('required') &&
+                (eventEditForm.controls['categoryID'].dirty ||
+                  eventEditForm.controls['categoryID'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div class="w-full flex justify-start mt-5 gap-3">
+            <div>
+              <label class="font-medium" for=""
+                >Date<span class="text-red-600">*</span></label
+              >
+              <br />
+              <!-- <input
+                  type="date"
+                  class="border-[1px] mt-2 text-xs border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                  formControlName="date"
+                /> -->
+              <p-datepicker formControlName="date" />
+              <br />
+              <span
+                class="text-red-500 text-xs"
+                *ngIf="
+                  eventEditForm.controls['date'].hasError('required') &&
+                  (eventEditForm.controls['date'].dirty ||
+                    eventEditForm.controls['date'].touched)
+                "
+                >This field is required</span
+              >
+            </div>
+            <div>
+              <label class="font-medium" for=""
+                >Time<span class="text-red-600">*</span></label
+              >
+              <br />
+              <p-datepicker
+                inputId="calendar-timeonly"
+                formControlName="time"
+                [timeOnly]="true"
+              />
+
+              <br />
+
+              <!-- <input
+                  type="time"
+                  class="border-[1px] mt-2 text-xs border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                  formControlName="time"
+                /> -->
+              <span
+                class="text-red-500 text-xs"
+                *ngIf="
+                  eventEditForm.controls['time'].hasError('required') &&
+                  (eventEditForm.controls['time'].dirty ||
+                    eventEditForm.controls['time'].touched)
+                "
+                >This field is required</span
+              >
+            </div>
+          </div>
+
+          <!-- <p
+            *ngIf="
+              eventEditForm.get('date')?.value &&
+              eventEditForm.get('time')?.value
+            "
+            class="text-[10px] text-[#325EDA] mt-1"
+          >
+            This event will take place on
+            {{ eventEditForm.get("date")?.value | date : "d MMMM, y" }}
+            from
+            {{ eventEditForm.get("time")?.value | date : "h:mm a" }}
+          </p> -->
+
+          <div class="mt-5">
+            <h2 class="font-medium" for="">Location</h2>
+            <label class="font-thin text-xs" for=""
+              >Venue<span class="text-red-600">*</span></label
+            >
+            <br />
+            <input
+              type="text"
+              class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+              placeholder="Event venue"
+              formControlName="venue"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                eventEditForm.controls['venue'].hasError('required') &&
+                (eventEditForm.controls['venue'].dirty ||
+                  eventEditForm.controls['venue'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div class="mt-5">
+            <label class="font-thin text-xs" for=""
+              >District<span class="text-red-600">*</span></label
+            >
+            <br />
+            <p-dropdown
+              [options]="locations"
+              [filter]="true"
+              inputStyleClass="form-control"
+              styleClass="fw"
+              [style]="{ width: '100%' }"
+              inputStyle="{'width':'100%'}"
+              [resetFilterOnHide]="true"
+              [showClear]="true"
+              formControlName="district"
+              (onChange)="onDistrictChange()"
+            ></p-dropdown>
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                eventEditForm.controls['district'].hasError('required') &&
+                (eventEditForm.controls['district'].dirty ||
+                  eventEditForm.controls['district'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div class="mt-5">
+            <label class="font-thin text-xs" for=""
+              >City<span class="text-red-600">*</span></label
+            >
+            <br />
+            <p-dropdown
+              [options]="cities"
+              [filter]="true"
+              inputStyleClass="form-control"
+              styleClass="fw"
+              [style]="{ width: '100%' }"
+              inputStyle="{'width':'100%'}"
+              [resetFilterOnHide]="true"
+              [showClear]="true"
+              formControlName="city"
+            ></p-dropdown>
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                eventEditForm.controls['city'].hasError('required') &&
+                (eventEditForm.controls['city'].dirty ||
+                  eventEditForm.controls['city'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div class="mt-5">
+            <label class="font-thin text-xs" for="">Google Map Link</label>
+            <br />
+            <input
+              type="text"
+              class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+              placeholder="Add a google link"
+              formControlName="location"
+            />
+          </div>
+
+          <div class="flex items-start w-full justify-between">
+            <div class="mt-5 pr-2 w-1/2">
+              <label class="font-thin text-xs" for=""
+                >Event Image<span class="text-red-600">*</span></label
+              >
+              <br />
+              <input
+                type="file"
+                class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                id="flyerImage"
+                (change)="onFlyerChange($event)"
+              />
+              <p class="text-[10px] w-full text-gray-800 mt-1">
+                Supported formats: .jpg, .jpeg, .png Maximum file size: 5MB
+                Recommended image dimensions: At least 500×360 px for good
+                quality
+              </p>
+              <img
+                *ngIf="flyerImagePreview || event.flyerUrl"
+                [src]="flyerImagePreview || event.flyerUrl"
+                class="mt-2 rounded-lg max-h-40 border"
+              />
+            </div>
+            <div class="mt-5 w-1/2 pl-2">
+              <label class="font-thin text-xs" for=""
+                >Cover Image<span class="text-red-600">*</span></label
+              >
+              <br />
+              <input
+                type="file"
+                class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                id="coverImage"
+                (change)="onFileChange($event)"
+              />
+              <p class="text-[10px] w-full text-gray-800 mt-1">
+                Supported formats: .jpg, .jpeg, .png Maximum file size: 5MB
+                Recommended image dimensions: At least 500×360 px for good
+                quality
+              </p>
+              <img
+                *ngIf="coverImagePreview || event.coverUrl"
+                [src]="coverImagePreview || event.coverUrl"
+                class="mt-2 rounded-lg max-h-40 border"
+              />
+            </div>
+          </div>
+
+          <button class="dark_btn mt-5">Save Event</button>
+        </form>
+      </div>
+      <!-- <div class="w-1/2 p-5" *ngIf="eventId">
+        <h4 class="font-semibold">Add Tickets</h4>
+        <div
+          *ngFor="let item of tickets"
+          class="border-[1px] mt-3 border-gray-300 p-5 rounded-xl"
+        >
+          <div class="flex gap-3 items-center justify-between">
+            <div>
+              <label class="font-thin" for="">Name</label>
+              <br />
+              <input
+                type="text"
+                [(ngModel)]="item.ticketName"
+                class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                placeholder="ex: VVIP"
+              />
+            </div>
+            <div>
+              <label class="font-thin" for="">Price</label>
+              <br />
+              <input
+                type="number"
+                [(ngModel)]="item.price"
+                class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                placeholder="price"
+              />
+            </div>
+            <div>
+              <label class="font-thin" for="">Amount</label>
+              <br />
+              <input
+                type="number"
+                [(ngModel)]="item.maxCount"
+                class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                placeholder="no of tickets"
+              />
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <label class="font-thin" for="">Description</label>
+            <br />
+            <input
+              type="text"
+              [(ngModel)]="item.description"
+              class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+              placeholder="ex: privacy policies"
+            />
+          </div>
+        </div>
+
+        <button
+          (click)="onAddTicketClick()"
+          class="black_btn text-xs mt-5"
+          style="padding: 5px 10px"
+        >
+          Add a Ticket <span class="ml-2 text-sm">+</span>
+        </button>
+        <br />
+        <button (click)="saveTickets()" class="dark_btn mt-5">
+          Save Tickets
+        </button>
+      </div> -->
+    </div>
+  </div>
+</section>

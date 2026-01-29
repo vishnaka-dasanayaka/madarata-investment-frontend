@@ -1,0 +1,242 @@
+<!-- 
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <div class="spinner"></div>
+</div> -->
+
+<!-- LOADER UI -->
+<div *ngIf="loading_spinner" class="loading-spinner-overlay">
+  <div class="spinner"></div>
+</div>
+
+<div class="flex w-full">
+  <app-sidebar></app-sidebar>
+  <div
+    class="md:pl-[200px] lg:pl-[255px] p-5 w-full flex flex-col items-center"
+  >
+    <h1 class="text-[17.52px] font-bold text-black">New Events</h1>
+
+    <div *ngIf="loading" class="w-full gap-2.5">
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+    </div>
+
+    <div class="card">
+      <p-tabs value="0">
+        <p-tablist>
+          <p-tab value="0" style="color: orange">Pending Events</p-tab>
+          <p-tab value="1" style="color: rgb(37, 179, 37)"
+            >Approved Events</p-tab
+          >
+          <p-tab value="2" style="color: red">Rejected Events</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <div *ngIf="!loading" class="gap-2.5">
+              <div
+                *ngFor="let item of newEvents"
+                class="flex flex-col space-y-1 gap-3"
+              >
+                <div
+                  class="w-full bg-white shadow-xl rounded-xl grid md:grid-cols-[8fr_1fr] items-center px-[14.6px] mt-2 py-2 gap-x-6 gap-y-3"
+                >
+                  <div class="grid grid-cols-[auto_1fr] gap-x-6 h-[83.82px]">
+                    <div
+                      class="w-[120px] h-full flex bg-[#001960] rounded-[8.76px] overflow-hidden"
+                    >
+                      <img
+                        class="w-full h-full rounded-lg object-cover"
+                        [src]="item?.flyerUrl"
+                        alt=""
+                      />
+                    </div>
+                    <div
+                      class="grid md:grid-cols-[3fr_0.75fr_1fr_1fr] gap-x-6 items-center line-clamp-2"
+                    >
+                      <h1
+                        class="text-[17.52px] font-bold text-black line-clamp-1 sm:line-clamp-2"
+                      >
+                        {{ item?.eventTitle }}
+                      </h1>
+                      <p class="text-[10.83px]">
+                        {{ item?.date | date : "mediumDate" }}
+                      </p>
+                      <p class="text-[10.83px]">
+                        {{ item?.venue }}
+                      </p>
+                      <p class="text-[10.83px] font-bold">
+                        {{ item?.user.firstName + " " + item?.user.lastName }}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="flex h-[25px] gap-1.5 justify-center md:justify-end items-center"
+                  >
+                    <button
+                      class="bg-[#325EDA] hover:bg-blue-700 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      routerLink="/event/detail/{{ item?.eventId }}"
+                    >
+                      View
+                    </button>
+                    <button
+                      class="bg-[#989898] hover:bg-[#888888] text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      (click)="approveEvent(item, 'REJECTED')"
+                    >
+                      Reject
+                    </button>
+                    <button
+                      class="bg-[#34C759] hover:bg-green-600 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      (click)="approveEvent(item, 'ACTIVE')"
+                    >
+                      Approve
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <div *ngIf="!loading" class="gap-2.5">
+              <div
+                *ngFor="let item of activeEvents"
+                class="flex flex-col space-y-1 gap-3"
+              >
+                <div
+                  class="w-full bg-white shadow-xl rounded-xl grid md:grid-cols-[8fr_1fr] items-center px-[14.6px] mt-2 py-2 gap-x-6 gap-y-3"
+                >
+                  <div class="grid grid-cols-[auto_1fr] gap-x-6 h-[83.82px]">
+                    <div
+                      class="w-[120px] h-full flex bg-[#001960] rounded-[8.76px] overflow-hidden"
+                    >
+                      <img
+                        class="w-full h-full rounded-lg object-cover"
+                        [src]="item?.flyerUrl"
+                        alt=""
+                      />
+                    </div>
+                    <div
+                      class="grid md:grid-cols-[3fr_0.75fr_1fr_1fr] gap-x-6 items-center line-clamp-2"
+                    >
+                      <h1
+                        class="text-[17.52px] font-bold text-black line-clamp-1 sm:line-clamp-2"
+                      >
+                        {{ item?.eventTitle }}
+                      </h1>
+                      <p class="text-[10.83px]">
+                        {{ item?.date | date : "mediumDate" }}
+                      </p>
+                      <p class="text-[10.83px]">
+                        {{ item?.venue }}
+                      </p>
+                      <p class="text-[10.83px] font-bold">
+                        {{ item?.user.firstName + " " + item?.user.lastName }}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="flex h-[25px] gap-1.5 justify-center md:justify-end items-center"
+                  >
+                    <button
+                      class="bg-[#325EDA] hover:bg-blue-700 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      routerLink="/event/detail/{{ item?.eventId }}"
+                    >
+                      View
+                    </button>
+                    <button
+                      class="bg-[#989898] hover:bg-[#888888] text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      (click)="approveEvent(item, 'REJECTED')"
+                    >
+                      Reject
+                    </button>
+                    <button
+                      class="bg-orange-500 hover:bg-orange-600 text-white text-[10.83px] w-fit whitespace-nowrap rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      (click)="approveEvent(item, 'PENDING')"
+                    >
+                      On Hold
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabpanel>
+          <p-tabpanel value="2">
+            <div *ngIf="!loading" class="gap-2.5">
+              <div
+                *ngFor="let item of rejectedEvents"
+                class="flex flex-col space-y-1 gap-3"
+              >
+                <div
+                  class="w-full bg-white shadow-xl rounded-xl grid md:grid-cols-[8fr_1fr] items-center px-[14.6px] mt-2 py-2 gap-x-6 gap-y-3"
+                >
+                  <div class="grid grid-cols-[auto_1fr] gap-x-6 h-[83.82px]">
+                    <div
+                      class="w-[120px] h-full flex bg-[#001960] rounded-[8.76px] overflow-hidden"
+                    >
+                      <img
+                        class="w-full h-full rounded-lg object-cover"
+                        [src]="item?.flyerUrl"
+                        alt=""
+                      />
+                    </div>
+                    <div
+                      class="grid md:grid-cols-[3fr_0.75fr_1fr_1fr] gap-x-6 items-center line-clamp-2"
+                    >
+                      <h1
+                        class="text-[17.52px] font-bold text-black line-clamp-1 sm:line-clamp-2"
+                      >
+                        {{ item?.eventTitle }}
+                      </h1>
+                      <p class="text-[10.83px]">
+                        {{ item?.date | date : "mediumDate" }}
+                      </p>
+                      <p class="text-[10.83px]">
+                        {{ item?.venue }}
+                      </p>
+                      <p class="text-[10.83px] font-bold">
+                        {{ item?.user.firstName + " " + item?.user.lastName }}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="flex h-[25px] gap-1.5 justify-center md:justify-end items-center"
+                  >
+                    <button
+                      class="bg-[#325EDA] hover:bg-blue-700 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      routerLink="/event/detail/{{ item?.eventId }}"
+                    >
+                      View
+                    </button>
+                    <button
+                      class="bg-orange-500 hover:bg-orange-600 text-white w-fit whitespace-nowrap text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      (click)="approveEvent(item, 'PENDING')"
+                    >
+                      On Hold
+                    </button>
+                    <button
+                      class="bg-[#34C759] hover:bg-green-600 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                      type="button"
+                      (click)="approveEvent(item, 'ACTIVE')"
+                    >
+                      Approve
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,180 @@
+<div class="flex flex-col items-center justify-center w-full">
+  <h1 class="font-semibold text-[#325EDA] text-4xl text-center">
+    Discover Events
+  </h1>
+  <p class="text-xs text-[#001960] dark:text-[#325EDA] w-max-[500px] text-center">
+    Discover and book tickets for live concerts, theater performances,
+    festivals, and more exciting events near you.
+  </p>
+  <!-- Sticky wrapper -->
+  <div
+    [ngClass]="{
+      'fixed top-13 left-0 w-full z-50 bg-white dark:bg-[#121212] shadow-md': isSticky,
+      relative: !isSticky
+    }"
+  >
+    <!-- Search input -->
+    <div class="flex justify-center pt-2 px-4">
+      <input
+        class="border-[1px] w-8/12 text-xs border-[#325EDA] text-center placeholder-gray-500 rounded-lg md:w-full max-w-md px-5 py-2"
+        placeholder="Search event"
+        type="text"
+        [(ngModel)]="serchText"
+        (input)="onSerchTextChage()"
+      />
+    </div>
+
+    <!-- Filters row -->
+    <div
+      class="overflow-x-auto whitespace-nowrap scrollbar-hide w-full px-4 py-2"
+    >
+      <div
+        class="flex flex-col md:flex-row justify-center items-center sm:justify-center space-x-2 min-w-max"
+      >
+        <div class="">
+          <select
+            class="text-xs border-[1px] mr-3 border-[#325EDA] rounded-2xl text-[#325EDA] px-3 py-[5px] focus:outline-none"
+            (change)="onLocationSelect($event)"
+          >
+            <option [ngValue]="null" selected disabled>My Location</option>
+            <option *ngFor="let location of locations" [ngValue]="location">
+              {{ location }}
+            </option>
+          </select>
+
+          <p-datepicker
+            [(ngModel)]="rangeDates"
+            selectionMode="range"
+            [readonlyInput]="true"
+            (ngModelChange)="onDateChange()"
+            placeholder="Pick a Date Range"
+            size="small"
+            class="w-[180px]"
+            appendTo="body"
+            borderRadius="20px"
+          ></p-datepicker>
+        </div>
+
+        <div class="flex gap-2 mt-3 md:mt-0">
+          <button
+            class="text-xs border-[1px] rounded-2xl px-3"
+            [ngClass]="{
+              'bg-[#325EDA] text-white dark:text-[#121212] border-[#325EDA]': !favourite,
+              'bg-white dark:bg-[#121212] text-[#325EDA] border-[#325EDA]': favourite
+            }"
+            (click)="handleAllButton(); favourite = false"
+          >
+            All
+          </button>
+
+          <button
+            *ngIf="authorized"
+            class="text-xs border-[1px] rounded-2xl px-3"
+            [ngClass]="{
+              'bg-[#325EDA] text-white dark:text-[#121212] border-[#325EDA]': favourite,
+              'bg-white dark:bg-[#121212] text-[#325EDA] border-[#325EDA]': !favourite
+            }"
+            (click)="getFavourites(); favourite = true"
+          >
+            Favorite
+          </button>
+          <button
+            class="text-xs border-[1px] border-[#325EDA] rounded-2xl text-[#325EDA] px-3"
+            (click)="clearFilters()"
+          >
+            clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="loadUI == false"
+  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
+>
+  <app-card-loader></app-card-loader>
+  <app-card-loader></app-card-loader>
+  <app-card-loader></app-card-loader>
+  <app-card-loader></app-card-loader>
+  <app-card-loader></app-card-loader>
+  <app-card-loader></app-card-loader>
+  <app-card-loader></app-card-loader>
+  <app-card-loader></app-card-loader>
+</div>
+
+<div
+  *ngIf="loadUI == true"
+  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-5 gap-4"
+>
+  <div *ngFor="let item of events">
+    <div
+      routerLink="/event/detail/{{ item?.eventId }}"
+      class="relative h-64 rounded-xl overflow-hidden hover:scale-105 transition duration-300 cursor-pointer"
+    >
+      <div
+        class="absolute inset-0 w-full h-full bg-cover bg-center"
+        [ngStyle]="{ 'background-image': 'url(' + item.flyerUrl + ')' }"
+        style="filter: blur(60px); opacity: 0.7; transform: scale(1.1)"
+      ></div>
+      <div class="absolute p-3 inset-0 w-full">
+        <div class="image-wrapper">
+          <img class="zoom-on-hover" [src]="item?.flyerUrl" alt="" />
+        </div>
+
+        <h4 class="tracking-tight text-xs font-bold mt-1">
+          {{ item?.date | date : "mediumDate" }}
+        </h4>
+
+        <h1
+          class="font-semibold capitalize truncate whitespace-nowrap overflow-hidden text-ellipsis"
+          [title]="item?.eventTitle"
+        >
+          {{ item?.eventTitle }}
+        </h1>
+
+        <div class="text-xs flex items-center justify-between">
+          <p class="text-xs text-gray-600">
+            {{ item?.venue }} - {{ item?.city }}
+          </p>
+
+          <i
+            class="fa-regular fa-lg fa-heart cursor-pointer hover:text-blue-500"
+            [ngClass]="{
+              'fa-solid text-blue-500': item?.favourite,
+              'fa-regular  hover:text-blue-500': !item?.favourite
+            }"
+            (click)="onHeartClick($event, item)"
+          ></i>
+          <!-- <i class="fa-solid fa-heart fa-lg hover:text-blue-500"></i> -->
+        </div>
+        <p class="text-xs text-gray-600">
+          {{ item?.user.firstName }} {{ item?.user.lastName }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="loadUI == true && events?.length > 0"
+  class="flex w-full my-5 items-center gap-1 justify-center"
+>
+  <button (click)="onPrevClick()" class="dark_btn cursor-pointer">
+    <i class="fa-regular fa-circle-left"></i>
+  </button>
+  <p class="font-thin">
+    Showing {{ fromEvent }} to {{ toEvent }} of {{ totalElements }} Events
+  </p>
+  <button (click)="onNextClick()" class="dark_btn cursor-pointer">
+    <i class="fa-regular fa-circle-right"></i>
+  </button>
+</div>
+<div
+  *ngIf="events?.length == 0"
+  class="w-full flex flex-col justify-center items-center"
+>
+  <h1 class="mt-5 font-extrabold tracking-widest">Ooops !!!</h1>
+  <h1 class="font-extrabold tracking-widest">NO EVENTS TO DISPLAY</h1>
+</div>

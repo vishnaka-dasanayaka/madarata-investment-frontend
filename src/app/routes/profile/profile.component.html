@@ -1,0 +1,103 @@
+
+<div *ngIf="loading" class="loading-spinner-overlay">
+  <div class="spinner"></div>
+</div>
+
+<div class="flex w-full">
+    <app-sidebar></app-sidebar>
+    <div class="md:pl-[200px] lg:pl-[255px] p-5 w-full flex flex-col items-center">
+        <div class="card w-full">
+            <p-tabs value="0">
+                <p-tablist>
+                    <p-tab value="0" style="color: #325EDA">Personal Profile</p-tab>
+                    <p-tab value="1" style="color: rgb(37, 179, 37)">
+                        Change Password
+                    </p-tab>
+                </p-tablist>
+                <p-tabpanels>
+                    <p-tabpanel value="0">
+                        <div class="w-full flex flex-col gap-4">
+                            <div class="w-full flex items-center rounded-[18px] border-1 border-gray-300 p-6">
+                                <label class="cursor-pointer">
+                                    <img id="preview" 
+                                        src="https://d2r9b9tkveqsoh.cloudfront.net/16-2025-04-05T08:34:20.119903.png"
+                                        class="border border-gray-300 rounded-full w-[116px] h-[116px] object-cover" 
+                                        alt="Upload Avatar" 
+                                    />
+                                    <input type="file" id="imageUpload" accept="image/*" class="hidden" (change)="onImageSelected($event)" />
+                                </label>
+                                <button
+                                    class="text-xs border-[1px] mx-2 rounded-lg bg-black text-white px-3 py-2"
+                                >
+                                    Upload Profile Image
+                                    <i class="fa-solid fa-upload ml-1"></i>
+                                </button>
+                            </div>
+                            <div class="flex flex-col md:flex-row gap-4 w-full">
+                                <div class="w-full md:w-1/2">
+                                    <p>First Name</p>
+                                    <input
+                                    type="text"
+                                    disabled
+                                    value={{user?.firstName}}
+                                    class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                                    />
+                                </div>
+                                <div class="w-full md:w-1/2">
+                                    <p>Last Name</p>
+                                    <input
+                                    type="text"
+                                    disabled
+                                    value={{user?.lastName}}
+                                    class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                                    />
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <p>Email Address</p>
+                                <input
+                                    type="text"
+                                    disabled
+                                    value={{user?.email}}
+                                    class="border-[1px] mt-2 border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                                />
+                            </div>
+                        </div>       
+                    </p-tabpanel>
+                    <p-tabpanel value="1">
+                        <div class="w-full flex flex-col">
+                            <form [formGroup]="changePasswordForm" (ngSubmit)="onPasswordChange()" class="flex flex-col gap-1">
+                                <div class="w-full flex flex-col gap-2">
+                                    <p>Old Password</p>
+                                    <input
+                                        formControlName="oldPassword"
+                                        type="password"
+                                        class="border-[1px] border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                                    />
+                                    <p>New Password</p>
+                                    <input
+                                        formControlName="password"
+                                        type="password"
+                                        class="border-[1px] border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                                    />
+                                    <p>Confirm Password</p>
+                                    <input
+                                        formControlName="confirmPassword"
+                                        type="password"
+                                        class="border-[1px] border-gray-300 w-full rounded-lg px-2 py-1 placeholder-gray-300"
+                                    />
+                                </div>
+                                <button
+                                    class="text-xs border-[1px] w-fit rounded-lg bg-black text-white px-3 py-2"
+                                    type="submit"
+                                >
+                                    Confirm
+                                </button>
+                            </form>
+                        </div>    
+                    </p-tabpanel>
+                </p-tabpanels>
+            </p-tabs>
+        </div>
+    </div>
+</div>

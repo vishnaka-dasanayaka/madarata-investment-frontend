@@ -1,0 +1,181 @@
+<div class="flex w-full">
+  <app-sidebar></app-sidebar>
+  <div class="md:pl-[200px] lg:pl-[255px] p-5 w-full flex flex-col items-center">
+    <div *ngIf="loading" class="w-full gap-2.5">
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+      <app-event-loader></app-event-loader>
+    </div>
+
+    <div *ngIf="!loading" class="w-full gap-2.5">
+      <div *ngFor="let item of events" class="flex flex-col space-y-1 gap-3">
+        <div
+          class="w-full bg-white shadow-xl rounded-xl grid md:grid-cols-[3fr_1fr] items-center px-[14.6px] mt-2 py-2 gap-x-6 gap-y-3"
+        >
+          <div class="grid grid-cols-[auto_1fr] gap-x-6 h-[83.82px]">
+            <div
+              class="w-[120px] h-full flex bg-[#001960] rounded-[8.76px] overflow-hidden"
+            >
+              <img
+                class="w-full h-full rounded-lg object-cover"
+                [src]="item?.flyerUrl"
+                alt=""
+              />
+            </div>
+            <div class="grid md:grid-cols-[3fr_0.75fr_1fr] gap-x-6 items-center line-clamp-2">
+              <h1 class="text-[17.52px] font-bold text-black line-clamp-2">
+                {{ item?.eventTitle }}
+              </h1>
+              <p class="text-[10.83px]">
+                {{ item?.date | date : "mediumDate" }}
+              </p>
+              <p class="text-[10.83px]">
+                {{ item?.venue }}
+              </p>
+            </div>
+          </div>
+          <div class="flex h-[25px] gap-1.5 justify-center md:justify-end items-center">
+            <button
+              class="bg-[#325EDA] hover:bg-blue-700 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+              type="button"
+              routerLink="/event/event-stats/{{ item?.eventId }}"
+            >
+              View event
+            </button>
+            <button
+              class="bg-[#989898] hover:bg-[#888888] text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+              type="button"
+              routerLink="/event/edit-event/{{ item?.eventId }}"
+            >
+              Edit event
+            </button>
+            <button
+              class="bg-[#34C759] hover:bg-green-600 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+              type="button"
+              (click)="openPopup(item)"
+            >
+              Verify tickets
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="openVerifyTickets"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+  (click)="closePopup()"
+>
+  <div
+    class="bg-white text-black w-[600px] rounded-xl shadow-lg p-6 m-3 space-y-4"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex items-center gap-2">
+      <h2 class="text-[18px] font-Inter text-[#001960]">Verify Tickets</h2>
+      <span class="text-[30px] text-[#325EDA]">•</span>
+      <span class="text-[18px] text-[#325EDA] font-Inter">{{
+        selectedEvent.eventTitle
+      }}</span>
+    </div>
+    <div class="grid sm:grid-cols-[2fr_1.25fr] items-center justify-center gap-y-6">
+      <div
+        class="w-[300px] h-[300px] bg-[#D8D8D8] rounded-[24px] flex items-center justify-center text-white text-center p-4"
+      >
+        <!-- For camera -->
+        <ngx-scanner-qrcode
+          #action="scanner"
+          class="w-[300px]"
+          [isBeep]="false"
+          [isMasked]="false"
+        ></ngx-scanner-qrcode>
+        <p *ngIf="action.isLoading">⌛ Loading...</p>
+      </div>
+      <div class="h-full relative">
+        <div class="mb-4">
+          <label class="block text-[11px] font-Inter text-[#001960]"
+            >Ticket Type</label
+          >
+          <div class="mt-2 w-full border-b border-[#001960]"></div>
+
+          <span *ngIf="!ticketDetails" class="w-full mt-3 text-[18px] font-Inter text-[#325EDA]">
+            Loading...
+          </span>
+
+          <div *ngIf="ticketDetails" class="grid grid-cols-2">
+            <span class="w-full mt-3 text-[18px] font-Inter text-[#325EDA]">
+              Ticket no:
+            </span>
+            <span class="w-full mt-3 text-[18px] font-Inter text-[#325EDA]">
+              {{ticketDetails?.ticketNo}}
+            </span>
+            <span class="w-full mt-3 text-[18px] font-Inter text-[#325EDA]">
+              Ticket Type:
+            </span>
+            <span class="w-full mt-3 text-[18px] font-Inter text-[#325EDA]">
+              {{ticketDetails?.ticketName}}
+            </span>
+          </div>
+
+          <!-- <span>{{ action.data.value | json }}</span> -->
+        </div>
+        <div>
+          <label
+            class="block text-[11px] font-Inter text-[#001960] items-center justify-center"
+            >Status</label
+          >
+          <div class="mt-2 w-full border-b border-[#001960]"></div>
+          <div
+            class="w-[117px] h-[21px] mt-3 p-1 rounded-full flex items-center justify-center gap-2"
+            [ngStyle]="{
+              'background-color':
+                confirmMessage === 'Invalid'
+                  ? '#FF000033'
+                  : confirmMessage === 'Approved'
+                  ? '#00FF0033'
+                  : '#FFCC0033'
+            }"
+          >
+            <span
+              class="w-3 h-3 rounded-full"
+              [ngStyle]="{
+                backgroundColor:
+                  confirmMessage === 'Invalid'
+                    ? '#FF0000'
+                    : confirmMessage === 'Approved'
+                    ? '#00FF00'
+                    : '#FBCC10'
+              }"
+            ></span>
+            <span
+              class="text-[18px] font-Inter"
+              [ngStyle]="{
+                color:
+                  confirmMessage === 'Rejected'
+                    ? '#FF0000'
+                    : confirmMessage === 'Confirmed'
+                    ? '#00FF00'
+                    : '#FBCC10'
+              }"
+            >
+              {{ confirmMessage }}
+            </span>
+          </div>
+        </div>
+        <div class="h-[25px] mt-6 rounded-none sm:absolute sm:bottom-0 sm:right-0 flex justify-end">
+          <!-- <button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button> -->
+          <button
+            class="bg-[#D8D8D8] hover:bg-gray-400 text-black px-[10px] py-[6px] rounded-[8px] text-[10.83px] font-Inter"
+            (click)="closePopup()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

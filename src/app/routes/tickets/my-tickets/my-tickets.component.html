@@ -1,0 +1,60 @@
+
+<!-- 
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <div class="spinner"></div>
+</div> -->
+
+<div class="min-w-[255px]">
+    <app-sidebar></app-sidebar>
+</div>
+<div class="w-full p-5 mx-auto max-w-[960px]">
+    <h1 class="text-[17.52px] font-bold text-black">
+        Booked events
+    </h1>
+
+    <div *ngIf="loading" class="w-full gap-2.5">
+        <app-event-loader></app-event-loader>
+        <app-event-loader></app-event-loader>
+        <app-event-loader></app-event-loader>
+        <app-event-loader></app-event-loader>
+        <app-event-loader></app-event-loader>
+        <app-event-loader></app-event-loader>
+    </div>
+
+    <div *ngIf="!loading" class="gap-2.5">
+        <div *ngFor="let item of bookedEvents" class="flex flex-col space-y-1 gap-3">
+            <div class="w-full h-[99.82px] bg-white shadow-xl rounded-xl grid grid-cols-6 items-center px-[14.6px] mt-2 py-2">
+                <div class="w-[120px] h-full flex bg-[#001960] rounded-[8.76px] overflow-hidden">
+                    <img
+                        class="w-full h-full rounded-lg object-cover"
+                        [src]="item?.flyerUrl"
+                        alt=""
+                    />
+                </div>
+                <h1 class="text-[17.52px] font-bold text-black">
+                    {{ item?.eventTitle }}
+                </h1>
+                <p class="text-[10.83px]">
+                    {{ item?.date | date : "mediumDate" }}
+                </p>
+                <p class="text-[10.83px]">
+                    {{ item?.venue }}
+                </p> 
+                <p class="text-[10.83px] font-bold">
+                {{ item?.organizer }}
+                </p>
+                <div class="flex h-[25px] gap-1.5 justify-end items-center">
+                    <button
+                        class="bg-[#325EDA] hover:bg-blue-700 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                        type="button"
+                        routerLink="/event/detail/{{ item?.eventId }}"
+                    >
+                        View
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

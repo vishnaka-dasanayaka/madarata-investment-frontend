@@ -1,0 +1,66 @@
+<div
+    class="bg-white h-full w-[504.75px] rounded-[42px] px-[22.5px] py-[33px] flex flex-col items-center gap-8"
+>
+    <div>
+        <button 
+            (click)="onClose()" 
+            class="relative top-[-25px] right-[-225px] text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none"
+        >
+            &times;
+        </button>
+    </div>
+    <div class="w-full flex flex-col items-center">
+    <div class="bg-[url('/auth/logo.png')] bg-cover bg-center bg-no-repeat w-[232px] h-[156px]"></div>
+    <h1 class="text-3xl font-bold leading-9 text-[#001960] mt-6">
+        Sign in to your account
+    </h1>
+    <p class="text-[14px] mt-2">
+        Or <span [routerLink]="'/register'" class="text-[#325EDA] cursor-pointer">create a fresh account</span>
+    </p>
+    </div>
+    <form [formGroup]="LogInForm" (ngSubmit)="onSubmit()">
+    <div class="w-full flex flex-col gap-6">
+        <div>
+        <input
+            formControlName="email"
+            class="appearance-none border border-gray-300 rounded-t w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            placeholder="Email address"
+        />
+        <input
+            formControlName="password"
+            class="appearance-none border border-gray-300 rounded-b w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-1"
+            type="password"
+            placeholder="Password"
+        />
+        </div>
+        <div class="w-full flex justify-between">
+        <label class="text-[#001960] flex">
+            <input class="mr-2 leading-tight" type="checkbox" />
+            <span class="text-sm"> Remember me </span>
+        </label>
+        <span class="text-sm text-[#325EDA]"> Forgot your password? </span>
+        </div>
+        <div class="w-full flex flex-col gap-3">
+        <button
+            class="bg-[#325EDA] hover:bg-blue-700 text-white w-full py-2 px-3 rounded focus:outline-none focus:shadow-outline cursor-pointer"
+            type="submit"
+        >
+            Sign in
+        </button>
+        <button
+            class="bg-[#325EDA] hover:bg-blue-700 text-white w-full py-2 px-3 rounded focus:outline-none focus:shadow-outline cursor-pointer"
+            type="button"
+        >
+            Log In with Facebook
+        </button>
+        <button
+            class="bg-white hover:bg-gray-300 border border-gray-300 text-black w-full py-2 px-3 rounded focus:outline-none focus:shadow-outline cursor-pointer"
+            type="button"
+        >
+            Log In with Google 
+        </button>
+        </div>
+    </div>
+    </form>
+</div>

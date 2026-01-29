@@ -1,0 +1,67 @@
+
+<div class="flex w-full">
+    <app-sidebar></app-sidebar>
+    <div class="pl-[255px] p-5">
+        <h1 class="text-[17.52px] font-bold text-black">
+            Edited events
+        </h1>
+
+        <div *ngIf="loading" class="w-full gap-2.5">
+            <app-event-loader></app-event-loader>
+            <app-event-loader></app-event-loader>
+            <app-event-loader></app-event-loader>
+            <app-event-loader></app-event-loader>
+            <app-event-loader></app-event-loader>
+            <app-event-loader></app-event-loader>
+        </div>
+
+        <div *ngIf="!loading" class="w-full gap-2.5">
+            <div *ngFor="let item of updateRequests" class="flex flex-col space-y-1 gap-3">
+                <div class="w-full h-[99.82px] bg-white shadow-xl rounded-xl grid grid-cols-6 items-center px-[14.6px] mt-2 py-2">
+                    <div class="w-[120px] h-full flex bg-[#001960] rounded-[8.76px] overflow-hidden">
+                        <img
+                            class="w-full h-full rounded-lg object-cover"
+                            [src]="item?.flyerUrl"
+                            alt=""
+                        />
+                    </div>
+                    <h1 class="text-[17.52px] font-bold text-black">
+                        {{ item?.eventTitle }}
+                    </h1>
+                    <p class="text-[10.83px]">
+                        {{ item?.date | date : "mediumDate" }}
+                    </p>
+                    <p class="text-[10.83px]">
+                        {{ item?.venue }}
+                    </p> 
+                    <p class="text-[10.83px] font-bold">
+                    {{ item?.user.firstName + ' ' + item?.user.lastName }}
+                    </p>
+                    <div class="flex h-[25px] gap-1.5 justify-end items-center">
+                        <button
+                            class="bg-[#325EDA] hover:bg-blue-700 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                            type="button"
+                            routerLink="/event/detail/{{ item?.eventId }}"
+                        >
+                            View
+                        </button>
+                        <button
+                            class="bg-[#989898] hover:bg-[#888888] text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                            type="button"
+                        >
+                            Reject
+                        </button>
+                        <button
+                            class="bg-[#34C759] hover:bg-green-600 text-white text-[10.83px] rounded-[8px] px-2.5 py-1.5 cursor-pointer"
+                            type="button"
+                            (click)="approveEvent(item)"
+                        >
+                            Approve
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
