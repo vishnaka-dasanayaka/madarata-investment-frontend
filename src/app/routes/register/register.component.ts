@@ -3,6 +3,8 @@ import { AuthService } from "../../core/_services/auth.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { Inject, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 
 @Component({
   selector: "app-register",
@@ -18,7 +20,8 @@ export class RegisterComponent {
     private router: Router,
     private authService: AuthService,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.signInForm = this.fb.group({
       firstName: ["", Validators.required],
@@ -52,33 +55,33 @@ export class RegisterComponent {
     if (this.signInForm.invalid) {
       const controls = this.signInForm.controls;
 
-      const hasEmptyField = Object.values(controls).some(control =>
-        control.hasError('required')
+      const hasEmptyField = Object.values(controls).some((control) =>
+        control.hasError("required")
       );
 
       if (hasEmptyField) {
         this.toastr.error("Please fill in all required fields", "Error");
       } else {
-        if (controls['email'].hasError('email')) {
+        if (controls["email"].hasError("email")) {
           this.toastr.error("Email format is invalid", "Error");
         }
 
-        if (controls['phone'].hasError('pattern')) {
+        if (controls["phone"].hasError("pattern")) {
           this.toastr.error("Phone number must be exactly 10 digits", "Error");
         }
 
-        if (controls['password'].hasError('minlength')) {
+        if (controls["password"].hasError("minlength")) {
           this.toastr.error("Password must be at least 6 characters", "Error");
         }
 
-        if (controls['confirmPassword'].value !== controls['password'].value) {
+        if (controls["confirmPassword"].value !== controls["password"].value) {
           this.toastr.error("Passwords do not match", "Error");
         }
       }
 
       return;
     }
-    
+
     this.loading = true;
     let { firstName, lastName, email, phone, password, organizer } =
       this.signInForm.value;
@@ -87,12 +90,15 @@ export class RegisterComponent {
       phone = "+94" + phone.substring(1);
     }
 
-
-    localStorage.setItem("email", email);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem("email", email);
+    }
 
     try {
-      
-      this.toastr.success("Sign-up successful! Check your email for confirmation.", "Done");
+      this.toastr.success(
+        "Sign-up successful! Check your email for confirmation.",
+        "Done"
+      );
       this.router.navigate(["/verify"]);
     } catch (err: any) {
       this.toastr.error(err.message || "Sign-up failed", "Error");
@@ -101,5 +107,4 @@ export class RegisterComponent {
       this.loading = false;
     }
   }
-
 }

@@ -1,0 +1,164 @@
+<section>
+  <section class="">
+    <h6 class="text-xs mb-2">
+      <span
+        [routerLink]="['/reports/report-summary']"
+        routerLinkActive="router-link-active"
+        class="text-blue-500 cursor-pointer"
+        >Report</span
+      >
+
+      > Stock Report
+    </h6>
+
+    <div class="flex items-end justify-between">
+      <div>
+        <h1 class="text-xl font-semibold">Stock Report</h1>
+      </div>
+      <div>
+        <button class="mr-2 btn-lg btn-warning">
+          <i class="fa-solid fa-download"></i> Export CSV
+        </button>
+        <button (click)="printReport()" class="mr-2 btn-lg btn-outline-warning">
+          <i class="fa-solid fa-file-pdf"></i> PDF
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!LoadUI" class="card">
+      <div class="flex flex-wrap">
+        <div class="w-full mt-5">
+          <p-skeleton styleClass="mb-2" />
+          <p-skeleton width="30rem" styleClass="mb-2" />
+          <p-skeleton width="10rem" styleClass="mb-2" />
+          <p-skeleton height="10rem" styleClass="mb-2" />
+          <p-skeleton width="10rem" height="4rem" />
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="LoadUI">
+      <div class="bg-white rounded-lg mt-3 p-5">
+        <button
+          class="btn btn-warning"
+          type="button"
+          (click)="generateReport()"
+        >
+          Generate Report
+        </button>
+      </div>
+
+      <div class="w-full mt-3 bg-orange-50 rounded-2xl shadow-sm p-8">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">
+            Summary Totals
+          </h3>
+        </div>
+        <div class="flex justify-around text-center">
+          <div>
+            <p class="text-2xl font-bold text-orange-500">
+              {{ stock_data.length }}
+            </p>
+            <p class="text-md text-gray-600 mt-1">Total Stocks</p>
+          </div>
+
+          <div>
+            <p class="text-2xl font-bold text-orange-500">
+              {{ totals?.totalAvailableItems }}
+            </p>
+            <p class="text-md text-gray-600 mt-1">Total Qty</p>
+          </div>
+
+          <div>
+            <p class="text-2xl font-bold text-orange-500">
+              LKR {{ totals?.totalBuyingCost | number : "2.2" }}
+            </p>
+            <p class="text-md text-gray-600 mt-1">Total Buying Value</p>
+          </div>
+
+          <div>
+            <p class="text-2xl font-bold text-orange-500">
+              LKR {{ totals?.totalSellingValue | number : "2.2" }}
+            </p>
+            <p class="text-md text-gray-600 mt-1">Total Selling Value</p>
+          </div>
+
+          <div>
+            <p class="text-2xl font-bold text-green-600">
+              LKR {{ totals?.totalProfitMargin | number : "2.2" }}
+            </p>
+            <p class="text-md text-gray-600 mt-1">Total Profit</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 mt-3 flex items-center justify-center">
+        <div
+          id="stockReportTable"
+          class="bg-white p-6 rounded-xl shadow-md w-full"
+        >
+          <!-- Table -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm border-collapse">
+              <thead>
+                <tr
+                  class="border-b text-center bg-gray-100 text-gray-600 uppercase text-xs"
+                >
+                  <th class="py-3 px-4 font-medium">Date</th>
+                  <th class="py-3 px-4 font-medium">Supplier</th>
+                  <th class="py-3 px-4 font-medium">Category</th>
+                  <th class="py-3 px-4 font-medium">Brand</th>
+                  <th class="py-3 px-4 font-medium">Model</th>
+                  <th class="py-3 px-4 font-medium">Initial Qty</th>
+                  <th class="py-3 px-4 font-medium">Available Qty</th>
+                  <th class="py-3 px-4 font-medium">Sold Qty</th>
+                  <th class="py-3 px-4 font-medium">Status</th>
+                  <th class="py-3 px-4 font-medium">Buying Price</th>
+                  <th class="py-3 px-4 font-medium">Selling Price</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <tr *ngFor="let item of stock_data" class="hover:bg-gray-50">
+                  <td class="py-3 px-4 text-gray-700">
+                    {{ item?.adding_date | date : "mediumDate" }}
+                  </td>
+                  <td class="py-3 px-4">{{ item?.supplier_name }}</td>
+                  <td class="py-3 px-4">{{ item?.category_name }}</td>
+                  <td class="py-3 px-4">{{ item?.brand_name }}</td>
+                  <td class="py-3 px-4">{{ item?.model_name }}</td>
+                  <td class="py-3 px-4 text-center">
+                    {{ item?.no_of_units }}
+                  </td>
+                  <td class="py-3 px-4 text-center">
+                    {{ item?.available_no_of_units }}
+                  </td>
+                  <td class="py-3 px-4 text-center">
+                    {{ item?.no_of_units - item?.available_no_of_units }}
+                  </td>
+                  <td class="py-3 px-4 text-center">
+                    <span *ngIf="item.status == 0" class="badge badge-primary">
+                      Pending
+                    </span>
+                    <span *ngIf="item.status == 2" class="badge badge-success">
+                      Approved
+                    </span>
+
+                    <span *ngIf="item.status == -2" class="badge badge-danger">
+                      Rejected
+                    </span>
+                  </td>
+                  <td class="py-3 px-4 text-right">
+                    LKR {{ item?.buying_price | number : "2.2" }}
+                  </td>
+                  <td class="py-3 px-4 text-right">
+                    LKR {{ item?.selling_price | number : "2.2" }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

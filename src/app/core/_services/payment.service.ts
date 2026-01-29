@@ -1,60 +1,76 @@
 import { Injectable } from "@angular/core";
-import md5 from "crypto-js/md5";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from "@angular/common/http";
+import { GlobalVariable } from "./globals";
+import { map, catchError } from "rxjs/operators";
+import { Observable, throwError } from "rxjs";
 
-declare var window: any;
-
-@Injectable({
-  providedIn: "root",
-})
+@Injectable({ providedIn: "root" })
 export class PaymentService {
-  constructor() {}
+  private BaseAPIurl = GlobalVariable.BaseUrl + "api/v1/payments/";
 
-  payNow(data: any, hash: string) {
-    // let merchantSecret  = 'NDIwNTQ2NzI0NjYxNzM3OTYyMjM0NDIzNzczMTMxMDM4NjI3MTA=';
-    // let merchantId      = data.merchant_id;
-    // let orderId         = data.order_id;
-    // let amount          = data.amount;
-    // let hashedSecret    = md5(merchantSecret).toString().toUpperCase();
-    // let amountFormated  = parseFloat( amount ).toLocaleString( 'en-us', { minimumFractionDigits : 2 } ).replaceAll(',', '');
-    // let currency        = data.currency;
-    // let hash            = md5(merchantId + orderId + amountFormated + currency + hashedSecret).toString().toUpperCase();
+  constructor(private http: HttpClient) {}
 
-    window.payhere.onCompleted = function (orderId: string) {
-      console.log("Payment completed. OrderID:", orderId);
-    };
-
-    window.payhere.onDismissed = function () {
-      console.log("Payment dismissed");
-    };
-
-    window.payhere.onError = function (error: any) {
-      console.log("Payment error:", error);
-    };
-
-    const payment = {
-      sandbox: true,
-      merchant_id: data.merchant_id,
-      return_url:
-        "http://localhost:4200/tickets/new-tickets/" + data.order_id,
-      cancel_url: "http://localhost:4200/ticket-details",
-      notify_url: "https://happysales.lk/api/v1/bookings/notify",
-      order_id: data.order_id,
-      items: data.items,
-      amount: data.amount,
-      currency: data.currency,
-      hash: hash,
-      first_name: data.first_name,
-      last_name: data.last_name,
-      email: data.email,
-      phone: data.phone,
-      country: data.country,
-      city: data.city,
-      address: data.address,
-      recurrence: "1 Month",
-      duration: "1 Year",
-      custom_1: data.custom_1,
-    };
-
-    window.payhere.startPayment(payment);
+  // error checking handler for api response and trigger errors
+  private handleError(error: HttpErrorResponse | any) {
+    console.error("PaymentService::handleError", error);
+    return throwError(() => error); // This is the correct way in RxJS 7+
   }
+
+  createPayment(obj: any) {
+    let APIurl = this.BaseAPIurl + "create-payment";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getAllPayments(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-all-paged-payments";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getPayment(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-payment";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  updatePaymentStatus(obj: any) {
+    let APIurl = this.BaseAPIurl + "update-payment-status";
+
+    return this.http.patch<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  // getAllActivePatients() {
+  //   let APIurl = this.BaseAPIurl + "get-all-active-patients";
+  //   return this.http.get<any>(APIurl).pipe(
+  //     map((response) => {
+  //       return response;
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
 }

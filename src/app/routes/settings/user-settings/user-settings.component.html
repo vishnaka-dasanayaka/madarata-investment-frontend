@@ -1,0 +1,87 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/settings/settings-menu']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Settings</span
+    >
+    > User Settings
+  </h6>
+  <h1 class="text-xl font-semibold">User Settings</h1>
+  <h5 class="text-xs font-thin">Manage users and their permissions</h5>
+
+  <div *ngIf="!LoadUI" class="mt-5">
+    <div class="card">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+      >
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div class="min-h-screen mt-5">
+    <div class="row">
+      <div *ngIf="LoadUI" class="min-h-screen pt-5">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+        >
+          <a
+            *hasPermission="[[5], sysuser]"
+            [routerLink]="['/settings/user-summary']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-purple-100 flex items-center justify-center text-purple-600 mr-4"
+            >
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">Users</h3>
+              <p class="text-sm text-gray-500">Add/ Edit and View users</p>
+            </div>
+          </a>
+
+          <a
+            [routerLink]="['/settings/user-levels']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-emerald-100 flex items-center justify-center text-emerald-600 mr-4"
+            >
+              <i class="fa-solid fa-stairs"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">User Levels</h3>
+              <p class="text-sm text-gray-500">Manage user levels here</p>
+            </div>
+          </a>
+
+          <a
+            *ngIf="sysuser.userlevel == 1"
+            [routerLink]="['/settings/user-permissions']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-red-100 flex items-center justify-center text-red-600 mr-4"
+            >
+              <i class="fa-solid fa-power-off"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">User Permissions</h3>
+              <p class="text-sm text-gray-500">
+                Manage permissions for user levels
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

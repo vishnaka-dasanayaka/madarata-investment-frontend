@@ -1,0 +1,320 @@
+<!-- Modal Backdrop -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 bg-black/50 z-99 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto z-50">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add Stock</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4 overflow-y-auto max-h-[75vh] scrollbar-hidden">
+      <form
+        [formGroup]="valForm"
+        (ngSubmit)="submitForm(valForm.value)"
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Adding Date
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <p-datepicker
+              formControlName="date"
+              class="w-full"
+              [inputStyle]="{ width: '100%' }"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['date'].hasError('required') &&
+                (valForm.controls['date'].dirty ||
+                  valForm.controls['date'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Category
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <p-select
+              [options]="categories"
+              formControlName="category"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a Supplier"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['category'].hasError('required') &&
+                (valForm.controls['category'].dirty ||
+                  valForm.controls['category'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Brand
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <p-select
+              [options]="brands"
+              formControlName="brand"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a Supplier"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['brand'].hasError('required') &&
+                (valForm.controls['brand'].dirty ||
+                  valForm.controls['brand'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Model
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <p-select
+              [options]="models"
+              formControlName="model"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a Supplier"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['model'].hasError('required') &&
+                (valForm.controls['model'].dirty ||
+                  valForm.controls['model'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Supplier
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-select
+              [options]="suppliers"
+              formControlName="supplier"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a Supplier"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['supplier'].hasError('required') &&
+                (valForm.controls['supplier'].dirty ||
+                  valForm.controls['supplier'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Purchase Order
+            </label>
+            <p-select
+              [options]="purchase_orders"
+              formControlName="purchase_order"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a Supplier"
+              class="w-full"
+              [filter]="true"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Buying price per unit
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="number"
+              formControlName="buying_price"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+              min="0"
+              step="0.01"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['buying_price'].hasError('required') &&
+                (valForm.controls['buying_price'].dirty ||
+                  valForm.controls['buying_price'].touched)
+              "
+              >This field is required</span
+            >
+            <span
+              class="text-orange-500 text-xs"
+              *ngIf="
+                valForm.controls['buying_price'].hasError(
+                  'invalidDecimalFormat'
+                )
+              "
+              >Accept only upto two decimal points</span
+            >
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Selling price per unit
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="number"
+              formControlName="selling_price"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+              min="0"
+              step="0.01"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['selling_price'].hasError('required') &&
+                (valForm.controls['selling_price'].dirty ||
+                  valForm.controls['selling_price'].touched)
+              "
+              >This field is required</span
+            >
+            <span
+              class="text-orange-500 text-xs"
+              *ngIf="
+                valForm.controls['selling_price'].hasError(
+                  'invalidDecimalFormat'
+                )
+              "
+              >Accept only upto two decimal points</span
+            >
+            <span
+              class="text-yellow-500 text-xs"
+              *ngIf="
+                this.valForm.controls['selling_price'].value != null &&
+                this.valForm.controls['buying_price'].value != null &&
+                this.valForm.controls['selling_price'].value <
+                  this.valForm.controls['buying_price'].value
+              "
+              >Selling price is less than Buying Price</span
+            >
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >No of Units
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="number"
+              formControlName="no_of_units"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+              min="0"
+              step="0.01"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['no_of_units'].hasError('required') &&
+                (valForm.controls['no_of_units'].dirty ||
+                  valForm.controls['no_of_units'].touched)
+              "
+              >This field is required</span
+            >
+
+            <span
+              class="text-orange-500 text-xs"
+              *ngIf="
+                valForm.controls['no_of_units'].hasError('decimalNotAllowed')
+              "
+              >Decimal points are not allowed</span
+            >
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700"
+            >Description</label
+          >
+          <textarea
+            rows="5"
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            pTextarea
+            formControlName="description"
+          ></textarea>
+          <span
+            class="text-red-500 text-xs"
+            *ngIf="
+              valForm.controls['description'].hasError('required') &&
+              (valForm.controls['description'].dirty ||
+                valForm.controls['description'].touched)
+            "
+            >This field is required</span
+          >
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded text-white"
+            [ngClass]="
+              valForm.valid
+                ? 'bg-orange-500 hover:bg-orange-600'
+                : 'bg-orange-400 cursor-not-allowed'
+            "
+            [disabled]="valForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

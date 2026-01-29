@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { UserService } from '../../core/_services/user.service';
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { UserService } from "../../core/_services/user.service";
 
 @Component({
-  selector: 'app-verify',
+  selector: "app-verify",
   standalone: false,
-  templateUrl: './verify.component.html',
-  styleUrl: './verify.component.css'
+  templateUrl: "./verify.component.html",
+  styleUrl: "./verify.component.css",
 })
 export class VerifyComponent {
   verifyForm: FormGroup;
-  codeDigits: string[] = ['', '', '', '', '', ''];
+  codeDigits: string[] = ["", "", "", "", "", ""];
   email: string | null = null;
   loading = false;
   resendDisabled: boolean = false;
@@ -26,9 +26,9 @@ export class VerifyComponent {
     private userService: UserService
   ) {
     this.verifyForm = this.fb.group({
-      code: ['', [Validators.required, Validators.minLength(6)]]
+      code: ["", [Validators.required, Validators.minLength(6)]],
     });
-    this.email = localStorage.getItem('email');
+    this.email = "ff"; //localStorage.getItem('email');
   }
 
   onDigitInput(event: any, index: number) {
@@ -40,8 +40,8 @@ export class VerifyComponent {
       this.codeDigits[index] = value;
 
       input.focus();
-      input.value = '';
-  
+      input.value = "";
+
       // Move to the next input
       // const nextInput = input.nextElementSibling as HTMLInputElement;
       // if (nextInput) {
@@ -50,58 +50,53 @@ export class VerifyComponent {
       // }
     } else {
       // Remove any non-digit input
-      this.codeDigits[index] = '';
-      input.value = '';
+      this.codeDigits[index] = "";
+      input.value = "";
     }
 
     // Update the FormControl
-    this.verifyForm.get('code')?.setValue(this.codeDigits.join(''));
-    
+    this.verifyForm.get("code")?.setValue(this.codeDigits.join(""));
   }
 
   async onSubmit() {
-    const code = this.codeDigits.join('');
-    this.verifyForm.get('code')?.setValue(code);
+    const code = this.codeDigits.join("");
+    this.verifyForm.get("code")?.setValue(code);
 
     if (this.verifyForm.valid) {
       const { code } = this.verifyForm.value;
 
       if (!this.email) {
-        alert('Email not found in local storage.');
+        alert("Email not found in local storage.");
         return;
       }
 
       this.loading = true;
 
       try {
-       
       } catch (error: any) {
-        console.error('Verification error:', error);
-        this.toastr.error(error.message || 'Verification failed', 'Tada');
+        console.error("Verification error:", error);
+        this.toastr.error(error.message || "Verification failed", "Tada");
       } finally {
         this.loading = false;
       }
-
     } else {
-      this.toastr.error('Please enter email and confirmation code', 'Tada');
+      this.toastr.error("Please enter email and confirmation code", "Tada");
     }
   }
 
-  async resend(){
+  async resend() {
     if (this.email) {
+      this.codeDigits = ["", "", "", "", "", ""];
 
-      this.codeDigits = ['', '', '', '', '', ''];
+      const inputs =
+        document.querySelectorAll<HTMLInputElement>("input.digit-input");
+      inputs.forEach((input) => (input.value = ""));
 
-      const inputs = document.querySelectorAll<HTMLInputElement>('input.digit-input');
-      inputs.forEach(input => input.value = '');
-
-      this.verifyForm.get('code')?.setValue('');
-
+      this.verifyForm.get("code")?.setValue("");
     } else {
       console.error("Username is null");
     }
     this.startCountdown(120);
-
   }
 
   startCountdown(seconds: number) {
@@ -118,7 +113,5 @@ export class VerifyComponent {
     }, 1000);
   }
 
-  async addRole(){
-      
-    }
+  async addRole() {}
 }

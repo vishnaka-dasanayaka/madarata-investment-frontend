@@ -1,0 +1,225 @@
+<!-- Modal Backdrop -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 bg-black/50 z-100 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto z-50">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add User</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <form
+        [formGroup]="valForm"
+        (ngSubmit)="submitForm(valForm.value)"
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >First Name
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="firstname"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['firstname'].hasError('required') &&
+                (valForm.controls['firstname'].dirty ||
+                  valForm.controls['firstname'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Last Name
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="lastname"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['lastname'].hasError('required') &&
+                (valForm.controls['lastname'].dirty ||
+                  valForm.controls['lastname'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Username
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="username"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['username'].hasError('required') &&
+                (valForm.controls['username'].dirty ||
+                  valForm.controls['username'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Email
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="email"
+              formControlName="email"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['email'].hasError('required') &&
+                (valForm.controls['email'].dirty ||
+                  valForm.controls['email'].touched)
+              "
+              >This field is required</span
+            >
+
+            <span
+              class="text-orange-500 text-xs"
+              *ngIf="valForm.controls['email'].hasError('invalidEmailFormat')"
+              >Email format is invalid</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Phone
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="phone"
+              formControlName="phone"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['phone'].hasError('required') &&
+                (valForm.controls['phone'].dirty ||
+                  valForm.controls['phone'].touched)
+              "
+              >This field is required</span
+            >
+
+            <span
+              class="text-orange-500 text-xs"
+              *ngIf="valForm.controls['phone'].hasError('invalidPhone')"
+              >Phone number format is invalid</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Designation
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="designation"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['designation'].hasError('required') &&
+                (valForm.controls['designation'].dirty ||
+                  valForm.controls['designation'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >User Level
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <p-select
+              [options]="userlevels"
+              formControlName="userlevel"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a User Level"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['userlevel'].hasError('required') &&
+                (valForm.controls['userlevel'].dirty ||
+                  valForm.controls['userlevel'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+        </div>
+
+        <p class="text-xs text-orange-400">
+          <i class="fa-solid fa-asterisk fa-2xs"></i>
+          Default passwoord is set to '
+          <span class="text-orange-800">temp_password</span> '. Users can login
+          to their own account and change the password later.
+        </p>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded text-white"
+            [ngClass]="
+              valForm.valid
+                ? 'bg-orange-500 hover:bg-orange-600'
+                : 'bg-orange-400 cursor-not-allowed'
+            "
+            [disabled]="valForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

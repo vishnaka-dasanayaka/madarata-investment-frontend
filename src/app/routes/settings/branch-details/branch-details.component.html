@@ -1,0 +1,194 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/settings/settings-menu']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Settings</span
+    >
+    >
+    <span
+      [routerLink]="['/settings/branch-summary']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Branch Summary</span
+    >
+    > {{ branch?.code }}
+  </h6>
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Branch Details</h1>
+      <h5 class="text-xs font-thin">{{ branch?.code }}</h5>
+    </div>
+    <div *hasPermission="[[11], sysuser]">
+      <button
+        [disabled]="branch?.status == 0"
+        class="mr-2 btn-lg btn-danger"
+        [ngClass]="{ 'btn-disable': branch?.status == 0 }"
+        (click)="updateStatus(0)"
+      >
+        <i class="fa-solid fa-circle-xmark text-danger mr-2"></i> Deactivate
+      </button>
+
+      <button
+        [disabled]="branch?.status == 1"
+        class="mr-2 btn-lg btn-success"
+        [ngClass]="{
+          'btn-disable': branch?.status == 1
+        }"
+        (click)="updateStatus(1)"
+      >
+        <i class="fa-solid fa-circle-check mr-2"></i>Active
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!LoadUI" class="card">
+    <div class="flex flex-wrap">
+      <div class="w-full mt-5">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton width="30rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" styleClass="mb-2" />
+        <p-skeleton height="10rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <!-- branch-detail.component.html -->
+  <div
+    *ngIf="LoadUI"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <!-- Branch Information Section -->
+    <div class="mb-8">
+      <div class="w-full flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+          Basic Information
+        </h3>
+
+        <!-- <button (click)="openInvoiceEditModal()" class="btn btn-gray">
+          <i class="fa-solid fa-pen-to-square"></i> Edit
+        </button> -->
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Code</p>
+            <p class="font-medium">{{ branch?.code }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Branch Name</p>
+            <p class="font-medium">{{ branch?.name }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Branch Type</p>
+            <p class="font-medium">
+              <span *ngIf="branch?.type == 'MAIN'">Main Branch</span>
+              <span *ngIf="branch?.type == 'SUB'">Sub Branch</span>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Location</p>
+            <p class="font-medium">{{ branch?.address }}</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Status</p>
+            <p
+              *ngIf="branch?.status == 1"
+              class="badge badge-success w-16 mt-1 text-center"
+            >
+              Active
+            </p>
+
+            <p
+              *ngIf="branch?.status == 0"
+              class="badge badge-danger w-16 mt-1 text-center"
+            >
+              Inactive
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Branch Manager</p>
+            <p class="font-medium">
+              {{ branch?.branch_manager?.firstname }}
+              {{ branch?.branch_manager?.lastname }}
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Phone</p>
+            <p class="font-medium">
+              {{ branch?.phone }}
+            </p>
+          </div>
+          <div *ngIf="branch?.email">
+            <p class="text-sm text-gray-500">Email</p>
+            <p class="font-medium">
+              {{ branch?.email }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Contact Person</p>
+            <p class="font-medium">
+              {{ branch?.contact_person?.firstname }}
+              {{ branch?.contact_person?.lastname }}
+            </p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Created By</p>
+            <p class="font-medium">
+              {{ branch?.created_by.firstname }}
+              {{ branch?.created_by.lastname }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Created On</p>
+            <p class="font-medium">
+              {{ branch?.created_on | date : "mediumDate" }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="branch?.description">
+        <p class="text-sm text-gray-500">Description</p>
+        <p class="font-medium">
+          {{ branch?.description }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="LoadUI"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <div class="row">
+      <div class="card">
+        <p-tabs value="0">
+          <p-tablist>
+            <p-tab value="0">Notes</p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="0">
+              <app-note [f_key]="id" [type]="'BRANCH'"></app-note>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <app-edit-invoice (parentFun)="getData(id)"> </app-edit-invoice> -->

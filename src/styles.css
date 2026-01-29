@@ -1,7 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
-@plugin "tailwindcss-primeui";
+/* @plugin "tailwindcss-primeui"; */
+
+/* PRINT INVOICE IN B5 */
+
+/* @media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #print-invoice,
+  #print-invoice * {
+    visibility: visible;
+  }
+
+  #print-invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 1cm;
+    font-family: sans-serif;
+  }
+
+  @page {
+    size: A5 portrait;
+    margin: 1cm;
+  }
+}
+
+.a5-invoice {
+  width: 14.8cm;
+  min-height: 21cm;
+  padding: 1cm;
+  background: white;
+} */
+
+/* PRINT INVOICE IN B5 */
 
 .dark_btn {
   color: white;
@@ -90,4 +126,342 @@
 .login-form {
   position: relative;
   z-index: 1; /* Ensure it's under the loading overlay */
+}
+
+* {
+  font-family: "National Park", sans-serif;
+  font-optical-sizing: auto;
+}
+html,
+body {
+  height: 100%;
+  overflow: auto;
+}
+
+/* CUSTOM */
+
+.add_btn {
+  color: white;
+  background-color: #ff820d;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.delete_btn {
+  color: white;
+  background-color: oklch(50.5% 0.213 27.518);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.badge {
+  font-size: var(--text-xs) /* 0.75rem = 12px */;
+  line-height: var(
+    --tw-leading,
+    var(--text-xs--line-height) /* calc(1 / 0.75) ≈ 1.3333 */
+  );
+  --tw-font-weight: var(--font-weight-semibold) /* 600 */;
+  font-weight: var(--font-weight-semibold) /* 600 */;
+  padding-inline: calc(var(--spacing) * 2);
+  padding-block: calc(var(--spacing) * 1);
+  border-radius: calc(infinity * 1px);
+}
+
+.badge-primary {
+  background-color: var(--color-blue-100);
+  color: var(--color-blue-700);
+}
+.badge-success {
+  background-color: var(--color-green-100);
+  color: var(--color-green-700);
+}
+.badge-danger {
+  background-color: var(--color-red-100);
+  color: var(--color-red-700);
+}
+.badge-orange {
+  background-color: var(--color-orange-100);
+  color: var(--color-orange-500);
+}
+.badge-teal {
+  background-color: var(--color-teal-100);
+  color: var(--color-teal-700);
+}
+.badge-cyan {
+  background-color: var(--color-cyan-100);
+  color: var(--color-cyan-700);
+}
+.badge-info {
+  background-color: var(--color-yellow-100);
+  color: var(--color-yellow-800) /* oklch(47.6% 0.114 61.907) */;
+}
+
+.btn {
+  font-size: var(--text-xs) /* 0.75rem = 12px */;
+  line-height: var(
+    --tw-leading,
+    var(--text-xs--line-height) /* calc(1 / 0.75) ≈ 1.3333 */
+  );
+  border-radius: calc(infinity * 1px);
+  padding-inline: calc(var(--spacing) * 3.5);
+  padding-block: calc(var(--spacing) * 1.2);
+  transition-property:
+    color,
+    background-color,
+    border-color,
+    outline-color,
+    text-decoration-color,
+    fill,
+    stroke,
+    --tw-gradient-from,
+    --tw-gradient-via,
+    --tw-gradient-to,
+    opacity,
+    box-shadow,
+    transform,
+    translate,
+    scale,
+    rotate,
+    filter,
+    -webkit-backdrop-filter,
+    backdrop-filter,
+    display,
+    visibility,
+    content-visibility,
+    overlay,
+    pointer-events;
+  transition-timing-function: var(
+    --tw-ease,
+    var(--default-transition-timing-function) /* cubic-bezier(0.4, 0, 0.2, 1) */
+  );
+  transition-duration: var(
+    --tw-duration,
+    var(--default-transition-duration) /* 150ms */
+  );
+  cursor: pointer;
+}
+
+.btn-lg {
+  font-size: var(--text-md) /* 0.75rem = 12px */;
+  line-height: var(
+    --tw-leading,
+    var(--text-xs--line-height) /* calc(1 / 0.75) ≈ 1.3333 */
+  );
+  border-radius: calc(infinity * 1px);
+  padding-inline: calc(var(--spacing) * 3.5);
+  padding-block: calc(var(--spacing) * 1.2);
+  transition-property:
+    color,
+    background-color,
+    border-color,
+    outline-color,
+    text-decoration-color,
+    fill,
+    stroke,
+    --tw-gradient-from,
+    --tw-gradient-via,
+    --tw-gradient-to,
+    opacity,
+    box-shadow,
+    transform,
+    translate,
+    scale,
+    rotate,
+    filter,
+    -webkit-backdrop-filter,
+    backdrop-filter,
+    display,
+    visibility,
+    content-visibility,
+    overlay,
+    pointer-events;
+  transition-timing-function: var(
+    --tw-ease,
+    var(--default-transition-timing-function) /* cubic-bezier(0.4, 0, 0.2, 1) */
+  );
+  transition-duration: var(
+    --tw-duration,
+    var(--default-transition-duration) /* 150ms */
+  );
+  cursor: pointer;
+}
+
+.btn-outline-gray {
+  border: 1px var(--color-gray-500) solid;
+  color: var(--color-gray-500);
+}
+
+.btn-outline-gray:hover {
+  background-color: var(--color-gray-500);
+  color: white;
+}
+
+.btn-outline-warning {
+  border: 1px orange solid;
+  color: #ff820d;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ff820d;
+  color: white;
+}
+
+.btn-warning {
+  color: white;
+  background-color: #ff820d;
+}
+
+.btn-warning:hover {
+  color: #ff820d;
+  background-color: white;
+  border: #ff820d 1px solid;
+}
+
+.btn-gray {
+  color: black;
+  background-color: var(--color-gray-200);
+}
+
+.btn-gray:hover {
+  color: black;
+  background-color: var(--color-gray-300);
+}
+.btn-success {
+  color: var(--color-green-100);
+  background-color: var(--color-green-700);
+  border: var(--color-green-700) 1px solid;
+}
+
+.btn-success:hover {
+  background-color: var(--color-green-100);
+  color: var(--color-green-700);
+  border: var(--color-green-700) 1px solid;
+}
+
+.btn-orange {
+  color: var(--color-orange-100);
+  background-color: var(--color-orange-500);
+  border: var(--color-orange-500) 1px solid;
+}
+
+.btn-orange:hover {
+  background-color: var(--color-orange-100);
+  color: var(--color-orange-500);
+  border: var(--color-orange-500) 1px solid;
+}
+
+.btn-teal {
+  color: var(--color-teal-100);
+  background-color: var(--color-teal-700);
+  border: var(--color-teal-700) 1px solid;
+}
+
+.btn-teal:hover {
+  background-color: var(--color-teal-100);
+  color: var(--color-teal-700);
+  border: var(--color-teal-700) 1px solid;
+}
+
+.btn-cyan {
+  color: var(--color-cyan-100);
+  background-color: var(--color-cyan-700);
+  border: var(--color-cyan-700) 1px solid;
+}
+
+.btn-cyan:hover {
+  background-color: var(--color-cyan-100);
+  color: var(--color-cyan-700);
+  border: var(--color-cyan-700) 1px solid;
+}
+.btn-danger {
+  color: var(--color-red-100);
+  background-color: var(--color-red-700);
+  border: var(--color-red-100) 1px solid;
+}
+
+.btn-danger:hover {
+  background-color: var(--color-red-100);
+  color: var(--color-red-700);
+  border: var(--color-red-700) 1px solid;
+}
+
+.btn-outline-danger {
+  border: 1px var(--color-red-700) solid;
+  color: var(--color-red-700);
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--color-red-700);
+  color: white;
+}
+
+.btn-outline-success {
+  border: 1px var(--color-green-700) solid;
+  color: var(--color-green-700);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--color-green-700);
+  color: white;
+}
+
+.btn-info {
+  color: var(--color-yellow-100);
+  background-color: var(--color-yellow-800);
+  border: var(--color-yellow-100) 1px solid;
+}
+
+.btn-info:hover {
+  background-color: var(--color-yellow-100);
+  color: var(--color-yellow-800);
+  border: var(--color-yellow-700) 1px solid;
+}
+
+.btn-disable {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.swal-title-sm {
+  font-size: 20px !important;
+}
+
+.swal-confirm-sm,
+.swal-cancel-sm {
+  font-size: 15px !important;
+  padding: 6px 14px !important;
+  border-radius: 4px !important;
+}
+/* Put this in your global styles.css or styles.scss */
+.toast-sm {
+  color: white;
+  font-size: 0.75rem !important;
+  padding: 6px 12px !important;
+  min-width: 200px !important;
+  max-width: 300px !important;
+}
+
+/* Add this to your global styles or component styles */
+p-datepicker .p-datepicker {
+  width: 100%;
+}
+
+p-datepicker .p-inputtext {
+  width: 100%;
+}
+
+.btn-primary {
+  color: var(--color-blue-100);
+  background-color: var(--color-blue-700);
+  border: var(--color-blue-700) 1px solid;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-blue-100);
+  color: var(--color-blue-700);
+  border: var(--color-blue-700) 1px solid;
 }

@@ -18,6 +18,43 @@ import { LOAD_WASM, NgxScannerQrcodeComponent } from "ngx-scanner-qrcode";
 import { DropdownModule } from "primeng/dropdown";
 import { LoginPopupComponent } from "./login-popup/login-popup.component";
 import { TabsModule } from "primeng/tabs";
+import { LoaderComponent } from "./loader/loader.component";
+import { AddSupplierComponent } from "./modals/add-supplier/add-supplier.component";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { TableModule } from "primeng/table";
+
+import { IconFieldModule } from "primeng/iconfield";
+import { InputIconModule } from "primeng/inputicon";
+import { InputTextModule } from "primeng/inputtext";
+import { EditorModule } from "primeng/editor";
+import { AddPurchaseOrderComponent } from "./modals/add-purchase-order/add-purchase-order.component";
+import { SelectModule } from "primeng/select";
+import { AddCategoryComponent } from "./modals/add-category/add-category.component";
+import { AddBrandComponent } from "./modals/add-brand/add-brand.component";
+import { MultiSelectModule } from "primeng/multiselect";
+import { AddModelComponent } from "./modals/add-model/add-model.component";
+import { AddStockComponent } from "./modals/add-stock/add-stock.component";
+import { AddPatientComponent } from "./modals/add-patient/add-patient.component";
+import { AddLenseComponent } from "./modals/add-lense/add-lense.component";
+import { AddOrderComponent } from "./modals/add-order/add-order.component";
+import { AddInoviceItemComponent } from "./modals/add-inovice-item/add-inovice-item.component";
+import { AddPaymentComponent } from "./modals/add-payment/add-payment.component";
+import { AddPrescriptionComponent } from "./modals/add-prescription/add-prescription.component";
+import { ViewPrescriptionComponent } from "./modals/view-prescription/view-prescription.component";
+import { AddInoviceComponent } from "./modals/add-inovice/add-inovice.component";
+import { EditPatientComponent } from "./modals/edit-patient/edit-patient.component";
+import { EditOrderComponent } from "./modals/edit-order/edit-order.component";
+import { EditInvoiceComponent } from "./modals/edit-invoice/edit-invoice.component";
+import { AddConsultationTypeComponent } from "./modals/add-consultation-type/add-consultation-type.component";
+import { AddCInvoiceComponent } from "./modals/add-c-invoice/add-c-invoice.component";
+import { AddCInvoiceItemComponent } from "./modals/add-c-invoice-item/add-c-invoice-item.component";
+import { AddDoctorComponent } from "./modals/add-doctor/add-doctor.component";
+import { AddUserComponent } from "./modals/add-user/add-user.component";
+import { AddUserLevelComponent } from "./modals/add-user-level/add-user-level.component";
+import { HasPermissionDirective } from "./directives/has-permission.directive";
+import { AddBranchComponent } from "./modals/add-branch/add-branch.component";
+import { ChangePasswordComponent } from "./modals/change-password/change-password.component";
+import { NoteComponent } from "./modals/note/note.component";
 
 @NgModule({
   imports: [
@@ -32,7 +69,15 @@ import { TabsModule } from "primeng/tabs";
     DatePickerModule,
     NgxScannerQrcodeComponent,
     DropdownModule,
+    ModalModule.forRoot(),
     TabsModule,
+    TableModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    EditorModule,
+    SelectModule,
+    MultiSelectModule,
   ],
   providers: [],
   declarations: [
@@ -40,6 +85,34 @@ import { TabsModule } from "primeng/tabs";
     CardLoaderComponent,
     EventLoaderComponent,
     LoginPopupComponent,
+    LoaderComponent,
+    AddSupplierComponent,
+    AddPurchaseOrderComponent,
+    AddCategoryComponent,
+    AddBrandComponent,
+    AddModelComponent,
+    AddStockComponent,
+    AddPatientComponent,
+    AddLenseComponent,
+    AddOrderComponent,
+    AddInoviceItemComponent,
+    AddPaymentComponent,
+    AddPrescriptionComponent,
+    ViewPrescriptionComponent,
+    AddInoviceComponent,
+    EditPatientComponent,
+    EditOrderComponent,
+    EditInvoiceComponent,
+    AddConsultationTypeComponent,
+    AddCInvoiceComponent,
+    AddCInvoiceItemComponent,
+    AddDoctorComponent,
+    AddUserComponent,
+    AddUserLevelComponent,
+    HasPermissionDirective,
+    AddBranchComponent,
+    ChangePasswordComponent,
+    NoteComponent,
   ],
   exports: [
     BlockUIModule,
@@ -56,6 +129,42 @@ import { TabsModule } from "primeng/tabs";
     DropdownModule,
     LoginPopupComponent,
     TabsModule,
+    LoaderComponent,
+    AddSupplierComponent,
+    ModalModule,
+    TableModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    EditorModule,
+    AddPurchaseOrderComponent,
+    SelectModule,
+    AddCategoryComponent,
+    AddBrandComponent,
+    MultiSelectModule,
+    AddModelComponent,
+    AddStockComponent,
+    AddPatientComponent,
+    AddLenseComponent,
+    AddOrderComponent,
+    AddInoviceItemComponent,
+    AddPaymentComponent,
+    AddPrescriptionComponent,
+    ViewPrescriptionComponent,
+    AddInoviceComponent,
+    EditPatientComponent,
+    EditOrderComponent,
+    EditInvoiceComponent,
+    AddConsultationTypeComponent,
+    AddCInvoiceComponent,
+    AddCInvoiceItemComponent,
+    AddDoctorComponent,
+    AddUserComponent,
+    AddUserLevelComponent,
+    HasPermissionDirective,
+    AddBranchComponent,
+    ChangePasswordComponent,
+    NoteComponent,
   ],
 })
 

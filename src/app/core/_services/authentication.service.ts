@@ -1,13 +1,18 @@
-import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { GlobalVariable } from "./globals";
+import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 
+@Injectable({ providedIn: "root" })
 @Injectable({ providedIn: "root" })
 export class AuthenticationService {
   private BaseAPIurl = GlobalVariable.BaseUrl + "api/v1/settings/user/";
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   login(username: string, password: string, step: number, token: any) {
     let APIurl = this.BaseAPIurl + "login";
@@ -34,8 +39,6 @@ export class AuthenticationService {
   }
 
   validateUser() {
-    console.log("here");
-
     let APIurl = this.BaseAPIurl + "validate-logged-in";
     return this.http.get<any>(APIurl);
   }
@@ -46,7 +49,9 @@ export class AuthenticationService {
   }
 
   logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem("currentUser");
+    if (isPlatformBrowser(this.platformId)) {
+      // remove user from local storage to log user out
+      localStorage.removeItem("currentUser");
+    }
   }
 }

@@ -1,0 +1,217 @@
+<!-- Modal Backdrop -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 bg-black/50 z-100 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto z-50">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add Invoice Item</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <form
+        [formGroup]="valForm"
+        (ngSubmit)="submitForm(valForm.value)"
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Category
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-select
+              [options]="category_list"
+              formControlName="category"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a category"
+              class="w-full"
+              [filter]="true"
+              (onChange)="updateForCategory()"
+            />
+          </div>
+
+          <div *ngIf="valForm.get('category')?.value != 'lense'">
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Brand
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-select
+              [options]="brand_list"
+              formControlName="brand"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a brand"
+              class="w-full"
+              [filter]="true"
+              (onChange)="updateBrand()"
+            />
+          </div>
+
+          <div
+            class="col-span-2"
+            *ngIf="valForm.get('category')?.value != 'lense'"
+          >
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Frame Model
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-select
+              [options]="model_list"
+              formControlName="model"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a model"
+              class="w-full"
+              [filter]="true"
+              (onChange)="updateForModel()"
+            >
+              <ng-template let-item pTemplate="item">
+                <div
+                  [ngClass]="
+                    item.value?.available_no_of_units > 0
+                      ? 'text-green-700'
+                      : 'text-red-600'
+                  "
+                >
+                  <span *ngIf="item.value == null" class="text-gray-700">
+                    {{ item.label }}</span
+                  >
+                  <span *ngIf="item.value != null"> {{ item.label }}</span>
+                </div>
+              </ng-template>
+            </p-select>
+          </div>
+
+          <div *ngIf="valForm.get('category')?.value == 'lense'">
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Lense
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+
+            <p-multiselect
+              [options]="lenses_list"
+              formControlName="lense"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Select Categories"
+              [maxSelectedLabels]="3"
+              class="w-full"
+              [filter]="true"
+              [showClear]="true"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Unit Price
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="number"
+              formControlName="unit_price"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+              min="0"
+              step="0.01"
+              (ngModelChange)="updatePrice()"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['unit_price'].hasError('required') &&
+                (valForm.controls['unit_price'].dirty ||
+                  valForm.controls['unit_price'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Qty
+            </label>
+            <input
+              type="number"
+              formControlName="qty"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+              (ngModelChange)="updatePrice()"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Total Price
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="number"
+              formControlName="total_price"
+              class="w-full px-3 py-2 border bg-gray-200 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Discount
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="number"
+              formControlName="discount"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+              (ngModelChange)="updatePrice()"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Discounted price
+            </label>
+            <input
+              type="number"
+              formControlName="discounted_price"
+              class="w-full px-3 bg-gray-200 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded text-white"
+            [ngClass]="
+              valForm.valid
+                ? 'bg-orange-500 hover:bg-orange-600'
+                : 'bg-orange-400 cursor-not-allowed'
+            "
+            [disabled]="valForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

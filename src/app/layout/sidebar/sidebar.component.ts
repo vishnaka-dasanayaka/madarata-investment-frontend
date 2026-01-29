@@ -2,12 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { SelectItem } from "primeng/api";
 import { filter } from "rxjs";
-
-interface MenuItem {
-  label: string;
-  value: number;
-  path: string;
-}
+import { AuthenticationService } from "../../core/_services/authentication.service";
 
 @Component({
   selector: "app-sidebar",
@@ -16,16 +11,20 @@ interface MenuItem {
   styleUrl: "./sidebar.component.css",
 })
 export class SidebarComponent implements OnInit {
-  currentMenu: number = 1;
-  role: string = "";
-  menuItems: MenuItem[] = [];
+  sysuser: any;
+
   currentPath: string = "";
   isSidebarOpen = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authservice: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
-    this.getRole();
+    this.authservice.validateUser().subscribe((sysuser) => {
+      this.sysuser = sysuser;
+    });
 
     this.currentPath = this.router.url;
     this.router.events
@@ -35,35 +34,8 @@ export class SidebarComponent implements OnInit {
       });
   }
 
-  getRole() {
-    this.role = localStorage.getItem("role") || "";
-    this.setMenuItems();
-  }
-
   onClickMenu(path: string, value: number) {
-    this.currentMenu = value;
     this.isSidebarOpen = false;
     this.router.navigate([path]);
-  }
-
-  setMenuItems() {
-    if (this.role === "ADMIN") {
-      this.menuItems = [
-        { label: "Profile", value: 4, path: "/profile" },
-        { label: "All Events", value: 6, path: "/event/new-events" },
-        { label: "Edited Events", value: 7, path: "/event/edited-events" },
-      ];
-    } else if (this.role === "ORGANIZER") {
-      this.menuItems = [
-        { label: "Profile", value: 4, path: "/profile" },
-        { label: "My Events", value: 1, path: "/event/my-events" },
-        { label: "Pending Events", value: 6, path: "/event/pending-events" },
-      ];
-    } else {
-      this.menuItems = [
-        { label: "Profile", value: 4, path: "/profile" },
-        { label: "My Tickets", value: 1, path: "/tickets/booked-events" },
-      ];
-    }
   }
 }

@@ -1,0 +1,70 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/settings/settings-menu']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Settings</span
+    >
+    > Consultation Settings
+  </h6>
+  <h1 class="text-xl font-semibold">Consultation Settings</h1>
+  <h5 class="text-xs font-thin">Manage your consultation configuration</h5>
+
+  <div *ngIf="!LoadUI" class="mt-5">
+    <div class="card">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+      >
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div class="min-h-screen mt-5">
+    <div class="row">
+      <div *ngIf="LoadUI" class="min-h-screen pt-5">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+        >
+          <a
+            [routerLink]="['/settings/consultation-types']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 mr-4"
+            >
+              <i class="fa-solid fa-syringe"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">Consultation Types</h3>
+              <p class="text-sm text-gray-500">Manage you consultation types</p>
+            </div>
+          </a>
+
+          <a
+            [routerLink]="['/settings/doctor-summary']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-cyan-100 flex items-center justify-center text-cyan-600 mr-4"
+            >
+              <i class="fa-solid fa-user-doctor"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">List of Consultants</h3>
+              <p class="text-sm text-gray-500">
+                Add/View list of Consultant Doctors
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

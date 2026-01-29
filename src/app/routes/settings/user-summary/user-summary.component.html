@@ -1,0 +1,194 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/settings/settings-menu']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Settings</span
+    >
+    >
+    <span
+      [routerLink]="['/settings/user-settings']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >User Settings</span
+    >
+    > Users Summary
+  </h6>
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Users Summary</h1>
+      <h5 class="text-xs font-thin">Add, View and Edit users here</h5>
+    </div>
+    <button
+      *hasPermission="[[2], sysuser]"
+      (click)="openAddModal()"
+      class="add_btn"
+    >
+      <i class="fa-solid fa-plus mr-2"></i>Add User
+    </button>
+  </div>
+
+  <div *ngIf="!LoadUI" class="card">
+    <div class="flex flex-wrap">
+      <div class="w-full mt-5">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton width="30rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" styleClass="mb-2" />
+        <p-skeleton height="10rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="LoadUI" class="min-h-screen mt-10 bg-gray-50">
+    <div class="mt-4">
+      <p-table
+        #dt1
+        [columns]="cols"
+        [value]="users"
+        [paginator]="true"
+        [rows]="10"
+        [globalFilterFields]="[
+          'firstname',
+          'lastname',
+          'userlevel',
+          'designation'
+        ]"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [responsive]="false"
+        [autoLayout]="true"
+        styleClass="p-datatable-sm p-datatable-striped"
+        [rowHover]="true"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [lazy]="true"
+        (onLazyLoad)="getAllUsers($event)"
+        [totalRecords]="no_of_users"
+        [sortOrder]="1"
+      >
+        <ng-template #caption>
+          <div class="flex">
+            <p-iconfield iconPosition="left" class="ml-auto">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  dt1.filterGlobal($any($event.target).value, 'contains')
+                "
+                placeholder="Search keyword"
+              />
+            </p-iconfield>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr class="bg-[#ff820d] text-white text-sm">
+            <th
+              *ngFor="let col of columns"
+              [pSortableColumn]="col.field"
+              [pSortableColumnDisabled]="col.sortable"
+              [style.width]="col.width"
+              class="px-3 py-2 text-center font-medium"
+            >
+              {{ col.header }}
+              <p-sortIcon
+                *ngIf="!col.sortable"
+                [field]="col.field"
+                ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"
+                styleClass="ml-2"
+              ></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr class="hover:bg-orange-50 transition">
+            <td
+              *ngFor="let col of columns"
+              class="px-3 py-2 text-sm text-center"
+              [ngSwitch]="col.field"
+            >
+              <div *ngSwitchCase="'id'">
+                {{ rowData[col.field] }}
+              </div>
+
+              <div *ngSwitchCase="'firstname'">
+                {{ rowData?.firstname }}
+              </div>
+
+              <div *ngSwitchCase="'lastname'">
+                {{ rowData?.lastname }}
+              </div>
+
+              <div *ngSwitchCase="'userlevel'">
+                <span
+                  class="badge badge-orange"
+                  *ngIf="rowData?.userlevel == 1"
+                >
+                  {{ rowData?.rolename }}
+                </span>
+                <span class="badge badge-teal" *ngIf="rowData?.userlevel == 2">
+                  {{ rowData?.rolename }}
+                </span>
+                <span class="badge badge-cyan" *ngIf="rowData?.userlevel == 3">
+                  {{ rowData?.rolename }}
+                </span>
+              </div>
+
+              <div *ngSwitchCase="'designation'">
+                {{ rowData?.designation }}
+              </div>
+
+              <div class="text-left" *ngSwitchCase="'status'">
+                <span *ngIf="rowData?.disabled == 1" class="badge badge-danger">
+                  Disabled
+                </span>
+                <span
+                  *ngIf="rowData?.disabled == 0"
+                  class="badge badge-success"
+                >
+                  Active
+                </span>
+              </div>
+
+              <div *ngSwitchCase="'actions'">
+                <ng-container *hasPermission="[[4], sysuser]">
+                  <button
+                    *ngIf="rowData?.disabled == 1 && rowData?.id != 1"
+                    class="btn btn-outline-success mr-2"
+                    (click)="updateStatus(rowData.id, 0)"
+                  >
+                    Enable
+                  </button></ng-container
+                >
+                <ng-container *hasPermission="[[4], sysuser]">
+                  <button
+                    *ngIf="rowData?.disabled == 0 && rowData?.id != 1"
+                    class="btn btn-outline-danger mr-2"
+                    (click)="updateStatus(rowData.id, 1)"
+                  >
+                    Disable
+                  </button>
+                </ng-container>
+
+                <button
+                  class="btn btn-outline-warning"
+                  routerLink="/settings/user-detail/{{ rowData.id }}"
+                >
+                  View
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<app-add-user (parentFun)="getAllUsers()"> </app-add-user>

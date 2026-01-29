@@ -1,21 +1,21 @@
 <div class="bg-[#ff820d] h-16 flex items-center">
   <div
-    class="mx-10 w-full lg:px-0 z-10 m-auto flex items-center justify-between py-2"
+    class="sm:mx-5 mr-3 ml-14 lg:ml-5 sm:ml-16 w-full lg:px-0 z-10 m-auto flex items-center justify-between py-2"
   >
     <!-- lg:w-[1200px] -->
     <div class="flex items-center justify-center">
       <h1
-        class="text-xl text-white cursor-pointer tracking-wider"
+        class="text-md text-white cursor-pointer tracking-wider"
         [routerLink]="['/home']"
         routerLinkActive="router-link-active"
       >
-        MADARATA INVESTMENT
+        SETHNETH
       </h1>
 
       <div class="flex items-center justify-center cursor-pointer">
         <i class="ml-10 text-white hover:text-gray-300 fa-regular fa-user"></i>
         <p class="text-white hover:text-gray-300 ml-3">
-          {{ sysuser?.firstname }} {{ sysuser?.lastname }}
+          {{ sysuser?.firstname }}
         </p>
       </div>
     </div>

@@ -1,0 +1,41 @@
+<section class="">
+  <h6 class="text-xs mb-2">Reports</h6>
+  <h1 class="text-xl font-semibold">Reports</h1>
+  <h5 class="text-xs font-thin">Generate customized reports</h5>
+
+  <div *ngIf="!LoadUI">
+    <div class="card">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+      >
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="LoadUI" class="min-h-screen pt-5">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+    >
+      <a
+        [routerLink]="['/reports/stock-report']"
+        class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+      >
+        <div
+          class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 mr-4"
+        >
+          <i class="fa-solid fa-arrow-trend-up"></i>
+        </div>
+        <div>
+          <h3 class="text-gray-900 font-medium">Stock Report</h3>
+          <p class="text-sm text-gray-500">Generate stock summary reports</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

@@ -10,7 +10,6 @@ import { RegisterComponent } from "./register/register.component";
 import { VerifyComponent } from "./verify/verify.component";
 import { LayoutModule } from "../layout/layout.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { ProfileComponent } from "./profile/profile.component";
 import { NewOrganizersComponent } from "./new-organizers/new-organizers.component";
 import { MyTicketsComponent } from "./tickets/my-tickets/my-tickets.component";
 import { resetPasswordComponent } from "./reset-password/reset-password.component";
@@ -28,7 +27,6 @@ import { resetPasswordComponent } from "./reset-password/reset-password.componen
     RegisterComponent,
     VerifyComponent,
     DashboardComponent,
-    ProfileComponent,
     NewOrganizersComponent,
     MyTicketsComponent,
     resetPasswordComponent,

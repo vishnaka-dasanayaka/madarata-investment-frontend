@@ -18,10 +18,6 @@ export class HeaderComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log("jhjh");
-
-    console.log("AuthService", this.authenticationService);
-
     this.sub = this.authenticationService
       .validateUser()
       .subscribe((sysuser) => {

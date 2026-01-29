@@ -1,0 +1,165 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/settings/settings-menu']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Settings</span
+    >
+    >
+    <span
+      [routerLink]="['/settings/stock-settings']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Stock Settings</span
+    >
+    >
+    <span
+      [routerLink]="['/settings/stock-config']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Stock Configurations</span
+    >
+    > Stock Categories
+  </h6>
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Stock Categories</h1>
+      <h5 class="text-xs font-thin">Add/ Edit Stock Categories</h5>
+    </div>
+    <button (click)="openAddModal()" class="add_btn">
+      <i class="fa-solid fa-plus mr-2"></i>Add Categories
+    </button>
+  </div>
+
+  <div *ngIf="!LoadUI" class="card">
+    <div class="flex flex-wrap">
+      <div class="w-full mt-5">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton width="30rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" styleClass="mb-2" />
+        <p-skeleton height="10rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="LoadUI" class="min-h-screen mt-10 bg-gray-50">
+    <div class="mt-4">
+      <p-table
+        #dt1
+        [columns]="cols"
+        [value]="categories"
+        [paginator]="true"
+        [rows]="10"
+        [globalFilterFields]="[
+          'client_code',
+          'name',
+          'nic_or_passport_no',
+          'address',
+          'contact_no',
+          'email'
+        ]"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [responsive]="false"
+        [autoLayout]="true"
+        styleClass="p-datatable-sm p-datatable-striped"
+        [rowHover]="true"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [lazy]="true"
+        (onLazyLoad)="getAllCategories($event)"
+        [totalRecords]="no_of_categories"
+        [sortOrder]="1"
+      >
+        <ng-template #caption>
+          <div class="flex">
+            <p-iconfield iconPosition="left" class="ml-auto">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  dt1.filterGlobal($any($event.target).value, 'contains')
+                "
+                placeholder="Search keyword"
+              />
+            </p-iconfield>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr class="bg-[#ff820d] text-white text-sm">
+            <th
+              *ngFor="let col of columns"
+              [pSortableColumn]="col.field"
+              [pSortableColumnDisabled]="col.sortable"
+              [style.width]="col.width"
+              class="px-3 py-2 text-center font-medium"
+            >
+              {{ col.header }}
+              <p-sortIcon
+                *ngIf="!col.sortable"
+                [field]="col.field"
+                ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"
+                styleClass="ml-2"
+              ></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr class="hover:bg-orange-50 transition">
+            <td
+              *ngFor="let col of columns"
+              class="px-3 py-2 text-sm text-center"
+              [ngSwitch]="col.field"
+            >
+              <div class="font-medium" *ngSwitchCase="'name'">
+                {{ rowData[col.field] }}
+              </div>
+
+              <div class="text-left" *ngSwitchCase="'status'">
+                <span
+                  *ngIf="rowData[col.field] == 0"
+                  class="badge badge-danger"
+                >
+                  Disabled
+                </span>
+                <span
+                  *ngIf="rowData[col.field] == 1"
+                  class="badge badge-success"
+                >
+                  Active
+                </span>
+              </div>
+
+              <div *ngSwitchCase="'actions'">
+                <button class="btn btn-outline-warning ml-1">Edit</button>
+                <button
+                  class="btn btn-outline-success ml-1"
+                  *ngIf="rowData?.status == 0"
+                  (click)="updateStatus(1, rowData?.id)"
+                >
+                  Enable
+                </button>
+                <button
+                  class="btn btn-outline-danger ml-1"
+                  *ngIf="rowData?.status == 1"
+                  (click)="updateStatus(0, rowData?.id)"
+                >
+                  Disable
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<app-add-category (parentFun)="getAllCategories()"> </app-add-category>

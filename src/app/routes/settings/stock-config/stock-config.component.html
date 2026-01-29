@@ -1,0 +1,109 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/settings/settings-menu']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Settings</span
+    >
+    >
+    <span
+      [routerLink]="['/settings/stock-settings']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Stock Settings</span
+    >
+    > Stock Configurations
+  </h6>
+  <h1 class="text-xl font-semibold">Stock Configurations</h1>
+  <h5 class="text-xs font-thin">
+    Manage your stock categories, brands and models
+  </h5>
+
+  <div *ngIf="!LoadUI" class="mt-5">
+    <div class="card">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+      >
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+        <p-skeleton height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div class="min-h-screen mt-5">
+    <div class="row">
+      <div *ngIf="LoadUI" class="min-h-screen pt-5">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+        >
+          <a
+            [routerLink]="['/settings/stock-categories']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-blue-100 flex items-center justify-center text-blue-600 mr-4"
+            >
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">Stock Categories</h3>
+              <p class="text-sm text-gray-500">Categorize your stock</p>
+            </div>
+          </a>
+
+          <a
+            [routerLink]="['/settings/brands']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-cyan-100 flex items-center justify-center text-cyan-600 mr-4"
+            >
+              <i class="fa-solid fa-certificate"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">Brands</h3>
+              <p class="text-sm text-gray-500">
+                Add/Edit brands you're providing
+              </p>
+            </div>
+          </a>
+
+          <a
+            [routerLink]="['/settings/models']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-indigo-100 flex items-center justify-center text-indigo-600 mr-4"
+            >
+              <i class="fa-solid fa-cubes"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">Models</h3>
+              <p class="text-sm text-gray-500">Add/Edit Models of the Brands</p>
+            </div>
+          </a>
+
+          <a
+            [routerLink]="['/settings/lenses']"
+            class="flex items-start p-5 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          >
+            <div
+              class="w-10 h-10 rounded-md bg-yellow-100 flex items-center justify-center text-yellow-600 mr-4"
+            >
+              <i class="fa-solid fa-cubes"></i>
+            </div>
+            <div>
+              <h3 class="text-gray-900 font-medium">Lenses</h3>
+              <p class="text-sm text-gray-500">Add/Edit Lense Types</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

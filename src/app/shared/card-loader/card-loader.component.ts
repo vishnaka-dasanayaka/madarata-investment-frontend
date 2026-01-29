@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: 'app-card-loader',
+  selector: "app-card-loader",
   standalone: false,
-  templateUrl: './card-loader.component.html',
-  styleUrl: './card-loader.component.css'
+  templateUrl: "./card-loader.component.html",
+  styleUrl: "./card-loader.component.css",
 })
-export class CardLoaderComponent {
-
-}
+export class CardLoaderComponent {}

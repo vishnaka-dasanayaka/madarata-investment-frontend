@@ -1,0 +1,54 @@
+<div class="card">
+  <p-editor [(ngModel)]="note" [style]="{ height: '200px' }" />
+  <button *ngIf="!edit_mode" (click)="addNote()" class="add_btn flex my-3">
+    Add Note
+  </button>
+  <div class="flex justify-start items-center gap-2">
+    <button *ngIf="edit_mode" (click)="updateNote()" class="add_btn flex my-3">
+      Update Note
+    </button>
+    <button
+      *ngIf="edit_mode"
+      (click)="cancelEdit()"
+      class="delete_btn flex my-3"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
+
+<div
+  *ngFor="let item of notes"
+  class="flex items-center mb-3 justify-between bg-gray-100 p-3 min-h-[5rem] rounded-lg"
+>
+  <!-- Left section: Note content -->
+  <div class="flex flex-col items-start justify-around">
+    <h6 class="font-medium text-gray-800">
+      <span [innerHTML]="htmlSanitize(item?.note)"></span>
+    </h6>
+    <p class="text-[12px] text-gray-600 mt-1">
+      <span class="text-[10px]">Created By </span
+      >{{ item?.created_by?.firstname }} {{ item?.created_by?.lastname }} •
+      {{ item?.created_on | date : "medium" }}
+    </p>
+    <p *ngIf="item.updated_on" class="text-[12px] text-gray-600 mt-1">
+      <span class="text-[10px]">Updated By </span
+      >{{ item?.updated_by?.firstname }} {{ item?.updated_by?.lastname }} •
+      {{ item?.updated_on | date : "medium" }}
+    </p>
+  </div>
+  <div>
+    <button
+      (click)="onClickUpdateButton(item.id, item.note)"
+      class="btn mr-2 btn-outline-warning"
+    >
+      <i class="fa-solid fa-pen"></i>
+    </button>
+    <button
+      (click)="updateNoteStatus(item.id, -2)"
+      class="btn btn-outline-danger"
+    >
+      <i class="fa-solid fa-trash-can"></i>
+    </button>
+  </div>
+</div>
