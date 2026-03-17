@@ -63,7 +63,7 @@
       <input
         type="text"
         [(ngModel)]="keyword"
-        class="w-full px-3 py-2 border border-gray-300 placeholder:opacity-50 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+        class="w-full px-3 py-2 border border-gray-300 placeholder:opacity-90 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
         placeholder="🔍 Search Permission"
         (ngModelChange)="searchPermission()"
       />
@@ -162,7 +162,7 @@
                 class="text-xs font-semibold px-3 py-1 rounded-full"
                 [ngClass]="{
                   'bg-green-100 text-green-700': perm.status,
-                  'bg-red-100 text-red-600': !perm.status
+                  'bg-red-100 text-red-600': !perm.status,
                 }"
               >
                 {{ perm.status ? "ENABLED" : "DISABLED" }}
@@ -178,7 +178,7 @@
                   [disabled]="block_switch"
                 />
                 <div
-                  class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-[#ff820d] transition-all"
+                  class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-primary transition-all"
                 ></div>
                 <div
                   class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5 shadow"

@@ -1,32 +1,3 @@
-<!-- <button
-  class="fixed top-3 text-white left-4 z-50 p-2 lg:hidden"
-  (click)="isSidebarOpen = !isSidebarOpen"
->
-  <i class="fa-solid fa-bars fa-xl"></i>
-</button>
-<div
-  class="fixed left-0 w-[200px] lg:w-[110px] pb-3 lg:h-full top-12 md:top-12 z-100 transform transition-transform duration-300 ease-in-out backdrop-blur-md bg-[#ff820d]/20 dark:bg-[#ff820d]/10 border border-[#ff820d]/30 dark:border-[#ff820d]/20 shadow-xl rounded-tr-2xl rounded-br-2xl"
-  [ngClass]="{
-    '-translate-x-full': !isSidebarOpen,
-    'translate-x-0': isSidebarOpen,
-    'lg:translate-x-0': true
-  }"
->
-  <div class="flex mt-6 pl-4 pr-2 flex-col gap-2">
-    <h2
-      *ngFor="let item of menuItems"
-      class="text-xs py-3 px-3 rounded-md cursor-pointer transition-all duration-200"
-      [ngClass]="{
-        'bg-[#ff820d] text-white shadow-md': currentPath === item.path,
-        'hover:bg-[#ff820d]/30 hover:text-white': currentPath !== item.path
-      }"
-      (click)="onClickMenu(item.path, item.value)"
-    >
-      {{ item.label }}
-    </h2>
-  </div>
-</div> -->
-
 <button
   class="fixed top-3 text-white left-4 z-50 p-2 lg:hidden"
   (click)="isSidebarOpen = !isSidebarOpen"
@@ -34,19 +5,14 @@
   <i class="fa-solid fa-bars fa-xl"></i>
 </button>
 <div
-  class="fixed left-0 w-[250px] lg:w-[220px] pb-6 lg:h-full top-16 md:top-16 z-40 transform transition-transform duration-300 ease-in-out backdrop-blur-md bg-[#ff820d]/10 dark:bg-[#1a1a1a]/90 border-r border-[#ff820d]/20 dark:border-[#ff820d]/10 shadow-xl"
+  class="fixed left-0 w-[250px] lg:w-[220px] pb-6 lg:h-full top-16 md:top-16 z-40 transform transition-transform duration-300 ease-in-out backdrop-blur-md bg-primary/10 dark:bg-[#1a1a1a]/90 border-r border-primary/20 dark:border-primary/10 shadow-xl"
   [ngClass]="{
     '-translate-x-full': !isSidebarOpen,
     'translate-x-0': isSidebarOpen,
-    'lg:translate-x-0': true
+    'lg:translate-x-0': true,
   }"
 >
   <div class="flex flex-col h-[92vh]">
-    <!-- Logo/Brand Area -->
-    <!-- <div class="px-6 py-4 border-b border-[#ff820d]/10">
-      <h2 class="text-xl font-bold text-[#ff820d]">ClinicPro</h2>
-    </div> -->
-
     <!-- Main Menu Items -->
     <div class="flex-1 overflow-y-auto px-4 py-4 space-y-6">
       <!-- Dashboard -->
@@ -59,9 +25,9 @@
         <div
           class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
           [ngClass]="{
-            'bg-[#ff820d] text-white': currentPath === '/home',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/home'
+            'bg-primary text-white': currentPath === '/home',
+            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
+              currentPath !== '/home',
           }"
           (click)="onClickMenu('/home', 4)"
         >
@@ -75,103 +41,20 @@
         <h3
           class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
         >
-          Patients
+          Customers
         </h3>
         <div
           class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
           [ngClass]="{
-            'bg-[#ff820d] text-white':
+            'bg-primary text-white':
               currentPath === '/patients/patient-summary',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/patients/patient-summary'
+            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
+              currentPath !== '/patients/patient-summary',
           }"
           (click)="onClickMenu('/patients/patient-summary', 7)"
         >
-          <i class="fa-solid fa-user-injured w-5 mr-3"></i>
-          <span class="text-sm font-medium">Patients</span>
-        </div>
-      </div>
-
-      <!-- Billing Section -->
-      <div>
-        <h3
-          class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
-        >
-          Billing
-        </h3>
-        <div
-          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200 mb-1"
-          [ngClass]="{
-            'bg-[#ff820d] text-white': currentPath === '/orders/order-summary',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/orders/order-summary'
-          }"
-          (click)="onClickMenu('/orders/order-summary', 4)"
-        >
-          <i class="fa-solid fa-cart-shopping w-5 mr-3"></i>
-          <span class="text-sm font-medium">Orders</span>
-        </div>
-        <div
-          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200 mb-1"
-          [ngClass]="{
-            'bg-[#ff820d] text-white':
-              currentPath === '/invoices/invoice-summary',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/invoices/invoice-summary'
-          }"
-          (click)="onClickMenu('/invoices/invoice-summary', 4)"
-        >
-          <i class="fa-solid fa-file-invoice-dollar w-5 mr-3"></i>
-          <span class="text-sm font-medium">Invoices</span>
-        </div>
-
-        <div
-          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200 mb-1"
-          [ngClass]="{
-            'bg-[#ff820d] text-white':
-              currentPath === '/c-invoices/c-invoice-summary',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/c-invoices/c-invoice-summary'
-          }"
-          (click)="onClickMenu('/c-invoices/c-invoice-summary', 4)"
-        >
-          <i class="fa-solid fa-stethoscope w-5 mr-3"></i>
-          <span class="text-sm font-medium">Cons. Invoices</span>
-        </div>
-        <div
-          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
-          [ngClass]="{
-            'bg-[#ff820d] text-white':
-              currentPath === '/payments/payment-summary',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/payments/payment-summary'
-          }"
-          (click)="onClickMenu('/payments/payment-summary', 4)"
-        >
-          <i class="fa-solid fa-credit-card w-5 mr-3"></i>
-          <span class="text-sm font-medium">Payments</span>
-        </div>
-      </div>
-
-      <!-- Settings Section -->
-      <div>
-        <h3
-          class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
-        >
-          Statistics
-        </h3>
-        <div
-          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
-          [ngClass]="{
-            'bg-[#ff820d] text-white':
-              currentPath === '/reports/report-summary',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/reports/report-summary'
-          }"
-          (click)="onClickMenu('/reports/report-summary', 4)"
-        >
-          <i class="fa-solid fa-file-excel w-5 mr-3"></i>
-          <span class="text-sm font-medium">Reports</span>
+          <i class="fa-solid fa-people-group w-5 mr-3"></i>
+          <span class="text-sm font-medium">Customers</span>
         </div>
       </div>
 
@@ -185,10 +68,9 @@
         <div
           class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
           [ngClass]="{
-            'bg-[#ff820d] text-white':
-              currentPath === '/settings/settings-menu',
-            'hover:bg-[#ff820d]/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/settings/settings-menu'
+            'bg-primary text-white': currentPath === '/settings/settings-menu',
+            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
+              currentPath !== '/settings/settings-menu',
           }"
           (click)="onClickMenu('/settings/settings-menu', 4)"
         >
@@ -199,10 +81,10 @@
     </div>
 
     <!-- User Profile/Logout -->
-    <div class="px-4 py-3 border-t border-[#ff820d]/10">
+    <div class="px-4 py-3 border-t border-pribg-primary/10">
       <div class="flex items-center space-x-3">
         <div
-          class="w-8 h-8 rounded-full bg-[#ff820d] flex items-center justify-center text-white"
+          class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white"
         >
           <i class="fa-solid fa-user text-sm"></i>
         </div>
