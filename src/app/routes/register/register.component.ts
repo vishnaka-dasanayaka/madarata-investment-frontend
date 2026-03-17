@@ -21,7 +21,7 @@ export class RegisterComponent {
     private authService: AuthService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     this.signInForm = this.fb.group({
       firstName: ["", Validators.required],
@@ -56,7 +56,7 @@ export class RegisterComponent {
       const controls = this.signInForm.controls;
 
       const hasEmptyField = Object.values(controls).some((control) =>
-        control.hasError("required")
+        control.hasError("required"),
       );
 
       if (hasEmptyField) {
@@ -97,9 +97,12 @@ export class RegisterComponent {
     try {
       this.toastr.success(
         "Sign-up successful! Check your email for confirmation.",
-        "Done"
+        "Done",
       );
-      this.router.navigate(["/verify"]);
+
+      if (isPlatformBrowser(this.platformId)) {
+        this.router.navigate(["/verify"]);
+      }
     } catch (err: any) {
       this.toastr.error(err.message || "Sign-up failed", "Error");
       console.error("Cognito sign-up error:", err);

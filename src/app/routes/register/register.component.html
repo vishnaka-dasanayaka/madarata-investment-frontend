@@ -5,7 +5,7 @@
 </div>
 
 <div
-  class="h-[850px] sm:h-[830px] py-3 bg-gradient-to-r from-[#001960] via-[#325EDA] to-[#001960]"
+  class="h-212.5 sm:h-207.5 py-3 bg-linear-to-r from-[#001960] via-[#325EDA] to-[#001960]"
 >
   <div class="w-full h-full bg-white p-3">
     <div
@@ -15,16 +15,27 @@
         class="bg-white h-full w-[505px] rounded-[42px] px-[22.5px] py-[10px] flex flex-col items-center gap-4"
       >
         <div class="w-full flex flex-col items-center">
-          <div class="bg-[url('/auth/logo.png')] bg-cover bg-center bg-no-repeat w-[232px] h-[156px]"></div>
-          <h1 class="text-3xl font-bold leading-9 text-center text-[#001960] sm:mt-3">
+          <div
+            class="bg-[url('/auth/logo.png')] bg-cover bg-center bg-no-repeat w-[232px] h-[156px]"
+          ></div>
+          <h1
+            class="text-3xl font-bold leading-9 text-center text-[#001960] sm:mt-3"
+          >
             Create a new account
           </h1>
           <p class="text-[14px] mt-2">
-            Or <span [routerLink]="'/login'" class="text-[#325EDA] cursor-pointer">sign in to your account</span>
+            Or
+            <span [routerLink]="'/login'" class="text-[#325EDA] cursor-pointer"
+              >sign in to your account</span
+            >
           </p>
         </div>
         <div class="w-full flex flex-col gap-3">
-          <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-1">
+          <form
+            [formGroup]="signInForm"
+            (ngSubmit)="onSubmit()"
+            class="flex flex-col gap-1"
+          >
             <input
               formControlName="firstName"
               class="appearance-none border border-gray-300 rounded-t w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -62,11 +73,17 @@
               placeholder="Confirm Password"
             />
             <label class="text-[#001960] flex">
-              <input formControlName="organizer" class="mr-2 leading-tight" type="checkbox" />
+              <input
+                formControlName="organizer"
+                class="mr-2 leading-tight"
+                type="checkbox"
+              />
               <span class="text-sm"> Organizer </span>
             </label>
             <div class="w-full flex justify-center">
-              <span class="text-sm text-[#325EDA] cursor-pointer"> Terms and conditions </span>
+              <span class="text-sm text-[#325EDA] cursor-pointer">
+                Terms and conditions
+              </span>
             </div>
             <div class="w-full flex flex-col gap-3">
               <button
