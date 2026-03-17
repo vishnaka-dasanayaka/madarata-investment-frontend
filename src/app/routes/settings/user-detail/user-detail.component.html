@@ -24,7 +24,7 @@
     </div>
     <div *ngIf="user?.id != 1">
       <button
-        *hasPermission="[[4], sysuser]"
+        *hasPermission="[[3], sysuser]"
         [disabled]="user?.disabled == 0"
         class="mr-2 btn-lg btn-success"
         [ngClass]="{ 'btn-disable': user?.disabled == 0 }"
@@ -33,7 +33,7 @@
         <i class="fa-solid fa-circle-check mr-2"></i>Enable
       </button>
       <button
-        *hasPermission="[[4], sysuser]"
+        *hasPermission="[[3], sysuser]"
         [disabled]="user?.disabled == 1"
         [ngClass]="{ 'btn-disable': user?.disabled == 1 }"
         class="mr-2 btn-lg btn-danger"

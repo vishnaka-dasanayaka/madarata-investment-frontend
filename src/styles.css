@@ -1,7 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@config "../tailwind.config.js";
+
 /* @plugin "tailwindcss-primeui"; */
+
+/* primary color #001568 */
 
 /* PRINT INVOICE IN B5 */
 
@@ -142,7 +146,7 @@ body {
 
 .add_btn {
   color: white;
-  background-color: #ff820d;
+  background-color: #001568;
   padding: 10px 20px;
   border-radius: 12px;
   font-weight: 600;
@@ -299,12 +303,22 @@ body {
 }
 
 .btn-outline-warning {
-  border: 1px orange solid;
+  border: 1px #ff820d solid;
   color: #ff820d;
 }
 
 .btn-outline-warning:hover {
   background-color: #ff820d;
+  color: white;
+}
+
+.btn-outline-view {
+  border: 1px #001568 solid;
+  color: #001568;
+}
+
+.btn-outline-view:hover {
+  background-color: #001568;
   color: white;
 }
 

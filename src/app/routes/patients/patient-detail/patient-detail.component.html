@@ -93,7 +93,7 @@
           <div>
             <p class="text-sm text-gray-500">Date of Birth</p>
             <p class="font-medium">
-              {{ patient?.dob | date : "mediumDate" }}
+              {{ patient?.dob | date: "mediumDate" }}
               <span *ngIf="patient?.dob == null">[NOT UPDATED YET]</span>
             </p>
           </div>
@@ -175,7 +175,7 @@
           <div>
             <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
-              {{ patient?.created_on | date : "mediumDate" }}
+              {{ patient?.created_on | date: "mediumDate" }}
             </p>
           </div>
         </div>
@@ -285,7 +285,7 @@
                             {{ rowData?.data?.signed_by }}
                           </div>
                           <div class="text-start" *ngSwitchCase="'created_on'">
-                            {{ rowData?.created_on | date : "mediumDate" }}
+                            {{ rowData?.created_on | date: "mediumDate" }}
                           </div>
                           <div class="text-start" *ngSwitchCase="'created_by'">
                             {{ rowData?.created_by?.firstname }}
@@ -371,7 +371,7 @@
                           </div>
 
                           <div class="text-start" *ngSwitchCase="'date'">
-                            {{ rowData[col.field] | date : "mediumDate" }}
+                            {{ rowData[col.field] | date: "mediumDate" }}
                           </div>
 
                           <div *ngSwitchCase="'model'">
@@ -419,7 +419,7 @@
                           </div>
 
                           <div *ngSwitchCase="'price'">
-                            LKR {{ rowData?.discounted_price | number : "0.2" }}
+                            LKR {{ rowData?.discounted_price | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">
@@ -513,7 +513,7 @@
                           </div>
 
                           <div class="text-start" *ngSwitchCase="'date'">
-                            {{ rowData?.created_on | date : "mediumDate" }}
+                            {{ rowData?.created_on | date: "mediumDate" }}
                           </div>
 
                           <div class="text-left" *ngSwitchCase="'status'">
@@ -539,7 +539,7 @@
                           </div>
 
                           <div *ngSwitchCase="'price'">
-                            LKR {{ rowData?.grandtotal | number : "0.2" }}
+                            LKR {{ rowData?.grandtotal | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">
@@ -633,7 +633,7 @@
                           </div>
 
                           <div class="text-start" *ngSwitchCase="'date'">
-                            {{ rowData?.received_on | date : "mediumDate" }}
+                            {{ rowData?.received_on | date: "mediumDate" }}
                           </div>
 
                           <div class="text-left" *ngSwitchCase="'status'">
@@ -659,7 +659,7 @@
                           </div>
 
                           <div *ngSwitchCase="'amount'">
-                            LKR {{ rowData?.amount | number : "0.2" }}
+                            LKR {{ rowData?.amount | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">

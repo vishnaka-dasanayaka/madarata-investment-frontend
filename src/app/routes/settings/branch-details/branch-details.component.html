@@ -20,7 +20,7 @@
       <h1 class="text-xl font-semibold">Branch Details</h1>
       <h5 class="text-xs font-thin">{{ branch?.code }}</h5>
     </div>
-    <div *hasPermission="[[11], sysuser]">
+    <div *hasPermission="[[6], sysuser]">
       <button
         [disabled]="branch?.status == 0"
         class="mr-2 btn-lg btn-danger"
@@ -34,7 +34,7 @@
         [disabled]="branch?.status == 1"
         class="mr-2 btn-lg btn-success"
         [ngClass]="{
-          'btn-disable': branch?.status == 1
+          'btn-disable': branch?.status == 1,
         }"
         (click)="updateStatus(1)"
       >
@@ -156,7 +156,7 @@
           <div>
             <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
-              {{ branch?.created_on | date : "mediumDate" }}
+              {{ branch?.created_on | date: "mediumDate" }}
             </p>
           </div>
         </div>

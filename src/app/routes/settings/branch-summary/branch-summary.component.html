@@ -46,7 +46,7 @@
           'nic_or_passport_no',
           'address',
           'contact_no',
-          'email'
+          'email',
         ]"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -134,7 +134,7 @@
               </div>
 
               <div *ngSwitchCase="'created_on'">
-                {{ rowData[col.field] | date : "mediumDate" }}
+                {{ rowData[col.field] | date: "mediumDate" }}
               </div>
 
               <div *ngSwitchCase="'status'">
@@ -159,7 +159,7 @@
 
               <div *ngSwitchCase="'actions'">
                 <button
-                  class="btn btn-outline-warning"
+                  class="btn btn-outline-view"
                   routerLink="/settings/branch-details/{{ rowData.id }}"
                 >
                   View
