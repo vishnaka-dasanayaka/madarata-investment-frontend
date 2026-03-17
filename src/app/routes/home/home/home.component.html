@@ -8,9 +8,9 @@
         Welcome back, {{ sysuser?.firstname }} {{ sysuser?.lastname }} !
       </span>
 
-      <span class="mx-2">•</span>
+      <span class="hidden mx-2">•</span>
 
-      <span>
+      <span class="hidden">
         <p-skeleton
           *ngIf="!data_loaded"
           width="100px"
@@ -19,14 +19,18 @@
 
         <span *ngIf="data_loaded">
           Last login :
-          {{ last_login?.timestamp | date : "medium" }}
+          {{ last_login?.timestamp | date: "medium" }}
         </span>
       </span>
     </div>
   </div>
 
+  <h1>Login succeed</h1>
+
   <!-- Stats Grid -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+  <div
+    class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"
+  >
     <!-- Text Blocks Card -->
     <div
       class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-orange-500 border-l-5"
@@ -70,7 +74,7 @@
             [ngClass]="{
               'text-green-600': patient_trend?.trend === 'increase',
               'text-red-600': patient_trend?.trend === 'decrease',
-              'text-cyan-600': patient_trend?.trend === 'nochange'
+              'text-cyan-600': patient_trend?.trend === 'nochange',
             }"
           >
             {{ patient_trend?.trend === "decrease" ? "-" : "+" }}
@@ -123,7 +127,7 @@
             [ngClass]="{
               'text-green-600': order_trend?.trend === 'increase',
               'text-red-600': order_trend?.trend === 'decrease',
-              'text-cyan-600': order_trend?.trend === 'nochange'
+              'text-cyan-600': order_trend?.trend === 'nochange',
             }"
           >
             {{ order_trend?.trend === "decrease" ? "-" : "+" }}
@@ -176,7 +180,7 @@
             [ngClass]="{
               'text-green-600': invoice_trend?.trend === 'increase',
               'text-red-600': invoice_trend?.trend === 'decrease',
-              'text-cyan-600': invoice_trend?.trend === 'nochange'
+              'text-cyan-600': invoice_trend?.trend === 'nochange',
             }"
           >
             {{ invoice_trend?.trend === "decrease" ? "-" : "+" }}
@@ -198,7 +202,7 @@
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
             ></span>
             <span *ngIf="data_loaded">
-              LKR {{ inventory_value.buying_value | number : "2.2" }}
+              LKR {{ inventory_value.buying_value | number: "2.2" }}
             </span>
           </p>
         </div>
@@ -222,7 +226,7 @@
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
             ></span>
             <span *ngIf="data_loaded">
-              LKR {{ inventory_value.selling_value | number : "2.2" }}
+              LKR {{ inventory_value.selling_value | number: "2.2" }}
             </span>
           </p>
         </div>
@@ -236,7 +240,7 @@
   </div>
 
   <!-- Secondary Stats Row -->
-  <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-10">
+  <div class="hidden grid grid-cols-2 md:grid-cols-6 gap-4 mb-10">
     <div class="bg-white rounded-lg p-4 text-center border border-gray-100">
       <p class="text-gray-500 text-sm">Suppliers</p>
       <p class="text-2xl font-bold text-gray-800 mt-1">
