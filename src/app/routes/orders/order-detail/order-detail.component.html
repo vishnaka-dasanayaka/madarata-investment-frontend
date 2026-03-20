@@ -26,7 +26,7 @@
         [disabled]="order?.status == -2"
         class="mr-2 btn-lg btn-danger"
         [ngClass]="{
-          'btn-disable': order?.status == -2
+          'btn-disable': order?.status == -2,
         }"
         (click)="updateStatus(-2)"
       >
@@ -35,7 +35,7 @@
       <button
         [disabled]="order?.status == 0"
         [ngClass]="{
-          'btn-disable': order?.status == 0
+          'btn-disable': order?.status == 0,
         }"
         class="mr-2 btn-lg btn-primary"
         (click)="updateStatus(0)"
@@ -47,7 +47,7 @@
         [disabled]="order?.status == 2"
         class="mr-2 btn-lg btn-cyan"
         [ngClass]="{
-          'btn-disable': order?.status == 2
+          'btn-disable': order?.status == 2,
         }"
         (click)="updateStatus(2)"
       >
@@ -57,7 +57,7 @@
         [disabled]="order?.status == 4"
         class="mr-2 btn-lg btn-orange"
         [ngClass]="{
-          'btn-disable': order?.status == 4
+          'btn-disable': order?.status == 4,
         }"
         (click)="updateStatus(4)"
       >
@@ -68,7 +68,7 @@
         [disabled]="order?.status == 6"
         class="mr-2 btn-lg btn-teal"
         [ngClass]="{
-          'btn-disable': order?.status == 6
+          'btn-disable': order?.status == 6,
         }"
         (click)="updateStatus(6)"
       >
@@ -78,7 +78,7 @@
         [disabled]="order?.status == 10"
         class="mr-2 btn-lg btn-success"
         [ngClass]="{
-          'btn-disable': order?.status == 10
+          'btn-disable': order?.status == 10,
         }"
         (click)="updateStatus(10)"
       >
@@ -129,7 +129,7 @@
           <div>
             <p class="text-sm text-gray-500">Date</p>
             <p class="font-medium">
-              {{ order?.date | date : "mediumDate" }}
+              {{ order?.date | date: "mediumDate" }}
             </p>
           </div>
           <div>
@@ -216,25 +216,25 @@
           <div>
             <p class="text-sm text-gray-500">Frame Price</p>
             <p class="font-medium text-teal-600">
-              LKR {{ order?.frame_price | number : "0.2" }}
+              LKR {{ order?.frame_price | number: "0.2" }}
             </p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Frame Discount</p>
             <p class="font-medium text-teal-600">
-              LKR {{ order?.frame_discount | number : "0.2" }}
+              LKR {{ order?.frame_discount | number: "0.2" }}
             </p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Lense Price</p>
             <p class="font-medium text-cyan-500">
-              LKR {{ order?.lense_price | number : "0.2" }}
+              LKR {{ order?.lense_price | number: "0.2" }}
             </p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Lense Discount</p>
             <p class="font-medium text-cyan-500">
-              LKR {{ order?.lense_discount | number : "0.2" }}
+              LKR {{ order?.lense_discount | number: "0.2" }}
             </p>
           </div>
         </div>
@@ -242,7 +242,7 @@
           <div>
             <p class="text-sm text-gray-500">Final Price</p>
             <p class="font-medium text-[#ff820d]">
-              LKR {{ order?.discounted_price | number : "0.2" }}
+              LKR {{ order?.discounted_price | number: "0.2" }}
             </p>
           </div>
 
@@ -257,7 +257,7 @@
           <div>
             <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
-              {{ order?.created_on | date : "mediumDate" }}
+              {{ order?.created_on | date: "mediumDate" }}
             </p>
           </div>
 
@@ -313,7 +313,7 @@
       <div class="card">
         <p-tabs value="0">
           <p-tablist>
-            <p-tab value="0">Notes</p-tab>
+            <p-tab value="0">Remarks</p-tab>
             <p-tab value="1">Invoices</p-tab>
             <p-tab value="2">Payments</p-tab>
           </p-tablist>
@@ -385,7 +385,7 @@
                           </div>
 
                           <div class="text-start" *ngSwitchCase="'date'">
-                            {{ rowData?.created_on | date : "mediumDate" }}
+                            {{ rowData?.created_on | date: "mediumDate" }}
                           </div>
 
                           <div class="text-left" *ngSwitchCase="'status'">
@@ -411,7 +411,7 @@
                           </div>
 
                           <div *ngSwitchCase="'price'">
-                            LKR {{ rowData?.grandtotal | number : "0.2" }}
+                            LKR {{ rowData?.grandtotal | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">
@@ -525,7 +525,7 @@
                           </div>
 
                           <div class="text-start" *ngSwitchCase="'date'">
-                            {{ rowData?.received_on | date : "mediumDate" }}
+                            {{ rowData?.received_on | date: "mediumDate" }}
                           </div>
 
                           <div class="text-left" *ngSwitchCase="'status'">
@@ -551,7 +551,7 @@
                           </div>
 
                           <div *ngSwitchCase="'amount'">
-                            LKR {{ rowData?.amount | number : "0.2" }}
+                            LKR {{ rowData?.amount | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">
@@ -742,7 +742,7 @@
                 'bg-cyan-500': item.to_status === '2',
                 'bg-orange-500': item.to_status === '4',
                 'bg-teal-700': item.to_status === '6',
-                'bg-green-700': item.to_status === '10'
+                'bg-green-700': item.to_status === '10',
               }"
             ></div>
 
@@ -755,7 +755,7 @@
                 'border-cyan-200 bg-cyan-50': item.to_status === '2',
                 'border-orange-200 bg-orange-50': item.to_status === '4',
                 'border-teal-200 bg-teal-50': item.to_status === '6',
-                'border-green-200 bg-green-50': item.to_status === '10'
+                'border-green-200 bg-green-50': item.to_status === '10',
               }"
             >
               <div class="flex flex-col">
@@ -767,7 +767,7 @@
                     'text-cyan-700': item.to_status === '2',
                     'text-orange-700': item.to_status === '4',
                     'text-teal-700': item.to_status === '6',
-                    'text-green-700': item.to_status === '10'
+                    'text-green-700': item.to_status === '10',
                   }"
                 >
                   {{ getStatusLabel(item.from_status) }} →
@@ -779,7 +779,7 @@
                   {{ item.changed_by?.lastname }}
                 </p>
                 <span class="text-xs text-gray-500 mt-1">{{
-                  item.changed_on | date : "MMM d, y, h:mm a"
+                  item.changed_on | date: "MMM d, y, h:mm a"
                 }}</span>
               </div>
             </div>
