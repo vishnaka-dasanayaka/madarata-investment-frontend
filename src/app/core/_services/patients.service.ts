@@ -20,17 +20,6 @@ export class PatientsService {
     return throwError(() => error); // This is the correct way in RxJS 7+
   }
 
-  createPatient(obj: any) {
-    let APIurl = this.BaseAPIurl + "create-patient";
-
-    return this.http.post<any>(APIurl, obj).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError(this.handleError)
-    );
-  }
-
   updatePatient(obj: any) {
     let APIurl = this.BaseAPIurl + "edit-patient";
 
@@ -38,40 +27,7 @@ export class PatientsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
-    );
-  }
-
-  getAllPatients(obj: any) {
-    let APIurl = this.BaseAPIurl + "get-all-paged-patients";
-
-    return this.http.post<any>(APIurl, obj).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError(this.handleError)
-    );
-  }
-
-  getPatient(obj: any) {
-    let APIurl = this.BaseAPIurl + "get-patient";
-
-    return this.http.post<any>(APIurl, obj).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError(this.handleError)
-    );
-  }
-
-  updatePatientStatus(obj: any) {
-    let APIurl = this.BaseAPIurl + "update-patient-status";
-
-    return this.http.patch<any>(APIurl, obj).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -81,7 +37,7 @@ export class PatientsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -92,7 +48,7 @@ export class PatientsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -103,7 +59,7 @@ export class PatientsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -114,7 +70,7 @@ export class PatientsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 }

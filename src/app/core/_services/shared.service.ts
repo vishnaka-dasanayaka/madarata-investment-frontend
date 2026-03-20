@@ -194,31 +194,31 @@ export class SharedService {
   //   return this.edit_supplier.asObservable();
   // }
 
-  // Patients
+  // Customer
 
-  private add_patient = new Subject<void>();
-  private edit_patient = new Subject<void>();
-  private patient_data: any = undefined;
+  private add_customer = new Subject<void>();
+  private edit_customer = new Subject<void>();
+  private customer_data: any = undefined;
 
-  setPatientData(data: any) {
-    this.patient_data = data;
+  setCustomerData(data: any) {
+    this.customer_data = data;
   }
-  openAddPatientModal() {
-    this.add_patient.next();
+  openAddCustomerModal() {
+    this.add_customer.next();
   }
-  getAddPatientClickEvent(): Observable<any> {
-    return this.add_patient.asObservable();
+  getAddCustomerClickEvent(): Observable<any> {
+    return this.add_customer.asObservable();
   }
-  getPatientData(): any {
-    return this.patient_data;
-  }
-
-  openEditPatientModal() {
-    this.edit_patient.next();
+  getCustomerData(): any {
+    return this.customer_data;
   }
 
-  getEditPatientClickEvent(): Observable<any> {
-    return this.edit_patient.asObservable();
+  openEditCustomerModal() {
+    this.edit_customer.next();
+  }
+
+  getEditPCustomerClickEvent(): Observable<any> {
+    return this.edit_customer.asObservable();
   }
 
   // Brand

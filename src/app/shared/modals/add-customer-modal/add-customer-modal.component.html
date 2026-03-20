@@ -1,0 +1,293 @@
+<!-- Modal Backdrop -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 bg-black/50 z-100 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto z-50">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add Customer</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <form
+        [formGroup]="valForm"
+        (ngSubmit)="submitForm(valForm.value)"
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Title
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-select
+              [options]="title_list"
+              formControlName="title"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a title"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['title'].hasError('required') &&
+                (valForm.controls['title'].dirty ||
+                  valForm.controls['title'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+          <div></div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Initials
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="initials"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['initials'].hasError('required') &&
+                (valForm.controls['initials'].dirty ||
+                  valForm.controls['initials'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Surname / Family Name
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="surname"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['surname'].hasError('required') &&
+                (valForm.controls['surname'].dirty ||
+                  valForm.controls['surname'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Given Names (for Initials)
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="given_name"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['given_name'].hasError('required') &&
+                (valForm.controls['given_name'].dirty ||
+                  valForm.controls['given_name'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Phone
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <input
+              type="phone"
+              formControlName="phone"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['phone'].hasError('required') &&
+                (valForm.controls['phone'].dirty ||
+                  valForm.controls['phone'].touched)
+              "
+              >This field is required</span
+            >
+
+            <span
+              class="text-orange-500 text-xs"
+              *ngIf="valForm.controls['phone'].hasError('invalidPhone')"
+              >Phone number format is invalid</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >NIC
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <input
+              type="text"
+              formControlName="nic"
+              (input)="onNicChange()"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['nic'].hasError('required') &&
+                (valForm.controls['nic'].dirty ||
+                  valForm.controls['nic'].touched)
+              "
+              >This field is required</span
+            >
+            <span
+              class="text-orange-500 text-xs"
+              *ngIf="valForm.controls['nic'].hasError('invalidNIC')"
+              >NIC format is invalid</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Gender
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-select
+              [options]="gender_list"
+              formControlName="gender"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a gender"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['gender'].hasError('required') &&
+                (valForm.controls['gender'].dirty ||
+                  valForm.controls['gender'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Date of Birth
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-datepicker
+              formControlName="dob"
+              class="w-full"
+              [inputStyle]="{ width: '100%' }"
+              dateFormat="yy.mm.dd"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['dob'].hasError('required') &&
+                (valForm.controls['dob'].dirty ||
+                  valForm.controls['dob'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div></div>
+
+          <div class="col-span-2">
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Address
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <input
+              type="text"
+              formControlName="address_1"
+              placeholder="Line 1 - required"
+              class="w-full placeholder:text-gray-300 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['address_1'].hasError('required') &&
+                (valForm.controls['address_1'].dirty ||
+                  valForm.controls['address_1'].touched)
+              "
+              >This field is required</span
+            >
+            <input
+              type="text"
+              formControlName="address_2"
+              placeholder="Line 2 - required"
+              class="w-full px-3 py-2 placeholder:text-gray-300 border mt-1 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['address_2'].hasError('required') &&
+                (valForm.controls['address_2'].dirty ||
+                  valForm.controls['address_2'].touched)
+              "
+              >This field is required</span
+            >
+            <input
+              type="text"
+              formControlName="address_3"
+              placeholder="Line 3 - optional"
+              class="w-full px-3 py-2 placeholder:text-gray-300 border mt-1 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded text-white"
+            [ngClass]="
+              valForm.valid
+                ? 'bg-primary/70 hover:bg-primary'
+                : 'bg-primary/50 cursor-not-allowed'
+            "
+            [disabled]="valForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

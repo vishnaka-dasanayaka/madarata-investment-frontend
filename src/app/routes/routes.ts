@@ -15,12 +15,12 @@ import { MyTicketsComponent } from "./tickets/my-tickets/my-tickets.component";
 import { resetPasswordComponent } from "./reset-password/reset-password.component";
 import { OrgernizersModule } from "./orgernizers/orgernizers.module";
 import { SettingsModule } from "./settings/settings.module";
-import { PatientsModule } from "./patients/patients.module";
 import { OrdersModule } from "./orders/orders.module";
 import { InvoicesModule } from "./invoices/invoices.module";
 import { PaymentsModule } from "./payments/payments.module";
 import { CInvoicesModule } from "./c-invoices/c-invoices.module";
 import { ReportsModule } from "./reports/reports.module";
+import { CustomersModule } from "./customers/customers.module";
 
 export const routes: Routes = [
   {
@@ -35,11 +35,15 @@ export const routes: Routes = [
           import("./settings/settings.module").then((m) => SettingsModule),
       },
 
+      // Madarata ends
+
       {
-        path: "patients",
+        path: "customers",
         loadChildren: () =>
-          import("./patients/patients.module").then((m) => PatientsModule),
+          import("./customers/customers.module").then((m) => CustomersModule),
       },
+
+      // sethneth begins
 
       {
         path: "orders",
@@ -97,7 +101,7 @@ export const routes: Routes = [
         component: LayoutComponent,
         loadChildren: () =>
           import("./orgernizers/orgernizers.module").then(
-            (m) => OrgernizersModule
+            (m) => OrgernizersModule,
           ),
       },
 

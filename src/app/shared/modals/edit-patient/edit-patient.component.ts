@@ -30,14 +30,14 @@ export class EditPatientComponent {
   uniqueid: string = "";
   showModal: boolean = false;
 
-  clickEventSubscription: Subscription;
+  // clickEventSubscription: Subscription;
 
   constructor(
     private sharedService: SharedService,
     private fb: FormBuilder,
     private patientService: PatientsService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
   ) {
     this.valForm = this.fb.group({
       id: [null, Validators.required],
@@ -50,24 +50,23 @@ export class EditPatientComponent {
       description: [null],
     });
 
-    this.clickEventSubscription = this.sharedService
-      .getEditPatientClickEvent()
-      .subscribe(() => {
-        this.openModal();
-        this.generateUniqueKey();
-      });
+    // this.clickEventSubscription = this.sharedService
+    //   .getEditPatientClickEvent()
+    //   .subscribe(() => {
+    //     this.openModal();
+    //     this.generateUniqueKey();
+    //   });
   }
 
   ngOnInit(): void {}
 
   openModal() {
-    var data = this.sharedService.getPatientData();
-    this.valForm.patchValue(data);
-
-    if (data.dob) {
-      this.valForm.patchValue({ dob: new Date(data.dob) });
-    }
-    this.showModal = true;
+    // // var data = this.sharedService.getPatientData();
+    // this.valForm.patchValue(data);
+    // if (data.dob) {
+    //   this.valForm.patchValue({ dob: new Date(data.dob) });
+    // }
+    // this.showModal = true;
   }
 
   closeModal() {
@@ -110,7 +109,7 @@ export class EditPatientComponent {
         },
         (error) => {
           alert("API ERROR [ERRCODE:001]");
-        }
+        },
       );
     }
   }

@@ -1,12 +1,12 @@
-<section class="hidden">
-  <h6 class="text-xs mb-2">Patients > Patient Summary</h6>
+<section class="">
+  <h6 class="text-xs mb-2">Customers > Customer Summary</h6>
   <div class="flex items-end justify-between">
     <div>
-      <h1 class="text-xl font-semibold">Patient Summary</h1>
-      <h5 class="text-xs font-thin">List of Patients appear here</h5>
+      <h1 class="text-xl font-semibold">Customer Summary</h1>
+      <h5 class="text-xs font-thin">List of Customers appear here</h5>
     </div>
     <button (click)="openAddModal()" class="add_btn">
-      <i class="fa-solid fa-plus mr-2"></i>Add Patient
+      <i class="fa-solid fa-plus mr-2"></i>Add Customer
     </button>
   </div>
 
@@ -27,17 +27,10 @@
       <p-table
         #dt1
         [columns]="cols"
-        [value]="patients"
+        [value]="customers"
         [paginator]="true"
         [rows]="10"
-        [globalFilterFields]="[
-          'client_code',
-          'name',
-          'nic_or_passport_no',
-          'address',
-          'contact_no',
-          'email',
-        ]"
+        [globalFilterFields]="['code', 'name', 'phone', 'address', 'nic']"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [responsive]="false"
@@ -46,8 +39,8 @@
         [rowHover]="true"
         [rowsPerPageOptions]="[10, 25, 50]"
         [lazy]="true"
-        (onLazyLoad)="getAllPatients($event)"
-        [totalRecords]="no_of_patients"
+        (onLazyLoad)="getAllCustomers($event)"
+        [totalRecords]="no_of_customers"
         [sortOrder]="1"
       >
         <ng-template #caption>
@@ -68,7 +61,7 @@
           </div>
         </ng-template>
         <ng-template pTemplate="header" let-columns>
-          <tr class="bg-[#ff820d] text-white text-sm">
+          <tr class="bg-primary text-white text-sm">
             <th
               *ngFor="let col of columns"
               [pSortableColumn]="col.field"
@@ -98,8 +91,8 @@
             >
               <div *ngSwitchCase="'code'">
                 <a
-                  class="text-[#ff820d] font-medium hover:underline"
-                  routerLink="/patients/patient-details/{{ rowData.id }}"
+                  class="text-link font-medium hover:underline"
+                  routerLink="/customers/customer-details/{{ rowData.id }}"
                 >
                   {{ rowData[col.field] }}
                 </a>
@@ -107,10 +100,10 @@
 
               <div *ngSwitchCase="'name'">
                 <a
-                  class="text-[#ff820d] font-medium hover:underline"
-                  routerLink="/patients/patient-details/{{ rowData.id }}"
+                  class="text-link font-medium hover:underline"
+                  routerLink="/customers/customer-details/{{ rowData.id }}"
                 >
-                  {{ rowData?.name }}
+                  {{ rowData?.initials }} {{ rowData?.surname }}
                 </a>
               </div>
 
@@ -156,13 +149,13 @@
 
               <div *ngSwitchCase="'actions'">
                 <button
-                  class="btn btn-outline-warning"
-                  routerLink="/patients/patient-details/{{ rowData.id }}"
+                  class="btn btn-outline-view"
+                  routerLink="/customers/customer-details/{{ rowData.id }}"
                 >
                   View
                 </button>
                 <button
-                  class="btn btn-outline-gray ml-3"
+                  class="btn btn-outline-warning ml-3"
                   (click)="openEditModal(rowData)"
                 >
                   Edit
@@ -176,5 +169,6 @@
   </div>
 </section>
 
-<app-add-patient (parentFun)="getAllPatients()"> </app-add-patient>
-<app-edit-patient (parentFun)="getAllPatients()"> </app-edit-patient>
+<app-add-customer-modal (parentFun)="getAllCustomers()">
+</app-add-customer-modal>
+<!-- <app-edit-customer (parentFun)="getAllCustomers()"> </app-edit-customer> -->
