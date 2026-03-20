@@ -33,7 +33,7 @@
       <button
         [disabled]="payment?.status == 0 || payment?.status == -2"
         [ngClass]="{
-          'btn-disable': payment?.status == 0 || payment?.status == -2
+          'btn-disable': payment?.status == 0 || payment?.status == -2,
         }"
         class="mr-2 btn-lg btn-primary"
         (click)="updateStatus(0)"
@@ -45,7 +45,7 @@
         [disabled]="payment?.status == 2 || payment?.status == -2"
         class="mr-2 btn-lg btn-success"
         [ngClass]="{
-          'btn-disable': payment?.status == 2 || payment?.status == -2
+          'btn-disable': payment?.status == 2 || payment?.status == -2,
         }"
         (click)="updateStatus(2)"
       >
@@ -116,15 +116,13 @@
         <div class="space-y-4">
           <div>
             <p class="text-sm text-gray-500">Payment Amount</p>
-            <p class="font-medium">
-              LKR {{ payment?.amount | number : "0.2" }}
-            </p>
+            <p class="font-medium">LKR {{ payment?.amount | number: "0.2" }}</p>
           </div>
 
           <div>
             <p class="text-sm text-gray-500">Payment Date</p>
             <p class="font-medium">
-              {{ payment?.received_on | date : "mediumDate" }}
+              {{ payment?.received_on | date: "mediumDate" }}
             </p>
           </div>
         </div>
@@ -140,7 +138,7 @@
           <div>
             <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
-              {{ payment?.created_on | date : "mediumDate" }}
+              {{ payment?.created_on | date: "mediumDate" }}
             </p>
           </div>
         </div>
@@ -163,7 +161,7 @@
         <p-tabs value="0">
           <p-tablist>
             <p-tab value="0">Invoice</p-tab>
-            <p-tab value="1">Notes</p-tab>
+            <p-tab value="1">Remarks</p-tab>
           </p-tablist>
           <p-tabpanels>
             <p-tabpanel value="0">
@@ -220,21 +218,21 @@
                           <div *ngSwitchCase="'grandtotal'">
                             LKR
                             {{
-                              rowData?.invoice_id?.grandtotal | number : "0.2"
+                              rowData?.invoice_id?.grandtotal | number: "0.2"
                             }}
                           </div>
 
                           <div class="text-start" *ngSwitchCase="'openbalance'">
                             LKR
                             {{
-                              rowData?.invoice_id?.openbalance | number : "0.2"
+                              rowData?.invoice_id?.openbalance | number: "0.2"
                             }}
                           </div>
 
                           <div *ngSwitchCase="'paidamount'">
                             LKR
                             {{
-                              rowData?.invoice_id?.paidamount | number : "0.2"
+                              rowData?.invoice_id?.paidamount | number: "0.2"
                             }}
                           </div>
 
@@ -261,7 +259,7 @@
                           </div>
 
                           <div *ngSwitchCase="'total'" class="text-right">
-                            LKR {{ rowData?.discounted_price | number : "0.2" }}
+                            LKR {{ rowData?.discounted_price | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">

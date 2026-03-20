@@ -130,20 +130,18 @@
         <div class="space-y-4">
           <div>
             <p class="text-sm text-gray-500">Invoice Amount</p>
-            <p class="font-medium">
-              LKR {{ inv?.grandtotal | number : "0.2" }}
-            </p>
+            <p class="font-medium">LKR {{ inv?.grandtotal | number: "0.2" }}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Paid Amount</p>
             <p class="font-medium text-green-500">
-              LKR {{ inv?.paidamount | number : "0.2" }}
+              LKR {{ inv?.paidamount | number: "0.2" }}
             </p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Open Balance</p>
             <p class="font-medium text-red-500">
-              LKR {{ inv?.openbalance | number : "0.2" }}
+              LKR {{ inv?.openbalance | number: "0.2" }}
             </p>
           </div>
         </div>
@@ -159,7 +157,7 @@
           <div>
             <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
-              {{ inv?.created_on | date : "mediumDate" }}
+              {{ inv?.created_on | date: "mediumDate" }}
             </p>
           </div>
         </div>
@@ -182,7 +180,7 @@
         <p-tabs value="0">
           <p-tablist>
             <p-tab value="0">Invoice Items</p-tab>
-            <p-tab value="1">Notes</p-tab>
+            <p-tab value="1">Remarks</p-tab>
             <p-tab value="2">Payments</p-tab>
           </p-tablist>
           <p-tabpanels>
@@ -260,15 +258,13 @@
 
                           <div *ngSwitchCase="'unit_price'" class="text-right">
                             LKR
-                            {{
-                              rowData?.order_id?.frame_price | number : "0.2"
-                            }}
+                            {{ rowData?.order_id?.frame_price | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'discount'" class="text-right">
                             LKR
                             {{
-                              rowData?.order_id?.frame_discount | number : "0.2"
+                              rowData?.order_id?.frame_discount | number: "0.2"
                             }}
                           </div>
 
@@ -277,7 +273,7 @@
                             {{
                               rowData?.order_id?.frame_price -
                                 rowData?.order_id?.frame_discount
-                                | number : "0.2"
+                                | number: "0.2"
                             }}
                           </div>
 
@@ -327,15 +323,13 @@
 
                           <div *ngSwitchCase="'unit_price'" class="text-right">
                             LKR
-                            {{
-                              rowData?.order_id?.lense_price | number : "0.2"
-                            }}
+                            {{ rowData?.order_id?.lense_price | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'discount'" class="text-right">
                             LKR
                             {{
-                              rowData?.order_id?.lense_discount | number : "0.2"
+                              rowData?.order_id?.lense_discount | number: "0.2"
                             }}
                           </div>
 
@@ -344,7 +338,7 @@
                             {{
                               rowData?.order_id?.lense_price -
                                 rowData?.order_id?.lense_discount
-                                | number : "0.2"
+                                | number: "0.2"
                             }}
                           </div>
 
@@ -383,15 +377,15 @@
                           </div>
 
                           <div *ngSwitchCase="'unit_price'" class="text-right">
-                            LKR {{ rowData?.unit_price | number : "0.2" }}
+                            LKR {{ rowData?.unit_price | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'discount'" class="text-right">
-                            LKR {{ rowData?.discount | number : "0.2" }}
+                            LKR {{ rowData?.discount | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'total'" class="text-right">
-                            LKR {{ rowData?.discounted_price | number : "0.2" }}
+                            LKR {{ rowData?.discounted_price | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">
@@ -412,32 +406,32 @@
                   <div class="grid grid-cols-2">
                     <h1>Gross Total</h1>
                     <p class="font-medium text-right">
-                      LKR {{ inv?.grosstotal | number : "0.2" }}
+                      LKR {{ inv?.grosstotal | number: "0.2" }}
                     </p>
                   </div>
                   <div class="mt-2 grid grid-cols-2">
                     <h1>Discount</h1>
                     <p class="font-medium text-right">
-                      - LKR {{ inv?.discount | number : "0.2" }}
+                      - LKR {{ inv?.discount | number: "0.2" }}
                     </p>
                   </div>
                   <div class="grid mt-3 grid-cols-2">
                     <h1 class="text-xl">Grand Total</h1>
                     <p class="text-xl text-right">
-                      LKR {{ inv?.grandtotal | number : "0.2" }}
+                      LKR {{ inv?.grandtotal | number: "0.2" }}
                     </p>
                   </div>
                   <div class="mt-2 grid grid-cols-2">
                     <h1>Paid Amount</h1>
                     <p class="font-medium text-right text-green-500">
-                      LKR {{ inv?.paidamount | number : "0.2" }}
+                      LKR {{ inv?.paidamount | number: "0.2" }}
                     </p>
                   </div>
 
                   <div class="mt-2 grid grid-cols-2">
                     <h1>Open Balance</h1>
                     <p class="font-medium text-right text-red-500">
-                      LKR {{ inv?.openbalance | number : "0.2" }}
+                      LKR {{ inv?.openbalance | number: "0.2" }}
                     </p>
                   </div>
                 </div>
@@ -512,7 +506,7 @@
                           <div class="text-start" *ngSwitchCase="'date'">
                             {{
                               rowData.payment_id?.received_on
-                                | date : "mediumDate"
+                                | date: "mediumDate"
                             }}
                           </div>
 
@@ -540,7 +534,7 @@
 
                           <div *ngSwitchCase="'amount'">
                             LKR
-                            {{ rowData.payment_id?.amount | number : "0.2" }}
+                            {{ rowData.payment_id?.amount | number: "0.2" }}
                           </div>
 
                           <div *ngSwitchCase="'actions'">
@@ -601,7 +595,7 @@
       <div class="col-span-2">
         <p>{{ inv?.code }}</p>
         <p>{{ inv?.patient_id?.name }}</p>
-        <p>{{ inv?.created_on | date : "mediumDate" }}</p>
+        <p>{{ inv?.created_on | date: "mediumDate" }}</p>
         <p>
           {{ inv?.patient_id?.phone }}
           <span
@@ -663,15 +657,15 @@
           </td>
           <td class="border px-2 py-1 text-right">
             KR
-            {{ item?.order_id?.frame_price | number : "0.2" }}
+            {{ item?.order_id?.frame_price | number: "0.2" }}
           </td>
           <td class="border px-2 py-1 text-right">
-            {{ item?.order_id?.frame_discount | number : "0.2" }}
+            {{ item?.order_id?.frame_discount | number: "0.2" }}
           </td>
           <td class="border px-2 py-1 text-right">
             {{
               item?.order_id?.frame_price - item?.order_id?.frame_discount
-                | number : "0.2"
+                | number: "0.2"
             }}
           </td>
         </tr>
@@ -687,15 +681,15 @@
             </span>
           </td>
           <td class="border px-2 py-1 text-right">
-            {{ item?.order_id?.lense_price | number : "0.2" }}
+            {{ item?.order_id?.lense_price | number: "0.2" }}
           </td>
           <td class="border px-2 py-1 text-right">
-            {{ item?.order_id?.lense_discount | number : "0.2" }}
+            {{ item?.order_id?.lense_discount | number: "0.2" }}
           </td>
           <td class="border px-2 py-1 text-right">
             {{
               item?.order_id?.lense_price - item?.order_id?.lense_discount
-                | number : "0.2"
+                | number: "0.2"
             }}
           </td>
         </tr>
@@ -708,13 +702,13 @@
             {{ item?.description }}
           </td>
           <td class="border px-2 py-1 text-right">
-            {{ item?.unit_price | number : "0.2" }}
+            {{ item?.unit_price | number: "0.2" }}
           </td>
           <td class="border px-2 py-1 text-right">
-            {{ item?.discount | number : "0.2" }}
+            {{ item?.discount | number: "0.2" }}
           </td>
           <td class="border px-2 py-1 text-right">
-            {{ item.discounted_price | number : "0.2" }}
+            {{ item.discounted_price | number: "0.2" }}
           </td>
         </tr>
       </ng-container>
@@ -725,32 +719,32 @@
     <div class="grid grid-cols-2">
       <h1>Gross Total</h1>
       <p class="font-medium text-right">
-        LKR {{ inv?.grosstotal | number : "0.2" }}
+        LKR {{ inv?.grosstotal | number: "0.2" }}
       </p>
     </div>
     <div class="grid grid-cols-2">
       <h1>Discount</h1>
       <p class="font-medium text-right">
-        - LKR {{ inv?.discount | number : "0.2" }}
+        - LKR {{ inv?.discount | number: "0.2" }}
       </p>
     </div>
     <div class="grid grid-cols-2">
       <h1 class="text-lg">Grand Total</h1>
       <p class="text-lg text-right">
-        LKR {{ inv?.grandtotal | number : "0.2" }}
+        LKR {{ inv?.grandtotal | number: "0.2" }}
       </p>
     </div>
     <div class="grid grid-cols-2">
       <h1>Paid Amount</h1>
       <p class="font-medium text-right text-green-500">
-        LKR {{ inv?.paidamount | number : "0.2" }}
+        LKR {{ inv?.paidamount | number: "0.2" }}
       </p>
     </div>
 
     <div class="grid grid-cols-2">
       <h1>Open Balance</h1>
       <p class="font-medium text-right text-red-500">
-        LKR {{ inv?.openbalance | number : "0.2" }}
+        LKR {{ inv?.openbalance | number: "0.2" }}
       </p>
     </div>
   </div>

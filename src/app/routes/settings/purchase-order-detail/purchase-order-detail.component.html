@@ -91,7 +91,7 @@
           <div>
             <p class="text-sm text-gray-500">Amount</p>
             <p class="font-medium">
-              LKR {{ purchase_order?.amount | number : "1.2-2" }}
+              LKR {{ purchase_order?.amount | number: "1.2-2" }}
             </p>
           </div>
 
@@ -132,7 +132,7 @@
           <div>
             <p class="text-sm text-gray-500">Received Date</p>
             <p class="font-medium">
-              {{ purchase_order?.date | date : "mediumDate" }}
+              {{ purchase_order?.date | date: "mediumDate" }}
             </p>
           </div>
           <div>
@@ -156,7 +156,7 @@
         <p-tabs value="0">
           <p-tablist>
             <p-tab value="0">Stocks</p-tab>
-            <p-tab value="1">Notes</p-tab>
+            <p-tab value="1">Remarks</p-tab>
           </p-tablist>
           <p-tabpanels>
             <p-tabpanel value="0">

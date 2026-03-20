@@ -1,11 +1,11 @@
 <div class="card">
   <p-editor [(ngModel)]="note" [style]="{ height: '200px' }" />
   <button *ngIf="!edit_mode" (click)="addNote()" class="add_btn flex my-3">
-    Add Note
+    Add Remark
   </button>
   <div class="flex justify-start items-center gap-2">
     <button *ngIf="edit_mode" (click)="updateNote()" class="add_btn flex my-3">
-      Update Note
+      Update Remark
     </button>
     <button
       *ngIf="edit_mode"
@@ -29,12 +29,12 @@
     <p class="text-[12px] text-gray-600 mt-1">
       <span class="text-[10px]">Created By </span
       >{{ item?.created_by?.firstname }} {{ item?.created_by?.lastname }} •
-      {{ item?.created_on | date : "medium" }}
+      {{ item?.created_on | date: "medium" }}
     </p>
     <p *ngIf="item.updated_on" class="text-[12px] text-gray-600 mt-1">
       <span class="text-[10px]">Updated By </span
       >{{ item?.updated_by?.firstname }} {{ item?.updated_by?.lastname }} •
-      {{ item?.updated_on | date : "medium" }}
+      {{ item?.updated_on | date: "medium" }}
     </p>
   </div>
   <div>

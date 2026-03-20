@@ -114,7 +114,7 @@
           <div>
             <p class="text-sm text-gray-500">Date</p>
             <p class="font-medium">
-              {{ stock?.adding_date | date : "mediumDate" }}
+              {{ stock?.adding_date | date: "mediumDate" }}
             </p>
           </div>
           <div>
@@ -154,7 +154,7 @@
           <div>
             <p class="text-sm text-gray-500">Buying Price</p>
             <p class="font-medium">
-              LKR {{ stock?.buying_price | number : "1.2-2" }}
+              LKR {{ stock?.buying_price | number: "1.2-2" }}
             </p>
           </div>
           <div>
@@ -165,13 +165,11 @@
             <p class="text-sm text-gray-500">Profit Margin</p>
             <p class="font-medium">
               LKR
-              {{
-                stock?.selling_price - stock?.buying_price | number : "1.2-2"
-              }}
+              {{ stock?.selling_price - stock?.buying_price | number: "1.2-2" }}
               <span class="badge badge-success"
                 >{{
                   ((stock?.selling_price - stock?.buying_price) * 100) /
-                    stock?.buying_price | number : "1.2-2"
+                    stock?.buying_price | number: "1.2-2"
                 }}
                 %</span
               >
@@ -182,7 +180,7 @@
           <div>
             <p class="text-sm text-gray-500">Selling Price</p>
             <p class="font-medium">
-              LKR {{ stock?.selling_price | number : "1.2-2" }}
+              LKR {{ stock?.selling_price | number: "1.2-2" }}
             </p>
           </div>
           <div>
@@ -192,7 +190,7 @@
           <div>
             <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
-              {{ stock?.created_on | date : "mediumDate" }}
+              {{ stock?.created_on | date: "mediumDate" }}
             </p>
           </div>
 
@@ -298,7 +296,7 @@
       <div class="card">
         <p-tabs value="0">
           <p-tablist>
-            <p-tab value="0">Notes</p-tab>
+            <p-tab value="0">Remarks</p-tab>
           </p-tablist>
           <p-tabpanels>
             <p-tabpanel value="0">
