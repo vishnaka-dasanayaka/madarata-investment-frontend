@@ -6,21 +6,22 @@ import swal from "sweetalert2";
 import { PatientsService } from "../../../core/_services/patients.service";
 import moment from "moment";
 import { SharedService } from "../../../core/_services/shared.service";
+import { CustomerService } from "../../../core/_services/customer.service";
 
 @Component({
-  selector: "app-patient-detail",
+  selector: "app-customer-detail",
   standalone: false,
-  templateUrl: "./patient-detail.component.html",
-  styleUrl: "./patient-detail.component.css",
+  templateUrl: "./customer-detail.component.html",
+  styleUrl: "./customer-detail.component.css",
 })
-export class PatientDetailComponent {
+export class CustomerDetailComponent {
   uniqueid: any;
   sysuser: any;
   LoadUI: boolean = false;
 
   private sub: any;
   id!: number;
-  patient: any;
+  customer: any;
   age: number = 0;
 
   order_cols: any[] = [];
@@ -40,7 +41,8 @@ export class PatientDetailComponent {
     private patientService: PatientsService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private customerService: CustomerService,
   ) {
     this.cols = [
       { field: "pres", header: "Prescription No", sortable: true },
@@ -88,18 +90,6 @@ export class PatientDetailComponent {
       this.id = +params["id"];
       this.getData(this.id);
     });
-
-    this.getPrescriptions();
-  }
-
-  getPrescriptions() {
-    this.patientService
-      .getPrescriptionPerPatient({ patient_id: this.id })
-      .subscribe((data) => {
-        if (data.status) {
-          this.prescriptions = data.prescription_list;
-        }
-      });
   }
 
   generateUniqueKey() {
@@ -109,15 +99,13 @@ export class PatientDetailComponent {
   }
 
   getData(id: number) {
-    this.patientService.getPatient({ id: id }).subscribe((data) => {
+    this.customerService.getCustomer({ id: id }).subscribe((data) => {
       if (data.status) {
-        this.patient = data.patient;
-        this.orders = data.orders;
-        this.invoices = data.invoices;
-        this.payments = data.payments;
+        this.customer = data.customer;
+
         this.LoadUI = true;
-        if (this.patient.dob) {
-          const birthDate = moment(this.patient.dob);
+        if (this.customer.dob) {
+          const birthDate = moment(this.customer.dob);
           this.age = moment().diff(birthDate, "years");
         }
       }
@@ -138,7 +126,7 @@ export class PatientDetailComponent {
     swal
       .fire({
         title:
-          "Please confirm that you want to mark this patient as " +
+          "Please confirm that you want to mark this customer as " +
           statusString,
         icon: "question",
         showCancelButton: true,
@@ -159,11 +147,11 @@ export class PatientDetailComponent {
             id: this.id,
             uniquekey: this.uniqueid,
           };
-          this.patientService.updatePatientStatus(obj).subscribe(
+          this.customerService.updateCustomerStatus(obj).subscribe(
             (data) => {
               if (data.status) {
                 this.toastr.success(
-                  "Patient status has been updated successfully.",
+                  "Customer status has been updated successfully.",
                   "Success",
                   {
                     positionClass: "toast-top-right",
@@ -171,7 +159,7 @@ export class PatientDetailComponent {
                     timeOut: 3000,
                     progressBar: true,
                     toastClass: "toast toast-sm", // <-- add your small class here
-                  }
+                  },
                 );
 
                 this.generateUniqueKey();
@@ -186,7 +174,7 @@ export class PatientDetailComponent {
             },
             (error) => {
               alert("API ERROR [ERRCODE:001]");
-            }
+            },
           );
         }
       });
@@ -201,8 +189,8 @@ export class PatientDetailComponent {
   }
 
   openPatientEditModal() {
-    this.sharedService.setPatientData(this.patient);
-    this.sharedService.openEditPatientModal();
+    // this.sharedService.setPatientData(this.customer);
+    // this.sharedService.openEditPatientModal();
   }
 
   openViewModal(data: any) {

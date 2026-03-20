@@ -313,12 +313,12 @@ body {
 }
 
 .btn-outline-view {
-  border: 1px #001568 solid;
-  color: #001568;
+  border: 1px rgb(16, 16, 174) solid;
+  color: rgb(16, 16, 174);
 }
 
 .btn-outline-view:hover {
-  background-color: #001568;
+  background-color: rgb(16, 16, 174);
   color: white;
 }
 

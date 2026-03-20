@@ -30,7 +30,7 @@ export const serverRoutes: ServerRoute[] = [
   },
 
   {
-    path: "patients/patient-details/:id",
+    path: "customers/customer-details/:id",
     renderMode: RenderMode.Prerender,
     async getPrerenderParams() {
       const ids = routesIDs;

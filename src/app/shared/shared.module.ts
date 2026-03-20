@@ -34,7 +34,6 @@ import { AddBrandComponent } from "./modals/add-brand/add-brand.component";
 import { MultiSelectModule } from "primeng/multiselect";
 import { AddModelComponent } from "./modals/add-model/add-model.component";
 import { AddStockComponent } from "./modals/add-stock/add-stock.component";
-import { AddPatientComponent } from "./modals/add-patient/add-patient.component";
 import { AddLenseComponent } from "./modals/add-lense/add-lense.component";
 import { AddOrderComponent } from "./modals/add-order/add-order.component";
 import { AddInoviceItemComponent } from "./modals/add-inovice-item/add-inovice-item.component";
@@ -55,6 +54,7 @@ import { HasPermissionDirective } from "./directives/has-permission.directive";
 import { AddBranchComponent } from "./modals/add-branch/add-branch.component";
 import { ChangePasswordComponent } from "./modals/change-password/change-password.component";
 import { NoteComponent } from "./modals/note/note.component";
+import { AddCustomerModalComponent } from "./modals/add-customer-modal/add-customer-modal.component";
 
 @NgModule({
   imports: [
@@ -92,7 +92,6 @@ import { NoteComponent } from "./modals/note/note.component";
     AddBrandComponent,
     AddModelComponent,
     AddStockComponent,
-    AddPatientComponent,
     AddLenseComponent,
     AddOrderComponent,
     AddInoviceItemComponent,
@@ -113,6 +112,7 @@ import { NoteComponent } from "./modals/note/note.component";
     AddBranchComponent,
     ChangePasswordComponent,
     NoteComponent,
+    AddCustomerModalComponent,
   ],
   exports: [
     BlockUIModule,
@@ -144,7 +144,6 @@ import { NoteComponent } from "./modals/note/note.component";
     MultiSelectModule,
     AddModelComponent,
     AddStockComponent,
-    AddPatientComponent,
     AddLenseComponent,
     AddOrderComponent,
     AddInoviceItemComponent,
@@ -165,6 +164,7 @@ import { NoteComponent } from "./modals/note/note.component";
     AddBranchComponent,
     ChangePasswordComponent,
     NoteComponent,
+    AddCustomerModalComponent,
   ],
 })
 

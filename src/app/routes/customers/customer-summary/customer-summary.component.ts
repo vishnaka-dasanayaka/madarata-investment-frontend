@@ -1,28 +1,28 @@
 import { Component } from "@angular/core";
-import { TableLazyLoadEvent } from "primeng/table";
 import { AuthenticationService } from "../../../core/_services/authentication.service";
 import { SharedService } from "../../../core/_services/shared.service";
-import { PatientsService } from "../../../core/_services/patients.service";
+import { TableLazyLoadEvent } from "primeng/table";
+import { CustomerService } from "../../../core/_services/customer.service";
 
 @Component({
-  selector: "app-patient-summary",
+  selector: "app-customer-summary",
   standalone: false,
-  templateUrl: "./patient-summary.component.html",
-  styleUrl: "./patient-summary.component.css",
+  templateUrl: "./customer-summary.component.html",
+  styleUrl: "./customer-summary.component.css",
 })
-export class PatientSummaryComponent {
+export class CustomerSummaryComponent {
   sysuser: any;
   LoadUI: boolean = false;
 
   event1: any;
   cols: any[] = [];
-  patients: any[] = [];
-  no_of_patients: number = 0;
+  customers: any[] = [];
+  no_of_customers: number = 0;
 
   constructor(
     private authservice: AuthenticationService,
     private sharedService: SharedService,
-    private patientService: PatientsService
+    private customerService: CustomerService,
   ) {}
 
   ngOnInit(): void {
@@ -42,16 +42,16 @@ export class PatientSummaryComponent {
   }
 
   openAddModal() {
-    this.sharedService.setPatientData({ navigate: true });
-    this.sharedService.openAddPatientModal();
+    this.sharedService.setCustomerData({ navigate: true });
+    this.sharedService.openAddCustomerModal();
   }
 
   openEditModal(data: any) {
-    this.sharedService.setPatientData(data);
-    this.sharedService.openEditPatientModal();
+    // this.sharedService.setPatientData(data);
+    // this.sharedService.openEditPatientModal();
   }
 
-  getAllPatients(event?: TableLazyLoadEvent) {
+  getAllCustomers(event?: TableLazyLoadEvent) {
     const finalEvent = event ?? this.event1;
     this.event1 = finalEvent;
 
@@ -63,9 +63,9 @@ export class PatientSummaryComponent {
       event: finalEvent,
     };
 
-    this.patientService.getAllPatients(obj).subscribe((data) => {
-      this.patients = data.patients;
-      this.no_of_patients = data.no_of_patients;
+    this.customerService.getAllPagedCustomers(obj).subscribe((data) => {
+      this.customers = data.customers;
+      this.no_of_customers = data.no_of_customers;
     });
   }
 }
