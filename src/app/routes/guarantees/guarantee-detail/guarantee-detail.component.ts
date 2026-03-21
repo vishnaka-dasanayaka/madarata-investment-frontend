@@ -4,61 +4,30 @@ import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 import moment from "moment";
-import { SharedService } from "../../../core/_services/shared.service";
-import { CustomerService } from "../../../core/_services/customer.service";
 import { GuaranteeService } from "../../../core/_services/guarantee.service";
-import { VehicleService } from "../../../core/_services/vehicle.service";
 
 @Component({
-  selector: "app-customer-detail",
+  selector: "app-guarantee-detail",
   standalone: false,
-  templateUrl: "./customer-detail.component.html",
-  styleUrl: "./customer-detail.component.css",
+  templateUrl: "./guarantee-detail.component.html",
+  styleUrl: "./guarantee-detail.component.css",
 })
-export class CustomerDetailComponent {
+export class GuaranteeDetailComponent {
   uniqueid: any;
   sysuser: any;
   LoadUI: boolean = false;
 
   private sub: any;
   id!: number;
-  customer: any;
+  guarantee: any;
   age: number = 0;
-
-  cols: any[] = [];
-  guarantees: any[] = [];
-
-  vehicle_cols: any[] = [];
-  vehicles: any[] = [];
 
   constructor(
     private authservice: AuthenticationService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private sharedService: SharedService,
-    private customerService: CustomerService,
-    private vehicleService: VehicleService,
     private guaranteeService: GuaranteeService,
-  ) {
-    this.cols = [
-      { field: "name", header: "Name" },
-      { field: "phone", header: "Contact No" },
-      { field: "nic", header: "NIC" },
-      { field: "status", header: "Status" },
-      { field: "created_on", header: "Created On" },
-      { field: "actions", header: "Actions", sortable: true, width: "200px" },
-    ];
-
-    this.vehicle_cols = [
-      { field: "code", header: "Code" },
-      { field: "make", header: "Make" },
-      { field: "model", header: "Model" },
-      { field: "reg_no", header: "Reg No" },
-      { field: "status", header: "Status" },
-      { field: "created_on", header: "Created On" },
-      { field: "actions", header: "Actions", sortable: true, width: "200px" },
-    ];
-  }
+  ) {}
 
   ngOnInit(): void {
     this.generateUniqueKey();
@@ -69,29 +38,7 @@ export class CustomerDetailComponent {
     this.sub = this.route.params.subscribe((params) => {
       this.id = +params["id"];
       this.getData(this.id);
-      this.getGuarantees();
-      this.getVehicles();
     });
-  }
-
-  getGuarantees() {
-    this.guaranteeService
-      .getGuaranteesPerCustomer({ cus_id: this.id })
-      .subscribe((data) => {
-        if (data.status) {
-          this.guarantees = data.guarantees;
-        }
-      });
-  }
-
-  getVehicles() {
-    this.vehicleService
-      .getVehiclesPerCustomer({ cus_id: this.id })
-      .subscribe((data) => {
-        if (data.status) {
-          this.vehicles = data.vehicles;
-        }
-      });
   }
 
   generateUniqueKey() {
@@ -101,13 +48,13 @@ export class CustomerDetailComponent {
   }
 
   getData(id: number) {
-    this.customerService.getCustomer({ id: id }).subscribe((data) => {
+    this.guaranteeService.getGuarantee({ id: id }).subscribe((data) => {
       if (data.status) {
-        this.customer = data.customer;
+        this.guarantee = data.guarantee;
 
         this.LoadUI = true;
-        if (this.customer.dob) {
-          const birthDate = moment(this.customer.dob);
+        if (this.guarantee.dob) {
+          const birthDate = moment(this.guarantee.dob);
           this.age = moment().diff(birthDate, "years");
         }
       }
@@ -128,7 +75,7 @@ export class CustomerDetailComponent {
     swal
       .fire({
         title:
-          "Please confirm that you want to mark this customer as " +
+          "Please confirm that you want to mark this guarantee as " +
           statusString,
         icon: "question",
         showCancelButton: true,
@@ -149,11 +96,11 @@ export class CustomerDetailComponent {
             id: this.id,
             uniquekey: this.uniqueid,
           };
-          this.customerService.updateCustomerStatus(obj).subscribe(
+          this.guaranteeService.updateGuaranteeStatus(obj).subscribe(
             (data) => {
               if (data.status) {
                 this.toastr.success(
-                  "Customer status has been updated successfully.",
+                  "Guarantee status has been updated successfully.",
                   "Success",
                   {
                     positionClass: "toast-top-right",
@@ -180,22 +127,6 @@ export class CustomerDetailComponent {
           );
         }
       });
-  }
-
-  openAddGuaranteeModal() {
-    this.sharedService.setGuaranteeData({
-      navigate: true,
-      patient_id: this.id,
-    });
-    this.sharedService.openAddGuaranteeModal();
-  }
-
-  openAddVehicleModal() {
-    this.sharedService.setVehicleData({
-      navigate: true,
-      patient_id: this.id,
-    });
-    this.sharedService.openAddVehicleModal();
   }
 
   openPatientEditModal() {

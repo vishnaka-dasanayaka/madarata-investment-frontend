@@ -22,6 +22,43 @@ export class SettingsService {
 
   // supplier configs
 
+  // Vehicle
+
+  createVehicleMake(obj: any) {
+    let APIurl = this.BaseAPIurl + "vehicle/create-make";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  createVehicleModel(obj: any) {
+    let APIurl = this.BaseAPIurl + "vehicle/create-model";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  getVehicleMakes() {
+    let APIurl = this.BaseAPIurl + "vehicle/get-vehicle-makes";
+
+    return this.http.get<any>(APIurl).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  //
+
   createSupplier(obj: any) {
     let APIurl = this.BaseAPIurl + "supplier/create-supplier";
 
@@ -29,7 +66,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -40,7 +77,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -51,7 +88,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -62,7 +99,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -73,7 +110,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -84,7 +121,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -96,7 +133,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -107,7 +144,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -118,7 +155,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -129,7 +166,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -142,7 +179,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -153,7 +190,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -164,7 +201,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -175,7 +212,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -186,7 +223,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -197,7 +234,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -208,7 +245,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -219,7 +256,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -230,7 +267,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -241,7 +278,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -252,7 +289,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -263,7 +300,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -274,7 +311,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -285,7 +322,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -296,7 +333,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -307,7 +344,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -318,7 +355,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -329,7 +366,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -340,7 +377,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -351,7 +388,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -362,7 +399,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -373,7 +410,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -386,7 +423,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -397,7 +434,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -408,7 +445,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -418,7 +455,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -429,7 +466,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -440,7 +477,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -451,7 +488,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -461,7 +498,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -472,7 +509,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -483,7 +520,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -494,7 +531,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -505,7 +542,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -516,7 +553,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -527,7 +564,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -538,7 +575,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -549,7 +586,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -560,7 +597,7 @@ export class SettingsService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 }

@@ -1,13 +1,10 @@
 <section class="">
-  <h6 class="text-xs mb-2">Customers > Customer Summary</h6>
+  <h6 class="text-xs mb-2">Vehicles > Vehicle Summary</h6>
   <div class="flex items-end justify-between">
     <div>
-      <h1 class="text-xl font-semibold">Customer Summary</h1>
-      <h5 class="text-xs font-thin">List of Customers appear here</h5>
+      <h1 class="text-xl font-semibold">Vehicle Summary</h1>
+      <h5 class="text-xs font-thin">List of Vehicles appear here</h5>
     </div>
-    <button (click)="openAddModal()" class="add_btn">
-      <i class="fa-solid fa-plus mr-2"></i>Add Customer
-    </button>
   </div>
 
   <div *ngIf="!LoadUI" class="card">
@@ -27,7 +24,7 @@
       <p-table
         #dt1
         [columns]="cols"
-        [value]="customers"
+        [value]="vehicles"
         [paginator]="true"
         [rows]="10"
         [globalFilterFields]="['code', 'name', 'phone', 'address', 'nic']"
@@ -40,7 +37,7 @@
         [rowsPerPageOptions]="[10, 25, 50]"
         [lazy]="true"
         (onLazyLoad)="getAllCustomers($event)"
-        [totalRecords]="no_of_customers"
+        [totalRecords]="no_of_vehicles"
         [sortOrder]="1"
       >
         <ng-template #caption>
@@ -92,33 +89,33 @@
               <div *ngSwitchCase="'code'">
                 <a
                   class="text-link font-medium hover:underline"
-                  routerLink="/customers/customer-details/{{ rowData.id }}"
+                  routerLink="/vehicles/vehicle-details/{{ rowData.id }}"
                 >
                   {{ rowData[col.field] }}
                 </a>
               </div>
 
-              <div *ngSwitchCase="'name'">
+              <div *ngSwitchCase="'cus'">
                 <a
                   class="text-link font-medium hover:underline"
-                  routerLink="/customers/customer-details/{{ rowData.id }}"
+                  routerLink="/customers/customer-details/{{
+                    rowData.customer_id
+                  }}"
                 >
-                  {{ rowData?.initials }} {{ rowData?.surname }}
+                  {{ rowData?.cus_code }} : {{ rowData?.cus_initials }}
+                  {{ rowData?.cus_surname }}
                 </a>
               </div>
 
-              <div class="text-start" *ngSwitchCase="'phone'">
-                {{ rowData[col.field] }}
-                <span *ngIf="rowData[col.field] == null"
-                  >[NOT UPDATED YET]</span
-                >
+              <div class="text-start" *ngSwitchCase="'make'">
+                {{ rowData?.make_name }}
+              </div>
+              <div class="text-start" *ngSwitchCase="'model'">
+                {{ rowData?.model_name }}
               </div>
 
-              <div class="text-start" *ngSwitchCase="'nic'">
-                {{ rowData[col.field] }}
-                <span *ngIf="rowData[col.field] == null"
-                  >[NOT UPDATED YET]</span
-                >
+              <div class="text-start" *ngSwitchCase="'reg_no'">
+                {{ rowData?.reg_no }}
               </div>
 
               <div class="text-center" *ngSwitchCase="'status'">
@@ -150,7 +147,7 @@
               <div *ngSwitchCase="'actions'">
                 <button
                   class="btn btn-outline-view"
-                  routerLink="/customers/customer-details/{{ rowData.id }}"
+                  routerLink="/vehicles/vehicle-details/{{ rowData.id }}"
                 >
                   View
                 </button>

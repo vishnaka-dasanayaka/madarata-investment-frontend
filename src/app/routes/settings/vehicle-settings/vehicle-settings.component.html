@@ -1,0 +1,249 @@
+<section class="">
+  <h6 class="text-xs mb-2">Settings > Vehicle Settings</h6>
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Vehicle Make & Model</h1>
+      <h5 class="text-xs font-thin">Create, Read, View Maked and Models</h5>
+    </div>
+    <button (click)="openModal()" class="add_btn">
+      <i class="fa-solid fa-plus mr-2"></i>Add Make
+    </button>
+  </div>
+
+  <div *ngIf="!LoadUI" class="card">
+    <div class="flex flex-wrap">
+      <div class="w-full mt-5">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton width="30rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" styleClass="mb-2" />
+        <p-skeleton height="10rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="LoadUI" class="min-h-screen mt-10 bg-gray-50 p-6">
+    <div class="overflow-x-auto rounded-lg shadow-md">
+      <table class="w-full text-left border-collapse bg-white">
+        <thead>
+          <tr class="bg-primary text-white">
+            <th class="px-6 py-4 w-1/3 font-semibold uppercase text-sm">
+              Make
+            </th>
+            <th class="px-6 py-4 font-semibold uppercase text-sm">Models</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+          <tr
+            *ngFor="let item of makes"
+            class="hover:bg-gray-50 transition-colors"
+          >
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-between group">
+                <span class="font-medium text-gray-900">{{ item.make }}</span>
+                <div
+                  class="flex space-x-2 opacity-50 group-hover:opacity-100 transition-opacity"
+                >
+                  <!-- <button
+                    class="text-primary hover:text-blue-800"
+                    title="Edit Make"
+                  >
+                    <i class="fa-solid fa-pen-fancy"></i>
+                  </button>
+                  <button
+                    class="text-red-500 hover:text-red-700"
+                    title="Delete Make"
+                  >
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button> -->
+                </div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  *ngFor="let m of item.models"
+                  class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-primary border border-blue-200"
+                >
+                  {{ m.model }}
+                  <!-- <button class="ml-3 hover:text-blue-800">
+                    <i class="fa-solid fa-pen-fancy"></i>
+                  </button>
+                  <button class="ml-2 hover:text-red-600">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button> -->
+                </span>
+                <button (click)="openAddModelModal(item)">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Backdrop -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 bg-black/50 z-100 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-auto z-50">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add Make</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <form
+        [formGroup]="vehicleMakeValForm"
+        (ngSubmit)="submitForm(vehicleMakeValForm.value)"
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Name
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="make"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                vehicleMakeValForm.controls['make'].hasError('required') &&
+                (vehicleMakeValForm.controls['make'].dirty ||
+                  vehicleMakeValForm.controls['make'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded text-white"
+            [ngClass]="
+              vehicleMakeValForm.valid
+                ? 'bg-primary/70 hover:bg-primary'
+                : 'bg-primary/50 cursor-not-allowed'
+            "
+            [disabled]="vehicleMakeValForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="showModelModal"
+  class="fixed inset-0 bg-black/50 z-100 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-auto z-50">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add Model</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="CloseAddModelModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <form
+        [formGroup]="vehicleModelValForm"
+        (ngSubmit)="submitModelForm(vehicleModelValForm.value)"
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Make
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="make"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Model
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="model"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                vehicleModelValForm.controls['model'].hasError('required') &&
+                (vehicleModelValForm.controls['model'].dirty ||
+                  vehicleModelValForm.controls['model'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            (click)="CloseAddModelModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded text-white"
+            [ngClass]="
+              vehicleModelValForm.valid
+                ? 'bg-primary/70 hover:bg-primary'
+                : 'bg-primary/50 cursor-not-allowed'
+            "
+            [disabled]="vehicleModelValForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

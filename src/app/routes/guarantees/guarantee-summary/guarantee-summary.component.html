@@ -1,13 +1,13 @@
 <section class="">
-  <h6 class="text-xs mb-2">Customers > Customer Summary</h6>
+  <h6 class="text-xs mb-2">Guarantees > Guarantee Summary</h6>
   <div class="flex items-end justify-between">
     <div>
-      <h1 class="text-xl font-semibold">Customer Summary</h1>
-      <h5 class="text-xs font-thin">List of Customers appear here</h5>
+      <h1 class="text-xl font-semibold">Guarantee Summary</h1>
+      <h5 class="text-xs font-thin">List of Guarantees appear here</h5>
     </div>
-    <button (click)="openAddModal()" class="add_btn">
-      <i class="fa-solid fa-plus mr-2"></i>Add Customer
-    </button>
+    <!-- <button (click)="openAddModal()" class="add_btn">
+      <i class="fa-solid fa-plus mr-2"></i>Add Guarantee
+    </button> -->
   </div>
 
   <div *ngIf="!LoadUI" class="card">
@@ -27,7 +27,7 @@
       <p-table
         #dt1
         [columns]="cols"
-        [value]="customers"
+        [value]="guarantees"
         [paginator]="true"
         [rows]="10"
         [globalFilterFields]="['code', 'name', 'phone', 'address', 'nic']"
@@ -40,7 +40,7 @@
         [rowsPerPageOptions]="[10, 25, 50]"
         [lazy]="true"
         (onLazyLoad)="getAllCustomers($event)"
-        [totalRecords]="no_of_customers"
+        [totalRecords]="no_of_guarantees"
         [sortOrder]="1"
       >
         <ng-template #caption>
@@ -89,21 +89,24 @@
               class="px-3 py-2 text-sm text-center"
               [ngSwitch]="col.field"
             >
-              <div *ngSwitchCase="'code'">
-                <a
-                  class="text-link font-medium hover:underline"
-                  routerLink="/customers/customer-details/{{ rowData.id }}"
-                >
-                  {{ rowData[col.field] }}
-                </a>
-              </div>
-
               <div *ngSwitchCase="'name'">
                 <a
                   class="text-link font-medium hover:underline"
-                  routerLink="/customers/customer-details/{{ rowData.id }}"
+                  routerLink="/guarantees/guarantee-details/{{ rowData.id }}"
                 >
                   {{ rowData?.initials }} {{ rowData?.surname }}
+                </a>
+              </div>
+
+              <div *ngSwitchCase="'cus'">
+                <a
+                  class="text-link font-medium hover:underline"
+                  routerLink="/customers/customer-details/{{
+                    rowData.customer_id
+                  }}"
+                >
+                  {{ rowData?.cus_code }} : {{ rowData?.cus_initials }}
+                  {{ rowData?.cus_surname }}
                 </a>
               </div>
 
@@ -150,7 +153,7 @@
               <div *ngSwitchCase="'actions'">
                 <button
                   class="btn btn-outline-view"
-                  routerLink="/customers/customer-details/{{ rowData.id }}"
+                  routerLink="/guarantees/guarantee-details/{{ rowData.id }}"
                 >
                   View
                 </button>
@@ -169,6 +172,6 @@
   </div>
 </section>
 
-<app-add-customer-modal (parentFun)="getAllCustomers()">
-</app-add-customer-modal>
+<!-- <app-add-customer-modal (parentFun)="getAllCustomers()">
+</app-add-customer-modal> -->
 <!-- <app-edit-customer (parentFun)="getAllCustomers()"> </app-edit-customer> -->

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SelectItem } from "primeng/api";
 import { Subscription } from "rxjs";
@@ -9,15 +9,22 @@ import { Router } from "@angular/router";
 import { CustomValidators } from "../../validators/custom-validators";
 import moment from "moment";
 import { CustomerService } from "../../../core/_services/customer.service";
-
+import { SettingsService } from "../../../core/_services/settings.service";
+import { VehicleService } from "../../../core/_services/vehicle.service";
 @Component({
-  selector: "app-add-customer-modal",
+  selector: "app-add-vehicle-modal",
   standalone: false,
-  templateUrl: "./add-customer-modal.component.html",
-  styleUrl: "./add-customer-modal.component.css",
+  templateUrl: "./add-vehicle-modal.component.html",
+  styleUrl: "./add-vehicle-modal.component.css",
 })
-export class AddCustomerModalComponent {
+export class AddVehicleModalComponent {
   @Output() parentFun: EventEmitter<any> = new EventEmitter();
+  @Input() cus_id!: number;
+
+  make_list: SelectItem[] = [];
+  model_list: SelectItem[] = [
+    { label: "Plese select a make first", value: null, disabled: true },
+  ];
 
   gender_list: SelectItem[] = [
     { label: "Please select a gender", value: null, disabled: true },
@@ -48,74 +55,70 @@ export class AddCustomerModalComponent {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
-    private customerService: CustomerService,
+    private settingService: SettingsService,
+    private vehicleService: VehicleService,
   ) {
     this.valForm = this.fb.group({
-      title: [null, Validators.required],
-      initials: [null, Validators.required],
-      surname: [null, Validators.required],
-      given_name: [null, Validators.required],
-      phone: ["", [Validators.required, CustomValidators.phoneFormat]],
-      whatsapp: ["", [CustomValidators.phoneFormat]],
-      nic: [null, [Validators.required, CustomValidators.nicValidator]],
-      gender: [null, Validators.required],
-      dob: [null, Validators.required],
-      address_1: [null, Validators.required],
-      address_2: [null, Validators.required],
-      address_3: [null],
+      make: [null, Validators.required],
+      model: [null, Validators.required],
+      yom: [null, Validators.required],
+      reg_no: [null, Validators.required],
+      reg_owner: [null, Validators.required],
+      chassie_no: [null, Validators.required],
+      engine_no: [null, Validators.required],
+      reg_cert_no: [null, Validators.required],
+      valuation: [null, [CustomValidators.strictDecimal, Validators.required]],
+      vehicle_parking_address_1: [null, Validators.required],
+      vehicle_parking_address_2: [null, Validators.required],
+      vehicle_parking_address_3: [null],
+      valuation_report_link: [null],
+      vehicle_photo_link: [null],
     });
 
     this.clickEventSubscription = this.sharedService
-      .getAddCustomerClickEvent()
+      .getAddVehicleClickEvent()
       .subscribe(() => {
         this.openModal();
         this.generateUniqueKey();
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getDropDowns();
+  }
 
-  onNicChange() {
-    const nicControl = this.valForm.get("nic");
+  getDropDowns() {
+    this.settingService.getVehicleMakes().subscribe((data) => {
+      if (data.status) {
+        this.make_list = [];
+        this.make_list.push({
+          label: "Please select a make",
+          value: null,
+          disabled: true,
+        });
 
-    if (!nicControl || nicControl.invalid) {
-      return;
-    }
-
-    let nic = nicControl.value;
-
-    if (!nic) return;
-
-    nic = nic.trim();
-
-    let year: number;
-    let days: number;
-
-    if (nic.endsWith("V") || nic.endsWith("v")) {
-      const digits = nic.substring(0, 9);
-
-      year = parseInt("19" + digits.substring(0, 2));
-      days = parseInt(digits.substring(2, 5));
-    } else {
-      year = parseInt(nic.substring(0, 4));
-      days = parseInt(nic.substring(4, 7));
-    }
-
-    let gender = "Male";
-
-    if (days > 500) {
-      gender = "Female";
-      days = days - 500;
-    }
-    const birthDate = moment(`${year}-01-01`).add(days - 1, "days");
-
-    // ✅ IMPORTANT: convert to JS Date
-    const dateObj = birthDate.toDate();
-
-    this.valForm.patchValue({
-      gender: gender,
-      dob: dateObj,
+        for (var make of data.makes) {
+          this.make_list.push({ label: make.make, value: make });
+        }
+      }
     });
+  }
+
+  onMakeChange() {
+    var selected_make = this.valForm.get("make")?.value;
+    var required_make = this.make_list.find(
+      (make) => make.value?.id == selected_make.id,
+    );
+    this.model_list = [];
+    this.model_list.push({
+      label: "Please select a model",
+      value: null,
+      disabled: true,
+    });
+
+    for (var model of required_make?.value?.models) {
+      this.model_list.push({ label: model.model, value: model.id });
+    }
   }
 
   openModal() {
@@ -136,11 +139,11 @@ export class AddCustomerModalComponent {
       value = this.sharedService.sanitizeFormValues(value);
       value.uniquekey = this.uniqueid;
 
-      if (value.dob) {
-        value.dob = moment(value.dob).format("YYYY-MM-DD");
-      }
+      value.cus_id = this.cus_id;
+      value.make = value.make.id;
+      value.yom = moment(value.yom).format("yyyy");
 
-      this.customerService.createCustomer(value).subscribe(
+      this.vehicleService.createVehicle(value).subscribe(
         (data) => {
           if (data.status) {
             this.parentFun.emit();
@@ -148,13 +151,10 @@ export class AddCustomerModalComponent {
             this.valForm.reset();
             swal.fire({
               title: "Success!",
-              text: "Customer has been created successfully.",
+              text: "Vehicle has been created successfully.",
               icon: "success",
               confirmButtonColor: "#28a745", // Optional: green color for success
             });
-            this.router.navigate([
-              "/customers/customer-details/" + data.customer.id,
-            ]);
           } else {
             this.toastr.warning(data.err, "ERROR !!", {
               positionClass: "toast-top-right",

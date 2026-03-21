@@ -21,6 +21,8 @@ import { PaymentsModule } from "./payments/payments.module";
 import { CInvoicesModule } from "./c-invoices/c-invoices.module";
 import { ReportsModule } from "./reports/reports.module";
 import { CustomersModule } from "./customers/customers.module";
+import { GuaranteesModule } from "./guarantees/guarantees.module";
+import { VehiclesModule } from "./vehicles/vehicles.module";
 
 export const routes: Routes = [
   {
@@ -35,13 +37,27 @@ export const routes: Routes = [
           import("./settings/settings.module").then((m) => SettingsModule),
       },
 
-      // Madarata ends
+      {
+        path: "guarantees",
+        loadChildren: () =>
+          import("./guarantees/guarantees.module").then(
+            (m) => GuaranteesModule,
+          ),
+      },
 
       {
         path: "customers",
         loadChildren: () =>
           import("./customers/customers.module").then((m) => CustomersModule),
       },
+
+      {
+        path: "vehicles",
+        loadChildren: () =>
+          import("./vehicles/vehicles.module").then((m) => VehiclesModule),
+      },
+
+      // Madarata ends
 
       // sethneth begins
 

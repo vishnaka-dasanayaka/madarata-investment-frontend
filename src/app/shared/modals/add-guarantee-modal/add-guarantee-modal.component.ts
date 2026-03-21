@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SelectItem } from "primeng/api";
 import { Subscription } from "rxjs";
@@ -8,16 +8,17 @@ import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { CustomValidators } from "../../validators/custom-validators";
 import moment from "moment";
-import { CustomerService } from "../../../core/_services/customer.service";
+import { GuaranteeService } from "../../../core/_services/guarantee.service";
 
 @Component({
-  selector: "app-add-customer-modal",
+  selector: "app-add-guarantee-modal",
   standalone: false,
-  templateUrl: "./add-customer-modal.component.html",
-  styleUrl: "./add-customer-modal.component.css",
+  templateUrl: "./add-guarantee-modal.component.html",
+  styleUrl: "./add-guarantee-modal.component.css",
 })
-export class AddCustomerModalComponent {
+export class AddGuaranteeModalComponent {
   @Output() parentFun: EventEmitter<any> = new EventEmitter();
+  @Input() cus_id!: number;
 
   gender_list: SelectItem[] = [
     { label: "Please select a gender", value: null, disabled: true },
@@ -48,7 +49,7 @@ export class AddCustomerModalComponent {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
-    private customerService: CustomerService,
+    private guaranteeService: GuaranteeService,
   ) {
     this.valForm = this.fb.group({
       title: [null, Validators.required],
@@ -66,14 +67,16 @@ export class AddCustomerModalComponent {
     });
 
     this.clickEventSubscription = this.sharedService
-      .getAddCustomerClickEvent()
+      .getAddGuaranteeClickEvent()
       .subscribe(() => {
         this.openModal();
         this.generateUniqueKey();
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.cus_id);
+  }
 
   onNicChange() {
     const nicControl = this.valForm.get("nic");
@@ -140,7 +143,9 @@ export class AddCustomerModalComponent {
         value.dob = moment(value.dob).format("YYYY-MM-DD");
       }
 
-      this.customerService.createCustomer(value).subscribe(
+      value.cus_id = this.cus_id;
+
+      this.guaranteeService.createGuarantee(value).subscribe(
         (data) => {
           if (data.status) {
             this.parentFun.emit();
@@ -148,7 +153,7 @@ export class AddCustomerModalComponent {
             this.valForm.reset();
             swal.fire({
               title: "Success!",
-              text: "Customer has been created successfully.",
+              text: "Guarantee has been created successfully.",
               icon: "success",
               confirmButtonColor: "#28a745", // Optional: green color for success
             });
