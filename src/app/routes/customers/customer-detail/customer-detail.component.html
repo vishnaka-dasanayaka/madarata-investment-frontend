@@ -156,6 +156,13 @@
             </p>
           </div>
           <div>
+            <p class="text-sm text-gray-500">WhatsApp</p>
+            <p class="font-medium">
+              {{ customer?.whatsapp }}
+              <span *ngIf="customer?.whatsapp == null">[NOT UPDATED YET]</span>
+            </p>
+          </div>
+          <div>
             <p class="text-sm text-gray-500">Address</p>
             <p class="font-medium">
               {{ customer?.address_1 }}
@@ -169,7 +176,7 @@
         <div class="space-y-4">
           <div>
             <p class="text-sm text-gray-500">No of Guarantees</p>
-            <p class="font-medium">2</p>
+            <p class="font-medium">{{ guarantees.length }}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500">No of Invoices</p>
@@ -204,10 +211,230 @@
         <p-tabs value="0">
           <p-tablist>
             <p-tab value="0">Remarks</p-tab>
+            <p-tab value="1">Guarantees</p-tab>
+            <p-tab value="2">Vehicles</p-tab>
           </p-tablist>
           <p-tabpanels>
             <p-tabpanel value="0">
               <app-note [f_key]="id" [type]="'CUSTOMER'"></app-note>
+            </p-tabpanel>
+            <p-tabpanel value="1">
+              <div class="flex items-end justify-end">
+                <button (click)="openAddGuaranteeModal()" class="add_btn">
+                  <i class="fa-solid fa-plus mr-2"></i>Add Guarantee
+                </button>
+              </div>
+              <div class="card">
+                <div class="mt-4">
+                  <p-table
+                    #dt1
+                    [columns]="cols"
+                    [value]="guarantees"
+                    [paginator]="false"
+                    [showCurrentPageReport]="false"
+                    [responsive]="false"
+                    [autoLayout]="true"
+                    styleClass="p-datatable-sm p-datatable-striped"
+                    [rowHover]="true"
+                  >
+                    <ng-template pTemplate="header" let-columns>
+                      <tr class="bg-[#ff820d] text-white text-sm">
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          [pSortableColumnDisabled]="col.sortable"
+                          [style.width]="col.width"
+                          class="px-3 py-2 text-center font-medium"
+                        >
+                          {{ col.header }}
+                          <p-sortIcon
+                            *ngIf="!col.sortable"
+                            [field]="col.field"
+                            ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"
+                            styleClass="ml-2"
+                          ></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template
+                      pTemplate="body"
+                      let-rowData
+                      let-columns="columns"
+                    >
+                      <tr class="hover:bg-orange-50 transition">
+                        <td
+                          *ngFor="let col of columns; let i = index"
+                          class="px-3 py-2 text-sm text-center"
+                          [ngSwitch]="col.field"
+                        >
+                          <div class="text-start" *ngSwitchCase="'name'">
+                            {{ rowData?.initials }} {{ rowData?.surname }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'phone'">
+                            {{ rowData?.phone }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'nic'">
+                            {{ rowData?.nic }}
+                          </div>
+
+                          <div *ngSwitchCase="'status'">
+                            <span
+                              *ngIf="rowData[col.field] == 0"
+                              class="badge badge-primary"
+                            >
+                              Pending
+                            </span>
+                            <span
+                              *ngIf="rowData[col.field] == 2"
+                              class="badge badge-success"
+                            >
+                              Approved
+                            </span>
+
+                            <span
+                              *ngIf="rowData[col.field] == -2"
+                              class="badge badge-danger"
+                            >
+                              Rejected
+                            </span>
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'created_on'">
+                            {{ rowData?.created_on | date: "mediumDate" }}
+                          </div>
+
+                          <div *ngSwitchCase="'actions'">
+                            <button
+                              class="btn btn-outline-view"
+                              routerLink="/guarantees/guarantee-details/{{
+                                rowData.id
+                              }}"
+                            >
+                              View
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </p-tabpanel>
+            <p-tabpanel value="2">
+              <div class="flex items-end justify-end">
+                <button (click)="openAddVehicleModal()" class="add_btn">
+                  <i class="fa-solid fa-plus mr-2"></i>Add Vehicle
+                </button>
+              </div>
+              <div class="card">
+                <div class="mt-4">
+                  <p-table
+                    #dt1
+                    [columns]="vehicle_cols"
+                    [value]="vehicles"
+                    [paginator]="false"
+                    [showCurrentPageReport]="false"
+                    [responsive]="false"
+                    [autoLayout]="true"
+                    styleClass="p-datatable-sm p-datatable-striped"
+                    [rowHover]="true"
+                  >
+                    <ng-template pTemplate="header" let-columns>
+                      <tr class="bg-[#ff820d] text-white text-sm">
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          [pSortableColumnDisabled]="col.sortable"
+                          [style.width]="col.width"
+                          class="px-3 py-2 text-center font-medium"
+                        >
+                          {{ col.header }}
+                          <p-sortIcon
+                            *ngIf="!col.sortable"
+                            [field]="col.field"
+                            ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"
+                            styleClass="ml-2"
+                          ></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template
+                      pTemplate="body"
+                      let-rowData
+                      let-columns="columns"
+                    >
+                      <tr class="hover:bg-orange-50 transition">
+                        <td
+                          *ngFor="let col of columns; let i = index"
+                          class="px-3 py-2 text-sm text-center"
+                          [ngSwitch]="col.field"
+                        >
+                          <div class="text-start" *ngSwitchCase="'code'">
+                            {{ rowData?.code }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'make'">
+                            {{ rowData?.make.make }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'model'">
+                            {{ rowData?.model.model }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'reg_no'">
+                            {{ rowData?.reg_no }}
+                          </div>
+
+                          <div *ngSwitchCase="'status'">
+                            <span
+                              *ngIf="rowData[col.field] == 0"
+                              class="badge badge-primary"
+                            >
+                              Pending
+                            </span>
+                            <span
+                              *ngIf="rowData[col.field] == 2"
+                              class="badge badge-success"
+                            >
+                              Approved
+                            </span>
+
+                            <span
+                              *ngIf="rowData[col.field] == -2"
+                              class="badge badge-danger"
+                            >
+                              Rejected
+                            </span>
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'created_on'">
+                            {{ rowData?.created_on | date: "mediumDate" }}
+                          </div>
+
+                          <div *ngSwitchCase="'actions'">
+                            <button
+                              class="btn btn-outline-view"
+                              routerLink="/vehicles/vehicle-details/{{
+                                rowData.id
+                              }}"
+                            >
+                              View
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
             </p-tabpanel>
           </p-tabpanels>
         </p-tabs>
@@ -215,3 +442,13 @@
     </div>
   </div>
 </section>
+
+<app-add-guarantee-modal
+  [cus_id]="id"
+  (parentFun)="getGuarantees()"
+></app-add-guarantee-modal>
+
+<app-add-vehicle-modal
+  [cus_id]="id"
+  (parentFun)="getVehicles()"
+></app-add-vehicle-modal>

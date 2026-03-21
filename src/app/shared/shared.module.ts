@@ -38,8 +38,6 @@ import { AddLenseComponent } from "./modals/add-lense/add-lense.component";
 import { AddOrderComponent } from "./modals/add-order/add-order.component";
 import { AddInoviceItemComponent } from "./modals/add-inovice-item/add-inovice-item.component";
 import { AddPaymentComponent } from "./modals/add-payment/add-payment.component";
-import { AddPrescriptionComponent } from "./modals/add-prescription/add-prescription.component";
-import { ViewPrescriptionComponent } from "./modals/view-prescription/view-prescription.component";
 import { AddInoviceComponent } from "./modals/add-inovice/add-inovice.component";
 import { EditPatientComponent } from "./modals/edit-patient/edit-patient.component";
 import { EditOrderComponent } from "./modals/edit-order/edit-order.component";
@@ -55,6 +53,8 @@ import { AddBranchComponent } from "./modals/add-branch/add-branch.component";
 import { ChangePasswordComponent } from "./modals/change-password/change-password.component";
 import { NoteComponent } from "./modals/note/note.component";
 import { AddCustomerModalComponent } from "./modals/add-customer-modal/add-customer-modal.component";
+import { AddGuaranteeModalComponent } from "./modals/add-guarantee-modal/add-guarantee-modal.component";
+import { AddVehicleModalComponent } from "./modals/add-vehicle-modal/add-vehicle-modal.component";
 
 @NgModule({
   imports: [
@@ -96,8 +96,6 @@ import { AddCustomerModalComponent } from "./modals/add-customer-modal/add-custo
     AddOrderComponent,
     AddInoviceItemComponent,
     AddPaymentComponent,
-    AddPrescriptionComponent,
-    ViewPrescriptionComponent,
     AddInoviceComponent,
     EditPatientComponent,
     EditOrderComponent,
@@ -113,6 +111,8 @@ import { AddCustomerModalComponent } from "./modals/add-customer-modal/add-custo
     ChangePasswordComponent,
     NoteComponent,
     AddCustomerModalComponent,
+    AddGuaranteeModalComponent,
+    AddVehicleModalComponent,
   ],
   exports: [
     BlockUIModule,
@@ -148,8 +148,6 @@ import { AddCustomerModalComponent } from "./modals/add-customer-modal/add-custo
     AddOrderComponent,
     AddInoviceItemComponent,
     AddPaymentComponent,
-    AddPrescriptionComponent,
-    ViewPrescriptionComponent,
     AddInoviceComponent,
     EditPatientComponent,
     EditOrderComponent,
@@ -165,6 +163,8 @@ import { AddCustomerModalComponent } from "./modals/add-customer-modal/add-custo
     ChangePasswordComponent,
     NoteComponent,
     AddCustomerModalComponent,
+    AddGuaranteeModalComponent,
+    AddVehicleModalComponent,
   ],
 })
 

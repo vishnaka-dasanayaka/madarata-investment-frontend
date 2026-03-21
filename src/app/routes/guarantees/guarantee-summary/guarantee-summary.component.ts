@@ -3,32 +3,33 @@ import { AuthenticationService } from "../../../core/_services/authentication.se
 import { SharedService } from "../../../core/_services/shared.service";
 import { TableLazyLoadEvent } from "primeng/table";
 import { CustomerService } from "../../../core/_services/customer.service";
+import { GuaranteeService } from "../../../core/_services/guarantee.service";
 
 @Component({
-  selector: "app-customer-summary",
+  selector: "app-guarantee-summary",
   standalone: false,
-  templateUrl: "./customer-summary.component.html",
-  styleUrl: "./customer-summary.component.css",
+  templateUrl: "./guarantee-summary.component.html",
+  styleUrl: "./guarantee-summary.component.css",
 })
-export class CustomerSummaryComponent {
+export class GuaranteeSummaryComponent {
   sysuser: any;
   LoadUI: boolean = false;
 
   event1: any;
   cols: any[] = [];
-  customers: any[] = [];
-  no_of_customers: number = 0;
+  guarantees: any[] = [];
+  no_of_guarantees: number = 0;
 
   constructor(
     private authservice: AuthenticationService,
     private sharedService: SharedService,
-    private customerService: CustomerService,
+    private guaranteeService: GuaranteeService,
   ) {}
 
   ngOnInit(): void {
     this.cols = [
-      { field: "code", header: "Code" },
       { field: "name", header: "Name" },
+      { field: "cus", header: "Customer" },
       { field: "phone", header: "Contact No" },
       { field: "nic", header: "NIC" },
       { field: "status", header: "Status" },
@@ -64,9 +65,9 @@ export class CustomerSummaryComponent {
       event: finalEvent,
     };
 
-    this.customerService.getAllPagedCustomers(obj).subscribe((data) => {
-      this.customers = data.customers;
-      this.no_of_customers = data.no_of_customers;
+    this.guaranteeService.getAllPagedGuarantees(obj).subscribe((data) => {
+      this.guarantees = data.guarantees;
+      this.no_of_guarantees = data.no_of_guarantees;
     });
   }
 }

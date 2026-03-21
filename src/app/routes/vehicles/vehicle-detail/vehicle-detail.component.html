@@ -1,0 +1,253 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/vehicles/vehicle-summary']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Vehicles</span
+    >
+    >
+    <span
+      [routerLink]="['/vehicles/vehicle-summary']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Guarantees Summary</span
+    >
+
+    > {{ vehicle?.code }}
+  </h6>
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Vehicle Details</h1>
+      <h5 class="text-xs font-thin">{{ vehicle?.code }}</h5>
+    </div>
+    <!-- <div>
+      <button
+        [disabled]="vehicle?.status == 2"
+        class="mr-2 btn-lg btn-success"
+        [ngClass]="{ 'btn-disable': vehicle?.status == 2 }"
+        (click)="updateStatus(2)"
+      >
+        <i class="fa-solid fa-circle-check mr-2"></i>Mark as Approved
+      </button>
+      <button
+        *hasPermission="[[5], sysuser]"
+        [disabled]="vehicle?.status == 0"
+        [ngClass]="{ 'btn-disable': vehicle?.status == 0 }"
+        class="mr-2 btn-lg btn-primary"
+        (click)="updateStatus(0)"
+      >
+        <i class="fa-solid fa-circle-check mr-2"></i>Mark as Pending
+      </button>
+      <button
+        *hasPermission="[[5], sysuser]"
+        [disabled]="vehicle?.status == -2"
+        class="mr-2 btn-lg btn-danger"
+        [ngClass]="{ 'btn-disable': vehicle?.status == -2 }"
+        (click)="updateStatus(-2)"
+      >
+        <i class="fa-solid fa-circle-check mr-2"></i>Mark as Rejected
+      </button>
+    </div> -->
+  </div>
+
+  <div *ngIf="!LoadUI" class="card">
+    <div class="flex flex-wrap">
+      <div class="w-full mt-5">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton width="30rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" styleClass="mb-2" />
+        <p-skeleton height="10rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <!-- vehicle-detail.component.html -->
+  <div
+    *ngIf="LoadUI"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <!-- Supplier Information Section -->
+    <div class="mb-8">
+      <div class="w-full flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+          Basic Information
+        </h3>
+
+        <!-- <button (click)="openPatientEditModal()" class="btn btn-gray">
+          <i class="fa-solid fa-pen-to-square"></i> Edit
+        </button> -->
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Code</p>
+            <p class="font-medium">
+              {{ vehicle?.code }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Make</p>
+            <p class="font-medium">
+              {{ vehicle?.make.make }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Model</p>
+            <p class="font-medium">
+              {{ vehicle?.model.model }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Status</p>
+            <p
+              *ngIf="vehicle?.status == 2"
+              class="badge badge-success w-16 mt-1 text-center"
+            >
+              Active
+            </p>
+
+            <p
+              *ngIf="vehicle?.status == 0"
+              class="badge badge-primary w-16 mt-1 text-center"
+            >
+              Pending
+            </p>
+            <p
+              *ngIf="vehicle?.status == -2"
+              class="badge badge-danger w-24 mt-1 text-center"
+            >
+              Rejected
+            </p>
+          </div>
+
+          <div class="">
+            <p class="text-sm text-gray-500">Customer</p>
+            <p class="font-medium">
+              <a
+                class="text-link font-medium hover:underline"
+                routerLink="/vehicles/customer-details/{{
+                  vehicle.customer_id.id
+                }}"
+              >
+                {{ vehicle?.customer_id.code }}
+                {{ vehicle?.customer_id.initials }}
+                {{ vehicle?.customer_id.surname }}
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Year of Manufacture</p>
+            <p class="font-medium">
+              {{ vehicle?.yom }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Registration Number</p>
+            <p class="font-medium">
+              <span>{{ vehicle?.reg_no }}</span>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Registered Owner</p>
+            <p class="font-medium">
+              <span>{{ vehicle?.reg_owner }}</span>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Valuation</p>
+            <p class="font-medium">
+              <span>LKR {{ vehicle?.valuation | number: "2.2" }}</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Chassie Number</p>
+            <p class="font-medium">
+              {{ vehicle?.chassie_no }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Engine Number</p>
+            <p class="font-medium">
+              {{ vehicle?.engine_no }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Registration Certificate Number</p>
+            <p class="font-medium">
+              {{ vehicle?.reg_cert_no }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Vehicle ParkingAddress</p>
+            <p class="font-medium">
+              {{ vehicle?.vehicle_parking_address_1 }}
+              <br />
+              {{ vehicle?.vehicle_parking_address_2 }}
+              <br />
+              {{ vehicle?.vehicle_parking_address_3 }}
+            </p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Created By</p>
+            <p class="font-medium">
+              {{ vehicle?.created_by.firstname }}
+              {{ vehicle?.created_by.lastname }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Created On</p>
+            <p class="font-medium">
+              {{ vehicle?.created_on | date: "mediumDate" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="LoadUI"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <div class="row">
+      <div class="card">
+        <p-tabs value="0">
+          <p-tablist>
+            <p-tab value="0">Remarks</p-tab>
+            <p-tab value="1">Vehicle Photo</p-tab>
+            <p-tab value="2">Valuation Report</p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="0">
+              <app-note [f_key]="id" [type]="'VEHICLE'"></app-note>
+            </p-tabpanel>
+            <p-tabpanel value="1">
+              <h1>[ AVAILABLE SOON ]</h1>
+            </p-tabpanel>
+            <p-tabpanel value="2">
+              <h1>[ AVAILABLE SOON ]</h1>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+  </div>
+</section>

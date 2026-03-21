@@ -33,6 +33,90 @@ export class SharedService {
     return cleanedValues;
   }
 
+  // MADARATA
+
+  // Customer
+
+  private add_customer = new Subject<void>();
+  private edit_customer = new Subject<void>();
+  private customer_data: any = undefined;
+
+  setCustomerData(data: any) {
+    this.customer_data = data;
+  }
+  openAddCustomerModal() {
+    this.add_customer.next();
+  }
+  getAddCustomerClickEvent(): Observable<any> {
+    return this.add_customer.asObservable();
+  }
+  getCustomerData(): any {
+    return this.customer_data;
+  }
+
+  openEditCustomerModal() {
+    this.edit_customer.next();
+  }
+
+  getEditPCustomerClickEvent(): Observable<any> {
+    return this.edit_customer.asObservable();
+  }
+
+  // Guarantee
+
+  private add_guarantee = new Subject<void>();
+  private edit_guarantee = new Subject<void>();
+  private guarantees_data: any = undefined;
+
+  setGuaranteeData(data: any) {
+    this.guarantees_data = data;
+  }
+  openAddGuaranteeModal() {
+    this.add_guarantee.next();
+  }
+  getAddGuaranteeClickEvent(): Observable<any> {
+    return this.add_guarantee.asObservable();
+  }
+  getGuaranteeData(): any {
+    return this.guarantees_data;
+  }
+
+  openEditGuaranteeModal() {
+    this.edit_guarantee.next();
+  }
+
+  getEditGuaranteeClickEvent(): Observable<any> {
+    return this.edit_guarantee.asObservable();
+  }
+
+  // Vehicle
+  private add_vehicle = new Subject<void>();
+  private edit_vehicle = new Subject<any>();
+  private vehicle_data: any = undefined;
+
+  setVehicleData(data: any) {
+    this.vehicle_data = data;
+  }
+  openAddVehicleModal() {
+    this.add_vehicle.next();
+  }
+  getAddVehicleClickEvent(): Observable<any> {
+    return this.add_vehicle.asObservable();
+  }
+  getVehicleData(): any {
+    return this.vehicle_data;
+  }
+
+  // openEditClientModal() {
+  //   this.edit_supplier.next();
+  // }
+
+  // getEditClientClickEvent(): Observable<any> {
+  //   return this.edit_supplier.asObservable();
+  // }
+
+  // SETHNETH
+
   // Supplier
   private add_supplier = new Subject<void>();
   private edit_supplier = new Subject<any>();
@@ -194,33 +278,6 @@ export class SharedService {
   //   return this.edit_supplier.asObservable();
   // }
 
-  // Customer
-
-  private add_customer = new Subject<void>();
-  private edit_customer = new Subject<void>();
-  private customer_data: any = undefined;
-
-  setCustomerData(data: any) {
-    this.customer_data = data;
-  }
-  openAddCustomerModal() {
-    this.add_customer.next();
-  }
-  getAddCustomerClickEvent(): Observable<any> {
-    return this.add_customer.asObservable();
-  }
-  getCustomerData(): any {
-    return this.customer_data;
-  }
-
-  openEditCustomerModal() {
-    this.edit_customer.next();
-  }
-
-  getEditPCustomerClickEvent(): Observable<any> {
-    return this.edit_customer.asObservable();
-  }
-
   // Brand
 
   private add_lense = new Subject<void>();
@@ -316,39 +373,6 @@ export class SharedService {
   }
   getPaymentData(): any {
     return this.payment_data;
-  }
-
-  // openEditClientModal() {
-  //   this.edit_supplier.next();
-  // }
-
-  // getEditClientClickEvent(): Observable<any> {
-  //   return this.edit_supplier.asObservable();
-  // }
-
-  // Prescription
-  private add_prescription = new Subject<void>();
-  private edit_prescription = new Subject<any>();
-  private view_prescription = new Subject<void>();
-  private prescription_data: any = undefined;
-
-  setPrescriptionData(data: any) {
-    this.prescription_data = data;
-  }
-  openAddPrescriptionrModal() {
-    this.add_prescription.next();
-  }
-  getAddPrescriptionClickEvent(): Observable<any> {
-    return this.add_prescription.asObservable();
-  }
-  getPrescriptionData(): any {
-    return this.prescription_data;
-  }
-  openViewPrescriptionrModal() {
-    this.view_prescription.next();
-  }
-  getViewPrescriptionClickEvent(): Observable<any> {
-    return this.view_prescription.asObservable();
   }
 
   // openEditClientModal() {
