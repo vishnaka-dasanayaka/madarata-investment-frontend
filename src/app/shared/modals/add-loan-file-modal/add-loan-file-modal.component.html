@@ -1,0 +1,281 @@
+<!-- Modal Backdrop -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 bg-black/50 z-40 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto z-40">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add Loan File</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <form
+        [formGroup]="valForm"
+        (ngSubmit)="submitForm(valForm.value)"
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Branch
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <p-select
+              [options]="branch_list"
+              formControlName="branch"
+              [checkmark]="true"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              placeholder="Select a title"
+              class="w-full"
+              [filter]="true"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['branch'].hasError('required') &&
+                (valForm.controls['branch'].dirty ||
+                  valForm.controls['branch'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div></div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Loan Amount
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+            <input
+              type="text"
+              formControlName="loan_amount"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['loan_amount'].hasError('required') &&
+                (valForm.controls['loan_amount'].dirty ||
+                  valForm.controls['loan_amount'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1 text-gray-700"
+              >Interest Rate P.A. % (EIR)
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i
+            ></label>
+            <input
+              type="text"
+              formControlName="eir"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.controls['eir'].hasError('required') &&
+                (valForm.controls['eir'].dirty ||
+                  valForm.controls['eir'].touched)
+              "
+              >This field is required</span
+            >
+          </div>
+
+          <div class="col-span-2">
+            <label class="block text-sm font-medium mb-1 text-gray-700">
+              Loan Term
+              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            </label>
+
+            <div class="flex gap-2">
+              <!-- Years -->
+              <div class="w-1/2">
+                <label class="text-xs text-gray-300">Years</label>
+                <input
+                  type="number"
+                  formControlName="term_years"
+                  placeholder="Years"
+                  min="0"
+                  class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+              </div>
+
+              <!-- Months -->
+              <div class="w-1/2">
+                <label class="text-xs text-gray-300">Months</label>
+
+                <input
+                  type="number"
+                  formControlName="term_months"
+                  placeholder="Months"
+                  min="0"
+                  max="11"
+                  class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+              </div>
+            </div>
+
+            <!-- Validation -->
+            <span
+              class="text-red-500 text-xs"
+              *ngIf="
+                valForm.hasError('termRequired') &&
+                (valForm.get('term_years')?.touched ||
+                  valForm.get('term_months')?.touched)
+              "
+            >
+              Loan term is required (enter years or months)
+            </span>
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            (click)="calc()"
+            class="px-5 py-2 rounded cursor-pointer text-white"
+            [ngClass]="
+              valForm.valid
+                ? 'bg-green-500 hover:bg-green-600'
+                : 'bg-green-100 cursor-not-allowed'
+            "
+            [disabled]="valForm.invalid"
+          >
+            CALC
+          </button>
+        </div>
+
+        <div *ngIf="monthly_payment && total_payment" class="col-span-2">
+          <div class="bg-gray-50 border border-gray-200 rounded p-4">
+            <h3 class="text-sm font-semibold text-gray-700 mb-3">
+              Loan Summary
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-xs text-gray-500">Monthly Payment</p>
+                <p class="text-lg font-semibold text-primary">
+                  {{ monthly_payment || 0 | number: "1.2-2" }}
+                </p>
+              </div>
+
+              <div>
+                <p class="text-xs text-gray-500">Total Payment</p>
+                <p class="text-lg font-semibold text-primary">
+                  {{ total_payment || 0 | number: "1.2-2" }}
+                </p>
+              </div>
+
+              <div>
+                <p class="text-xs text-gray-500">Total Interest</p>
+                <p class="text-lg font-semibold text-primary">
+                  {{
+                    total_payment - valForm.get("loan_amount")?.value
+                      | number: "1.2-2"
+                  }}
+                </p>
+              </div>
+
+              <div></div>
+
+              <div>
+                <button
+                  type="button"
+                  class="px-2 py-1 text-xs border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+                  (click)="generateSchedule()"
+                >
+                  View Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-4">
+          <button
+            type="button"
+            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded text-white"
+            [ngClass]="
+              valForm.valid
+                ? 'bg-primary/70 hover:bg-primary'
+                : 'bg-primary/50 cursor-not-allowed'
+            "
+            [disabled]="valForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Loan Schedule Popup -->
+<div
+  *ngIf="showPopup"
+  class="fixed inset-0 flex justify-center items-center bg-black/50 z-50"
+>
+  <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl p-4 relative">
+    <!-- Close Button -->
+    <button
+      (click)="showPopup = false"
+      class="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+    >
+      ✖
+    </button>
+
+    <h2 class="text-xl font-bold mb-4 text-center">Loan Schedule</h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border border-gray-300 rounded">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-2 py-1">Month</th>
+            <th class="border px-2 py-1">EMI (LKR)</th>
+            <th class="border px-2 py-1">Interest (LKR)</th>
+            <th class="border px-2 py-1">Principal (LKR)</th>
+            <th class="border px-2 py-1">Balance (LKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of loanSchedule">
+            <td class="border px-2 py-1 text-center">{{ row.month }}</td>
+            <td class="border px-2 py-1 text-right">{{ row.emi | number }}</td>
+            <td class="border px-2 py-1 text-right">
+              {{ row.interest | number }}
+            </td>
+            <td class="border px-2 py-1 text-right">
+              {{ row.principal | number }}
+            </td>
+            <td class="border px-2 py-1 text-right">
+              {{ row.balance | number }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
