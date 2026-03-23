@@ -113,6 +113,8 @@ export class AddLoanFileModalComponent {
             this.parentFun.emit();
             this.closeModal();
             this.valForm.reset();
+            this.monthly_payment = null;
+            this.total_payment = null;
             swal.fire({
               title: "Success!",
               text: "Loan has been created successfully.",
