@@ -393,6 +393,9 @@
                           <div class="text-start" *ngSwitchCase="'reg_no'">
                             {{ rowData?.reg_no }}
                           </div>
+                          <div class="text-start" *ngSwitchCase="'val'">
+                            {{ rowData?.valuation | number: "2.2" }}
+                          </div>
 
                           <div *ngSwitchCase="'status'">
                             <span

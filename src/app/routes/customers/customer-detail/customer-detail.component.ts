@@ -59,6 +59,7 @@ export class CustomerDetailComponent {
       { field: "make", header: "Make" },
       { field: "model", header: "Model" },
       { field: "reg_no", header: "Reg No" },
+      { field: "val", header: "Valuation" },
       { field: "status", header: "Status" },
       { field: "created_on", header: "Created On" },
       { field: "actions", header: "Actions", sortable: true, width: "200px" },

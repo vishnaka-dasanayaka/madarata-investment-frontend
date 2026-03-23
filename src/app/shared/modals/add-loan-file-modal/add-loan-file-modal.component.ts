@@ -89,6 +89,8 @@ export class AddLoanFileModalComponent {
   closeModal() {
     this.showModal = false;
     this.valForm.reset();
+    this.monthly_payment = null;
+    this.total_payment = null;
   }
 
   submitForm(value: any) {
