@@ -1,0 +1,175 @@
+<section class="">
+  <h6 class="text-xs mb-2">Loans > Loan Summary</h6>
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Loan Summary</h1>
+      <h5 class="text-xs font-thin">List of Loans appear here</h5>
+    </div>
+  </div>
+
+  <div *ngIf="!LoadUI" class="card">
+    <div class="flex flex-wrap">
+      <div class="w-full mt-5">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton width="30rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" styleClass="mb-2" />
+        <p-skeleton height="10rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="LoadUI" class="min-h-screen mt-10 bg-gray-50">
+    <div class="mt-4">
+      <p-table
+        #dt1
+        [columns]="cols"
+        [value]="loans"
+        [paginator]="true"
+        [rows]="10"
+        [globalFilterFields]="['code', 'name', 'phone', 'address', 'nic']"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [responsive]="false"
+        [autoLayout]="true"
+        styleClass="p-datatable-sm p-datatable-striped"
+        [rowHover]="true"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [lazy]="true"
+        (onLazyLoad)="getAllCustomers($event)"
+        [totalRecords]="no_of_loans"
+        [sortOrder]="1"
+      >
+        <ng-template #caption>
+          <div class="flex">
+            <p-iconfield iconPosition="left" class="ml-auto">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  dt1.filterGlobal($any($event.target).value, 'contains')
+                "
+                placeholder="Search keyword"
+              />
+            </p-iconfield>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr class="bg-primary text-white text-sm">
+            <th
+              *ngFor="let col of columns"
+              [pSortableColumn]="col.field"
+              [pSortableColumnDisabled]="col.sortable"
+              [style.width]="col.width"
+              class="px-3 py-2 text-center font-medium"
+            >
+              {{ col.header }}
+              <p-sortIcon
+                *ngIf="!col.sortable"
+                [field]="col.field"
+                ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"
+                styleClass="ml-2"
+              ></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr class="hover:bg-orange-50 transition">
+            <td
+              *ngFor="let col of columns"
+              class="px-3 py-2 text-sm text-center"
+              [ngSwitch]="col.field"
+            >
+              <div *ngSwitchCase="'code'">
+                <a
+                  class="text-link font-medium hover:underline"
+                  routerLink="/loans/loan-details/{{ rowData.id }}"
+                >
+                  {{ rowData[col.field] }}
+                </a>
+              </div>
+
+              <div *ngSwitchCase="'customer'">
+                <a
+                  class="text-link font-medium hover:underline"
+                  routerLink="/customers/customer-details/{{
+                    rowData.customer_id
+                  }}"
+                >
+                  {{ rowData?.cus_code }} : {{ rowData?.cus_initials }}
+                  {{ rowData?.cus_surname }}
+                </a>
+              </div>
+
+              <div class="text-start" *ngSwitchCase="'branch'">
+                {{ rowData?.branch_name }}
+              </div>
+              <div class="text-start" *ngSwitchCase="'eir'">
+                {{ rowData?.eir }}
+              </div>
+
+              <div class="text-start" *ngSwitchCase="'period'">
+                {{ formatPeriod(rowData?.period) }}
+              </div>
+
+              <div class="text-start" *ngSwitchCase="'loan_amount'">
+                {{ rowData?.loan_amount }}
+              </div>
+
+              <div class="text-center" *ngSwitchCase="'status'">
+                <span
+                  *ngIf="rowData[col.field] == 0"
+                  class="badge badge-primary"
+                >
+                  Pending
+                </span>
+                <span
+                  *ngIf="rowData[col.field] == 2"
+                  class="badge badge-success"
+                >
+                  Approved
+                </span>
+
+                <span
+                  *ngIf="rowData[col.field] == -2"
+                  class="badge badge-danger"
+                >
+                  Rejected
+                </span>
+              </div>
+
+              <div class="text-start" *ngSwitchCase="'created_on'">
+                {{ rowData?.created_on | date: "mediumDate" }}
+              </div>
+
+              <div *ngSwitchCase="'actions'">
+                <button
+                  class="btn btn-outline-view"
+                  routerLink="/loans/loan-details/{{ rowData.id }}"
+                >
+                  View
+                </button>
+                <button
+                  class="btn btn-outline-warning ml-3"
+                  (click)="openEditModal(rowData)"
+                >
+                  Edit
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</section>
+
+<app-add-customer-modal (parentFun)="getAllCustomers()">
+</app-add-customer-modal>
+<!-- <app-edit-customer (parentFun)="getAllCustomers()"> </app-edit-customer> -->

@@ -8,6 +8,7 @@ import { SharedService } from "../../../core/_services/shared.service";
 import { CustomerService } from "../../../core/_services/customer.service";
 import { GuaranteeService } from "../../../core/_services/guarantee.service";
 import { VehicleService } from "../../../core/_services/vehicle.service";
+import { LoanService } from "../../../core/_services/loan.service";
 
 @Component({
   selector: "app-customer-detail",
@@ -31,6 +32,9 @@ export class CustomerDetailComponent {
   vehicle_cols: any[] = [];
   vehicles: any[] = [];
 
+  loan_file_cols: any[] = [];
+  loan_files: any[] = [];
+
   constructor(
     private authservice: AuthenticationService,
     private route: ActivatedRoute,
@@ -39,6 +43,7 @@ export class CustomerDetailComponent {
     private customerService: CustomerService,
     private vehicleService: VehicleService,
     private guaranteeService: GuaranteeService,
+    private loanService: LoanService,
   ) {
     this.cols = [
       { field: "name", header: "Name" },
@@ -58,6 +63,17 @@ export class CustomerDetailComponent {
       { field: "created_on", header: "Created On" },
       { field: "actions", header: "Actions", sortable: true, width: "200px" },
     ];
+
+    this.loan_file_cols = [
+      { field: "code", header: "Code" },
+      { field: "branch", header: "Branch" },
+      { field: "eir", header: "EIR" },
+      { field: "period", header: "Loan Period" },
+      { field: "loan_amount", header: "Loan Amount" },
+      { field: "status", header: "Status" },
+      { field: "created_on", header: "Created On" },
+      { field: "actions", header: "Actions", sortable: true, width: "200px" },
+    ];
   }
 
   ngOnInit(): void {
@@ -71,6 +87,7 @@ export class CustomerDetailComponent {
       this.getData(this.id);
       this.getGuarantees();
       this.getVehicles();
+      this.getLoanFiles();
     });
   }
 
@@ -94,6 +111,16 @@ export class CustomerDetailComponent {
       });
   }
 
+  getLoanFiles() {
+    this.loanService
+      .getLoanFilesPerCustomer({ cus_id: this.id })
+      .subscribe((data) => {
+        if (data.status) {
+          this.loan_files = data.loan_files;
+        }
+      });
+  }
+
   generateUniqueKey() {
     const timestamp = new Date().valueOf();
     const random = Math.random().toString(36).substring(2);
@@ -112,6 +139,22 @@ export class CustomerDetailComponent {
         }
       }
     });
+  }
+
+  formatPeriod(totalMonths: number | undefined): string {
+    if (!totalMonths && totalMonths !== 0) return "";
+
+    const years = Math.floor(totalMonths / 12);
+    const months = totalMonths % 12;
+
+    let result = "";
+    if (years > 0) result += `${years} year${years > 1 ? "s" : ""}`;
+    if (months > 0)
+      result +=
+        (years > 0 ? " " : "") + `${months} month${months > 1 ? "s" : ""}`;
+
+    // If totalMonths = 0
+    return result || "0 month";
   }
 
   updateStatus(value: number) {
@@ -196,6 +239,14 @@ export class CustomerDetailComponent {
       patient_id: this.id,
     });
     this.sharedService.openAddVehicleModal();
+  }
+
+  openAddLoanFileModal() {
+    this.sharedService.setLoanFileData({
+      navigate: true,
+      patient_id: this.id,
+    });
+    this.sharedService.openAddLoanFileModal();
   }
 
   openPatientEditModal() {

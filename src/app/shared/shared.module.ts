@@ -55,6 +55,7 @@ import { NoteComponent } from "./modals/note/note.component";
 import { AddCustomerModalComponent } from "./modals/add-customer-modal/add-customer-modal.component";
 import { AddGuaranteeModalComponent } from "./modals/add-guarantee-modal/add-guarantee-modal.component";
 import { AddVehicleModalComponent } from "./modals/add-vehicle-modal/add-vehicle-modal.component";
+import { AddLoanFileModalComponent } from "./modals/add-loan-file-modal/add-loan-file-modal.component";
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import { AddVehicleModalComponent } from "./modals/add-vehicle-modal/add-vehicle
     AddCustomerModalComponent,
     AddGuaranteeModalComponent,
     AddVehicleModalComponent,
+    AddLoanFileModalComponent,
   ],
   exports: [
     BlockUIModule,
@@ -165,6 +167,7 @@ import { AddVehicleModalComponent } from "./modals/add-vehicle-modal/add-vehicle
     AddCustomerModalComponent,
     AddGuaranteeModalComponent,
     AddVehicleModalComponent,
+    AddLoanFileModalComponent,
   ],
 })
 

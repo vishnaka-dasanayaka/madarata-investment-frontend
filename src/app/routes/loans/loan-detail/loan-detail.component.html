@@ -1,0 +1,216 @@
+<section class="">
+  <h6 class="text-xs mb-2">
+    <span
+      [routerLink]="['/loans/loan-summary']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Loans</span
+    >
+    >
+    <span
+      [routerLink]="['/loans/loan-summary']"
+      routerLinkActive="router-link-active"
+      class="text-blue-500 cursor-pointer"
+      >Loans Summary</span
+    >
+
+    > {{ loan_file?.code }}
+  </h6>
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Loan Details</h1>
+      <h5 class="text-xs font-thin">{{ loan_file?.code }}</h5>
+    </div>
+    <!-- <div>
+      <button
+        [disabled]="loan_file?.status == 2"
+        class="mr-2 btn-lg btn-success"
+        [ngClass]="{ 'btn-disable': loan_file?.status == 2 }"
+        (click)="updateStatus(2)"
+      >
+        <i class="fa-solid fa-circle-check mr-2"></i>Mark as Approved
+      </button>
+      <button
+        *hasPermission="[[5], sysuser]"
+        [disabled]="loan_file?.status == 0"
+        [ngClass]="{ 'btn-disable': loan_file?.status == 0 }"
+        class="mr-2 btn-lg btn-primary"
+        (click)="updateStatus(0)"
+      >
+        <i class="fa-solid fa-circle-check mr-2"></i>Mark as Pending
+      </button>
+      <button
+        *hasPermission="[[5], sysuser]"
+        [disabled]="loan_file?.status == -2"
+        class="mr-2 btn-lg btn-danger"
+        [ngClass]="{ 'btn-disable': loan_file?.status == -2 }"
+        (click)="updateStatus(-2)"
+      >
+        <i class="fa-solid fa-circle-check mr-2"></i>Mark as Rejected
+      </button>
+    </div> -->
+  </div>
+
+  <div *ngIf="!LoadUI" class="card">
+    <div class="flex flex-wrap">
+      <div class="w-full mt-5">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton width="30rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" styleClass="mb-2" />
+        <p-skeleton height="10rem" styleClass="mb-2" />
+        <p-skeleton width="10rem" height="4rem" />
+      </div>
+    </div>
+  </div>
+
+  <!-- loan_file-detail.component.html -->
+  <div
+    *ngIf="LoadUI"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <!-- Supplier Information Section -->
+    <div class="mb-8">
+      <div class="w-full flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+          Basic Information
+        </h3>
+
+        <!-- <button (click)="openPatientEditModal()" class="btn btn-gray">
+          <i class="fa-solid fa-pen-to-square"></i> Edit
+        </button> -->
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Code</p>
+            <p class="font-medium">
+              {{ loan_file?.code }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Branch</p>
+            <p class="font-medium">
+              <a
+                class="text-link font-medium hover:underline"
+                routerLink="/settings/branch-details/{{
+                  loan_file.branch_id.id
+                }}"
+              >
+                {{ loan_file?.branch_id.code }} :
+                {{ loan_file?.branch_id.name }}</a
+              >
+            </p>
+          </div>
+
+          <div class="">
+            <p class="text-sm text-gray-500">Customer</p>
+            <p class="font-medium">
+              <a
+                class="text-link font-medium hover:underline"
+                routerLink="/customers/customer-details/{{
+                  loan_file.customer_id.id
+                }}"
+              >
+                {{ loan_file?.customer_id.code }}
+                {{ loan_file?.customer_id.initials }}
+                {{ loan_file?.customer_id.surname }}
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Status</p>
+            <p
+              *ngIf="loan_file?.status == 2"
+              class="badge badge-success w-16 mt-1 text-center"
+            >
+              Active
+            </p>
+
+            <p
+              *ngIf="loan_file?.status == 0"
+              class="badge badge-primary w-16 mt-1 text-center"
+            >
+              Pending
+            </p>
+            <p
+              *ngIf="loan_file?.status == -2"
+              class="badge badge-danger w-24 mt-1 text-center"
+            >
+              Rejected
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Loan Amount</p>
+            <p class="font-medium">
+              LKR {{ loan_file?.loan_amount | number: "2.2" }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Loan Period</p>
+            <p class="font-medium">
+              {{ formatPeriod(loan_file?.period) }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Interest Rate P.A. % (EIR)</p>
+            <p class="font-medium">
+              {{ loan_file?.eir }}
+            </p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Created By</p>
+            <p class="font-medium">
+              {{ loan_file?.created_by.firstname }}
+              {{ loan_file?.created_by.lastname }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Created On</p>
+            <p class="font-medium">
+              {{ loan_file?.created_on | date: "mediumDate" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="LoadUI"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <div class="row">
+      <div class="card">
+        <p-tabs value="0">
+          <p-tablist>
+            <p-tab value="0">Remarks</p-tab>
+            <p-tab value="1">Payment Schedule</p-tab>
+            <p-tab value="2">Invoices</p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="0">
+              <app-note [f_key]="id" [type]="'LOAN_FILE'"></app-note>
+            </p-tabpanel>
+            <p-tabpanel value="1">
+              <h1>[ AVAILABLE SOON ]</h1>
+            </p-tabpanel>
+            <p-tabpanel value="2">
+              <h1>[ AVAILABLE SOON ]</h1>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+  </div>
+</section>

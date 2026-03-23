@@ -115,6 +115,32 @@ export class SharedService {
   //   return this.edit_supplier.asObservable();
   // }
 
+  // Loan file
+  private add_loan_file = new Subject<void>();
+  private edit_loan_file = new Subject<any>();
+  private loan_file_data: any = undefined;
+
+  setLoanFileData(data: any) {
+    this.loan_file_data = data;
+  }
+  openAddLoanFileModal() {
+    this.add_loan_file.next();
+  }
+  getAddLoanFileClickEvent(): Observable<any> {
+    return this.add_loan_file.asObservable();
+  }
+  getLoanFileData(): any {
+    return this.loan_file_data;
+  }
+
+  // openEditClientModal() {
+  //   this.edit_supplier.next();
+  // }
+
+  // getEditClientClickEvent(): Observable<any> {
+  //   return this.edit_supplier.asObservable();
+  // }
+
   // SETHNETH
 
   // Supplier

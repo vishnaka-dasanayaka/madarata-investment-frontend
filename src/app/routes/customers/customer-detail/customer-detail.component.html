@@ -213,6 +213,7 @@
             <p-tab value="0">Remarks</p-tab>
             <p-tab value="1">Guarantees</p-tab>
             <p-tab value="2">Vehicles</p-tab>
+            <p-tab value="3">Loan Files</p-tab>
           </p-tablist>
           <p-tabpanels>
             <p-tabpanel value="0">
@@ -436,6 +437,120 @@
                 </div>
               </div>
             </p-tabpanel>
+            <p-tabpanel value="3">
+              <div class="flex items-end justify-end">
+                <button (click)="openAddLoanFileModal()" class="add_btn">
+                  <i class="fa-solid fa-plus mr-2"></i>Add Loan File
+                </button>
+              </div>
+              <div class="card">
+                <div class="mt-4">
+                  <p-table
+                    #dt1
+                    [columns]="loan_file_cols"
+                    [value]="loan_files"
+                    [paginator]="false"
+                    [showCurrentPageReport]="false"
+                    [responsive]="false"
+                    [autoLayout]="true"
+                    styleClass="p-datatable-sm p-datatable-striped"
+                    [rowHover]="true"
+                  >
+                    <ng-template pTemplate="header" let-columns>
+                      <tr class="bg-[#ff820d] text-white text-sm">
+                        <th
+                          *ngFor="let col of columns"
+                          [pSortableColumn]="col.field"
+                          [pSortableColumnDisabled]="col.sortable"
+                          [style.width]="col.width"
+                          class="px-3 py-2 text-center font-medium"
+                        >
+                          {{ col.header }}
+                          <p-sortIcon
+                            *ngIf="!col.sortable"
+                            [field]="col.field"
+                            ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"
+                            styleClass="ml-2"
+                          ></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template
+                      pTemplate="body"
+                      let-rowData
+                      let-columns="columns"
+                    >
+                      <tr class="hover:bg-orange-50 transition">
+                        <td
+                          *ngFor="let col of columns; let i = index"
+                          class="px-3 py-2 text-sm text-center"
+                          [ngSwitch]="col.field"
+                        >
+                          <div class="text-start" *ngSwitchCase="'code'">
+                            {{ rowData?.code }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'branch'">
+                            {{ rowData?.branch_id.name }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'eir'">
+                            {{ rowData?.eir }}
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'period'">
+                            {{ formatPeriod(rowData?.period) }}
+                          </div>
+                          <div class="text-start" *ngSwitchCase="'loan_amount'">
+                            {{ rowData?.loan_amount | number: "2.2" }}
+                          </div>
+
+                          <div *ngSwitchCase="'status'">
+                            <span
+                              *ngIf="rowData[col.field] == 0"
+                              class="badge badge-primary"
+                            >
+                              Pending
+                            </span>
+                            <span
+                              *ngIf="rowData[col.field] == 2"
+                              class="badge badge-success"
+                            >
+                              Approved
+                            </span>
+
+                            <span
+                              *ngIf="rowData[col.field] == -2"
+                              class="badge badge-danger"
+                            >
+                              Rejected
+                            </span>
+                          </div>
+
+                          <div class="text-start" *ngSwitchCase="'created_on'">
+                            {{ rowData?.created_on | date: "mediumDate" }}
+                          </div>
+
+                          <div *ngSwitchCase="'actions'">
+                            <button
+                              class="btn btn-outline-view"
+                              routerLink="/vehicles/vehicle-details/{{
+                                rowData.id
+                              }}"
+                            >
+                              View
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </p-tabpanel>
           </p-tabpanels>
         </p-tabs>
       </div>
@@ -452,3 +567,8 @@
   [cus_id]="id"
   (parentFun)="getVehicles()"
 ></app-add-vehicle-modal>
+
+<app-add-loan-file-modal
+  [cus_id]="id"
+  (parentFun)="getLoanFiles()"
+></app-add-loan-file-modal>
