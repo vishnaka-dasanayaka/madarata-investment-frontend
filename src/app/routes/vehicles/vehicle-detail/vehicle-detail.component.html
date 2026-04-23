@@ -126,15 +126,13 @@
           </div>
 
           <div class="">
-            <p class="text-sm text-gray-500">Customer</p>
+            <p class="text-sm text-gray-500">Loan File</p>
             <p class="font-medium">
               <a
                 class="text-link font-medium hover:underline"
-                routerLink="/vehicles/customer-details/{{
-                  vehicle.customer_id.id
-                }}"
+                routerLink="/loans/loan-details/{{ vehicle.customer_id.id }}"
               >
-                {{ vehicle?.customer_id.code }}
+                {{ vehicle?.customer_id.loan_file_code }} :
                 {{ vehicle?.customer_id.initials }}
                 {{ vehicle?.customer_id.surname }}
               </a>

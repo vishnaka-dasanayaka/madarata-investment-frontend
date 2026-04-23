@@ -5,6 +5,9 @@
       <h1 class="text-xl font-semibold">Loan Summary</h1>
       <h5 class="text-xs font-thin">List of Loans appear here</h5>
     </div>
+    <button (click)="openAddModal()" class="add_btn">
+      <i class="fa-solid fa-plus mr-2"></i>Add File
+    </button>
   </div>
 
   <div *ngIf="!LoadUI" class="card">
@@ -86,7 +89,7 @@
               class="px-3 py-2 text-sm text-center"
               [ngSwitch]="col.field"
             >
-              <div *ngSwitchCase="'code'">
+              <div *ngSwitchCase="'loan_file_code'">
                 <a
                   class="text-link font-medium hover:underline"
                   routerLink="/loans/loan-details/{{ rowData.id }}"
@@ -96,30 +99,29 @@
               </div>
 
               <div *ngSwitchCase="'customer'">
-                <a
-                  class="text-link font-medium hover:underline"
-                  routerLink="/customers/customer-details/{{
-                    rowData.customer_id
-                  }}"
-                >
-                  {{ rowData?.cus_code }} : {{ rowData?.cus_initials }}
-                  {{ rowData?.cus_surname }}
+                <a class="text-link font-medium hover:underline">
+                  {{ rowData?.initials }}
+                  {{ rowData?.surname }}
                 </a>
               </div>
 
               <div class="text-start" *ngSwitchCase="'branch'">
-                {{ rowData?.branch_name }}
+                {{ rowData?.loan?.branch_id?.name }}
+                <span *ngIf="!rowData?.loan">[ NOT UPDATED ]</span>
               </div>
               <div class="text-start" *ngSwitchCase="'eir'">
-                {{ rowData?.eir }}
+                {{ rowData?.loan?.eir }}
+                <span *ngIf="!rowData?.loan">[ NOT UPDATED ]</span>
               </div>
 
               <div class="text-start" *ngSwitchCase="'period'">
-                {{ formatPeriod(rowData?.period) }}
+                {{ formatPeriod(rowData?.loan?.period) }}
+                <span *ngIf="!rowData?.loan">[ NOT UPDATED ]</span>
               </div>
 
               <div class="text-start" *ngSwitchCase="'loan_amount'">
-                {{ rowData?.loan_amount }}
+                {{ rowData?.loan?.loan_amount | number: "2.2" }}
+                <span *ngIf="!rowData?.loan">[ NOT UPDATED ]</span>
               </div>
 
               <div class="text-center" *ngSwitchCase="'status'">

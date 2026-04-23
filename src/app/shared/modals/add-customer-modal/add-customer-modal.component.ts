@@ -152,9 +152,7 @@ export class AddCustomerModalComponent {
               icon: "success",
               confirmButtonColor: "#28a745", // Optional: green color for success
             });
-            this.router.navigate([
-              "/customers/customer-details/" + data.customer.id,
-            ]);
+            this.router.navigate(["/loans/loan-details/" + data.customer.id]);
           } else {
             this.toastr.warning(data.err, "ERROR !!", {
               positionClass: "toast-top-right",

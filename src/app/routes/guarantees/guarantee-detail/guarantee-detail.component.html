@@ -103,16 +103,14 @@
             </p>
           </div>
 
-          <div>
-            <p class="text-sm text-gray-500">Customer</p>
+          <div class="">
+            <p class="text-sm text-gray-500">Loan File</p>
             <p class="font-medium">
               <a
                 class="text-link font-medium hover:underline"
-                routerLink="/customers/customer-details/{{
-                  guarantee.customer_id.id
-                }}"
+                routerLink="/loans/loan-details/{{ guarantee.customer_id.id }}"
               >
-                {{ guarantee?.customer_id.code }}
+                {{ guarantee?.customer_id.loan_file_code }} :
                 {{ guarantee?.customer_id.initials }}
                 {{ guarantee?.customer_id.surname }}
               </a>
