@@ -36,47 +36,26 @@
         </div>
       </div>
 
-      <!-- Patients Section -->
-      <div>
-        <h3
-          class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
-        >
-          People
-        </h3>
-        <div
-          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
-          [ngClass]="{
-            'bg-primary text-white':
-              currentPath === '/customers/customer-summary',
-            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/customers/customer-summary',
-          }"
-          (click)="onClickMenu('/customers/customer-summary', 7)"
-        >
-          <i class="fa-solid fa-people-group w-5 mr-3"></i>
-          <span class="text-sm font-medium">Customers</span>
-        </div>
-        <div
-          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
-          [ngClass]="{
-            'bg-primary text-white':
-              currentPath === '/guarantees/guarantee-summary',
-            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/guarantees/guarantee-summary',
-          }"
-          (click)="onClickMenu('/guarantees/guarantee-summary', 7)"
-        >
-          <i class="fa-solid fa-person-circle-check w-5 mr-3"></i>
-          <span class="text-sm font-medium">Guarantees</span>
-        </div>
-      </div>
-
       <div>
         <h3
           class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
         >
           assets
         </h3>
+
+        <div
+          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
+          [ngClass]="{
+            'bg-primary text-white': currentPath === '/loans/loan-summary',
+            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
+              currentPath !== '/loans/loan-summary',
+          }"
+          (click)="onClickMenu('/loans/loan-summary', 7)"
+        >
+          <i class="fa-regular w-5 mr-3 fa-file-lines"></i>
+          <span class="text-sm font-medium">Loan Files</span>
+        </div>
+
         <div
           class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
           [ngClass]="{
@@ -90,17 +69,27 @@
           <i class="fa-solid fa-car-side w-5 mr-3"></i>
           <span class="text-sm font-medium">Vehicles</span>
         </div>
+      </div>
+
+      <div>
+        <h3
+          class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
+        >
+          People
+        </h3>
+
         <div
           class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
           [ngClass]="{
-            'bg-primary text-white': currentPath === '/loans/loan-summary',
+            'bg-primary text-white':
+              currentPath === '/guarantees/guarantee-summary',
             'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
-              currentPath !== '/loans/loan-summary',
+              currentPath !== '/guarantees/guarantee-summary',
           }"
-          (click)="onClickMenu('/loans/loan-summary', 7)"
+          (click)="onClickMenu('/guarantees/guarantee-summary', 7)"
         >
-          <i class="fa-regular w-5 mr-3 fa-file-lines"></i>
-          <span class="text-sm font-medium">Loans</span>
+          <i class="fa-solid fa-person-circle-check w-5 mr-3"></i>
+          <span class="text-sm font-medium">Guarantees</span>
         </div>
       </div>
 

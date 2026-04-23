@@ -1,39 +1,39 @@
 <section class="">
   <h6 class="text-xs mb-2">
     <span
-      [routerLink]="['/loans/loan-summary']"
+      [routerLink]="['/customers/customer-summary']"
       routerLinkActive="router-link-active"
       class="text-blue-500 cursor-pointer"
-      >Loans</span
+      >Loan FIles</span
     >
     >
     <span
-      [routerLink]="['/loans/loan-summary']"
+      [routerLink]="['/customers/customer-summary']"
       routerLinkActive="router-link-active"
       class="text-blue-500 cursor-pointer"
-      >Loans Summary</span
+      >Loan FIles Summary</span
     >
 
-    > {{ loan_file?.code }}
+    > {{ customer?.loan_file_code }}
   </h6>
   <div class="flex items-end justify-between">
     <div>
-      <h1 class="text-xl font-semibold">Loan Details</h1>
-      <h5 class="text-xs font-thin">{{ loan_file?.code }}</h5>
+      <h1 class="text-xl font-semibold">Loan FIle Details</h1>
+      <h5 class="text-xs font-thin">{{ customer?.loan_file_code }}</h5>
     </div>
-    <!-- <div>
+    <div>
       <button
-        [disabled]="loan_file?.status == 2"
+        [disabled]="customer?.status == 2"
         class="mr-2 btn-lg btn-success"
-        [ngClass]="{ 'btn-disable': loan_file?.status == 2 }"
+        [ngClass]="{ 'btn-disable': customer?.status == 2 }"
         (click)="updateStatus(2)"
       >
         <i class="fa-solid fa-circle-check mr-2"></i>Mark as Approved
       </button>
       <button
         *hasPermission="[[5], sysuser]"
-        [disabled]="loan_file?.status == 0"
-        [ngClass]="{ 'btn-disable': loan_file?.status == 0 }"
+        [disabled]="customer?.status == 0"
+        [ngClass]="{ 'btn-disable': customer?.status == 0 }"
         class="mr-2 btn-lg btn-primary"
         (click)="updateStatus(0)"
       >
@@ -41,14 +41,43 @@
       </button>
       <button
         *hasPermission="[[5], sysuser]"
-        [disabled]="loan_file?.status == -2"
+        [disabled]="customer?.status == -2"
         class="mr-2 btn-lg btn-danger"
-        [ngClass]="{ 'btn-disable': loan_file?.status == -2 }"
+        [ngClass]="{ 'btn-disable': customer?.status == -2 }"
         (click)="updateStatus(-2)"
       >
         <i class="fa-solid fa-circle-check mr-2"></i>Mark as Rejected
       </button>
-    </div> -->
+    </div>
+  </div>
+
+  <div class="flex mt-3 items-end justify-between">
+    <div></div>
+    <div class="gap-1 flex">
+      <button
+        *ngIf="customer.loan && customer.guarantee.length < 2"
+        (click)="openAddGuaranteeModal()"
+        class="add_btn"
+      >
+        <i class="fa-solid fa-plus mr-2"></i>Add Guarantee
+      </button>
+
+      <button
+        *ngIf="customer.loan && !customer.vehicle"
+        (click)="openAddVehicleModal()"
+        class="add_btn"
+      >
+        <i class="fa-solid fa-plus mr-2"></i>Add Vehicle
+      </button>
+
+      <button
+        *ngIf="!customer.loan"
+        (click)="openAddLoanFileModal()"
+        class="add_btn"
+      >
+        <i class="fa-solid fa-plus mr-2"></i>Add Loan File
+      </button>
+    </div>
   </div>
 
   <div *ngIf="!LoadUI" class="card">
@@ -63,7 +92,7 @@
     </div>
   </div>
 
-  <!-- loan_file-detail.component.html -->
+  <!-- customer-detail.component.html -->
   <div
     *ngIf="LoadUI"
     class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
@@ -72,7 +101,7 @@
     <div class="mb-8">
       <div class="w-full flex items-center justify-between">
         <h3 class="text-xl font-semibold text-gray-700 mb-4">
-          Basic Information
+          Customer Information
         </h3>
 
         <!-- <button (click)="openPatientEditModal()" class="btn btn-gray">
@@ -84,60 +113,62 @@
         <div class="space-y-4">
           <div>
             <p class="text-sm text-gray-500">Code</p>
+            <p class="font-medium">{{ customer?.loan_file_code }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Name</p>
             <p class="font-medium">
-              {{ loan_file?.code }}
+              {{ customer?.initials }} {{ customer?.surname }}
             </p>
           </div>
           <div>
-            <p class="text-sm text-gray-500">Branch</p>
+            <p class="text-sm text-gray-500">Given Name</p>
             <p class="font-medium">
-              <a
-                class="text-link font-medium hover:underline"
-                routerLink="/settings/branch-details/{{
-                  loan_file.branch_id.id
-                }}"
-              >
-                {{ loan_file?.branch_id.code }} :
-                {{ loan_file?.branch_id.name }}</a
-              >
+              {{ customer?.given_name }}
             </p>
           </div>
 
-          <div class="">
-            <p class="text-sm text-gray-500">Customer</p>
+          <div>
+            <p class="text-sm text-gray-500">NIC</p>
             <p class="font-medium">
-              <a
-                class="text-link font-medium hover:underline"
-                routerLink="/customers/customer-details/{{
-                  loan_file.customer_id.id
-                }}"
-              >
-                {{ loan_file?.customer_id.code }}
-                {{ loan_file?.customer_id.initials }}
-                {{ loan_file?.customer_id.surname }}
-              </a>
+              {{ customer?.nic }}
+              <span *ngIf="customer?.nic == null">[NOT UPDATED YET]</span>
             </p>
           </div>
         </div>
 
         <div class="space-y-4">
           <div>
+            <p class="text-sm text-gray-500">Date of Birth</p>
+            <p class="font-medium">
+              {{ customer?.dob | date: "mediumDate" }}
+              <span *ngIf="customer?.dob == null">[NOT UPDATED YET]</span>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Age</p>
+            <p class="font-medium">
+              <span *ngIf="customer?.dob">{{ age }}</span>
+              <span *ngIf="customer?.dob == null">[DoB is not provided]</span>
+            </p>
+          </div>
+          <div>
             <p class="text-sm text-gray-500">Status</p>
             <p
-              *ngIf="loan_file?.status == 2"
+              *ngIf="customer?.status == 2"
               class="badge badge-success w-16 mt-1 text-center"
             >
               Active
             </p>
 
             <p
-              *ngIf="loan_file?.status == 0"
+              *ngIf="customer?.status == 0"
               class="badge badge-primary w-16 mt-1 text-center"
             >
               Pending
             </p>
             <p
-              *ngIf="loan_file?.status == -2"
+              *ngIf="customer?.status == -2"
               class="badge badge-danger w-24 mt-1 text-center"
             >
               Rejected
@@ -147,22 +178,100 @@
 
         <div class="space-y-4">
           <div>
-            <p class="text-sm text-gray-500">Loan Amount</p>
+            <p class="text-sm text-gray-500">Contact Number</p>
             <p class="font-medium">
-              LKR {{ loan_file?.loan_amount | number: "2.2" }}
+              {{ customer?.phone }}
+              <span *ngIf="customer?.phone == null">[NOT UPDATED YET]</span>
             </p>
           </div>
           <div>
-            <p class="text-sm text-gray-500">Loan Period</p>
+            <p class="text-sm text-gray-500">WhatsApp</p>
             <p class="font-medium">
-              {{ formatPeriod(loan_file?.period) }}
+              {{ customer?.whatsapp }}
+              <span *ngIf="customer?.whatsapp == null">[NOT UPDATED YET]</span>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Address</p>
+            <p class="font-medium">
+              {{ customer?.address_1 }}
+              <br />
+              {{ customer?.address_2 }}
+              <br />
+              {{ customer?.address_3 }}
+            </p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">No of Guarantees</p>
+            <p class="font-medium">{{ customer.guarantee.length }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">No of Invoices</p>
+            <p class="font-medium">1</p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Created By</p>
+            <p class="font-medium">
+              {{ customer?.created_by.firstname }}
+              {{ customer?.created_by.lastname }}
             </p>
           </div>
 
           <div>
-            <p class="text-sm text-gray-500">Interest Rate P.A. % (EIR)</p>
+            <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
-              {{ loan_file?.eir }}
+              {{ customer?.created_on | date: "mediumDate" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="LoadUI && customer.loan"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <!-- Supplier Information Section -->
+    <div class="mb-8">
+      <div class="w-full flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+          Loan Information
+        </h3>
+
+        <!-- <button (click)="openPatientEditModal()" class="btn btn-gray">
+          <i class="fa-solid fa-pen-to-square"></i> Edit
+        </button> -->
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Branch</p>
+            <p class="font-medium">
+              {{ customer?.loan?.branch_id?.code }} :
+              {{ customer?.loan?.branch_id?.name }}
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Loan Amount</p>
+            <p class="font-medium">
+              LKR {{ customer?.loan?.loan_amount | number: "2.2" }}
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Loan Period</p>
+            <p class="font-medium">
+              {{ formatPeriod(customer?.loan?.period) }}
             </p>
           </div>
         </div>
@@ -170,15 +279,259 @@
           <div>
             <p class="text-sm text-gray-500">Created By</p>
             <p class="font-medium">
-              {{ loan_file?.created_by.firstname }}
-              {{ loan_file?.created_by.lastname }}
+              {{ customer?.loan?.created_by.firstname }}
+              {{ customer?.loan?.created_by.lastname }}
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Created On</p>
+            <p class="font-medium">
+              {{ customer?.loan?.created_on | date: "mediumDate" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="LoadUI && customer.guarantee.length > 0"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <!-- Supplier Information Section -->
+    <div class="mb-8">
+      <div class="w-full flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+          Guarantee Information
+        </h3>
+
+        <!-- <button (click)="openPatientEditModal()" class="btn btn-gray">
+          <i class="fa-solid fa-pen-to-square"></i> Edit
+        </button> -->
+      </div>
+
+      <div *ngFor="let guarantee of customer.guarantee">
+        <div
+          class="grid grid-cols-1 md:grid-cols-6 bg-gray-100 p-5 rounded-lg gap-4 mb-6"
+        >
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500">Name</p>
+              <p class="font-medium">
+                <a
+                  class="text-link font-medium hover:underline"
+                  routerLink="/guarantees/guarantee-details/{{ guarantee?.id }}"
+                >
+                  {{ guarantee?.initials }}
+                  {{ guarantee?.surname }}
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500">NIC</p>
+              <p class="font-medium">
+                {{ guarantee?.nic }}
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500">Date of Birth</p>
+              <p class="font-medium">
+                {{ guarantee?.dob | date: "mediumDate" }}
+              </p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500">Phone</p>
+              <p class="font-medium">
+                {{ guarantee?.phone }}
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500">WhatsApp</p>
+              <p class="font-medium">
+                {{ guarantee?.whatsapp }}
+                <span *ngIf="guarantee?.whatsapp == null"
+                  >[NOT UPDATED YET]</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500">Status</p>
+              <p
+                *ngIf="guarantee?.status == 2"
+                class="badge badge-success w-16 mt-1 text-center"
+              >
+                Active
+              </p>
+
+              <p
+                *ngIf="guarantee?.status == 0"
+                class="badge badge-primary w-16 mt-1 text-center"
+              >
+                Pending
+              </p>
+              <p
+                *ngIf="guarantee?.status == -2"
+                class="badge badge-danger w-24 mt-1 text-center"
+              >
+                Rejected
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="LoadUI && customer.vehicle"
+    class="w-full mx-auto p-6 bg-white mt-5 rounded-lg shadow-md"
+  >
+    <!-- Supplier Information Section -->
+    <div class="mb-8">
+      <div class="w-full flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+          Vehicle Information
+        </h3>
+
+        <!-- <button (click)="openPatientEditModal()" class="btn btn-gray">
+          <i class="fa-solid fa-pen-to-square"></i> Edit
+        </button> -->
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-8 gap-4 mb-6">
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Code</p>
+            <p class="font-medium">
+              <a
+                class="text-link font-medium hover:underline"
+                routerLink="/vehicles/vehicle-details/{{
+                  customer?.vehicle?.id
+                }}"
+              >
+                {{ customer?.vehicle?.code }}
+              </a>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Make</p>
+            <p class="font-medium">
+              {{ customer?.vehicle?.make.make }}
             </p>
           </div>
 
           <div>
-            <p class="text-sm text-gray-500">Created On</p>
+            <p class="text-sm text-gray-500">Model</p>
             <p class="font-medium">
-              {{ loan_file?.created_on | date: "mediumDate" }}
+              {{ customer?.vehicle?.model.model }}
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-500">Status</p>
+            <p
+              *ngIf="customer?.vehicle?.status == 2"
+              class="badge badge-success w-16 mt-1 text-center"
+            >
+              Active
+            </p>
+
+            <p
+              *ngIf="customer?.vehicle?.status == 0"
+              class="badge badge-primary w-16 mt-1 text-center"
+            >
+              Pending
+            </p>
+            <p
+              *ngIf="customer?.vehicle?.status == -2"
+              class="badge badge-danger w-24 mt-1 text-center"
+            >
+              Rejected
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4 col-span-2">
+          <div>
+            <p class="text-sm text-gray-500">Year of Manufacture</p>
+            <p class="font-medium">
+              {{ customer?.vehicle?.yom }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Registration Number</p>
+            <p class="font-medium">
+              <span>{{ customer?.vehicle?.reg_no }}</span>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Valuation</p>
+            <p class="font-medium">
+              <span
+                >LKR {{ customer?.vehicle?.valuation | number: "2.2" }}</span
+              >
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4 col-span-2">
+          <div>
+            <p class="text-sm text-gray-500">Chassie Number</p>
+            <p class="font-medium">
+              {{ customer?.vehicle?.chassie_no }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Engine Number</p>
+            <p class="font-medium">
+              {{ customer?.vehicle?.engine_no }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Registration Certificate Number</p>
+            <p class="font-medium">
+              {{ customer?.vehicle?.reg_cert_no }}
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4 col-span-2">
+          <div>
+            <p class="text-sm text-gray-500">Registered Owner</p>
+            <p class="font-medium">
+              <span>{{ customer?.vehicle?.reg_owner }}</span>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500">Vehicle ParkingAddress</p>
+            <p class="font-medium">
+              {{ customer?.vehicle?.vehicle_parking_address_1 }}
+              <br />
+              {{ customer?.vehicle?.vehicle_parking_address_2 }}
+              <br />
+              {{ customer?.vehicle?.vehicle_parking_address_3 }}
             </p>
           </div>
         </div>
@@ -195,18 +548,10 @@
         <p-tabs value="0">
           <p-tablist>
             <p-tab value="0">Remarks</p-tab>
-            <p-tab value="1">Payment Schedule</p-tab>
-            <p-tab value="2">Invoices</p-tab>
           </p-tablist>
           <p-tabpanels>
             <p-tabpanel value="0">
-              <app-note [f_key]="id" [type]="'LOAN_FILE'"></app-note>
-            </p-tabpanel>
-            <p-tabpanel value="1">
-              <h1>[ AVAILABLE SOON ]</h1>
-            </p-tabpanel>
-            <p-tabpanel value="2">
-              <h1>[ AVAILABLE SOON ]</h1>
+              <app-note [f_key]="id" [type]="'CUSTOMER'"></app-note>
             </p-tabpanel>
           </p-tabpanels>
         </p-tabs>
@@ -214,3 +559,18 @@
     </div>
   </div>
 </section>
+
+<app-add-guarantee-modal
+  [cus_id]="id"
+  (parentFun)="getGuarantees()"
+></app-add-guarantee-modal>
+
+<app-add-vehicle-modal
+  [cus_id]="id"
+  (parentFun)="getVehicles()"
+></app-add-vehicle-modal>
+
+<app-add-loan-file-modal
+  [cus_id]="id"
+  (parentFun)="getLoanFiles()"
+></app-add-loan-file-modal>

@@ -99,12 +99,7 @@
               </div>
 
               <div *ngSwitchCase="'cus'">
-                <a
-                  class="text-link font-medium hover:underline"
-                  routerLink="/customers/customer-details/{{
-                    rowData.customer_id
-                  }}"
-                >
+                <a class="text-link font-medium hover:underline">
                   {{ rowData?.cus_code }} : {{ rowData?.cus_initials }}
                   {{ rowData?.cus_surname }}
                 </a>

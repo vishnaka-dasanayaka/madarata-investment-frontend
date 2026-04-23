@@ -20,7 +20,6 @@ import { InvoicesModule } from "./invoices/invoices.module";
 import { PaymentsModule } from "./payments/payments.module";
 import { CInvoicesModule } from "./c-invoices/c-invoices.module";
 import { ReportsModule } from "./reports/reports.module";
-import { CustomersModule } from "./customers/customers.module";
 import { GuaranteesModule } from "./guarantees/guarantees.module";
 import { VehiclesModule } from "./vehicles/vehicles.module";
 import { LoansModule } from "./loans/loans.module";
@@ -44,12 +43,6 @@ export const routes: Routes = [
           import("./guarantees/guarantees.module").then(
             (m) => GuaranteesModule,
           ),
-      },
-
-      {
-        path: "customers",
-        loadChildren: () =>
-          import("./customers/customers.module").then((m) => CustomersModule),
       },
 
       {

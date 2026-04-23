@@ -25,16 +25,17 @@ export class LoanSummaryComponent {
     private authservice: AuthenticationService,
     private sharedService: SharedService,
     private loanService: LoanService,
+    private customerService: CustomerService,
   ) {}
 
   ngOnInit(): void {
     this.cols = [
-      { field: "code", header: "Code" },
+      { field: "loan_file_code", header: "Code" },
       { field: "customer", header: "Customer" },
       { field: "branch", header: "Branch" },
       { field: "eir", header: "EIR" },
       { field: "period", header: "Loan Period" },
-      { field: "loan_amount", header: "Loan Amount" },
+      { field: "loan_amount", header: "Loan Amount (LKR)" },
       { field: "status", header: "Status" },
       { field: "created_on", header: "Created On" },
       { field: "actions", header: "Actions", sortable: true, width: "200px" },
@@ -84,9 +85,9 @@ export class LoanSummaryComponent {
       event: finalEvent,
     };
 
-    this.loanService.getAllPagedLoanFiles(obj).subscribe((data) => {
-      this.loans = data.loans;
-      this.no_of_loans = data.no_of_loans;
+    this.customerService.getAllPagedCustomers(obj).subscribe((data) => {
+      this.loans = data.customers;
+      this.no_of_loans = data.no_of_customers;
     });
   }
 }

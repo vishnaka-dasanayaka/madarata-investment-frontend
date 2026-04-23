@@ -4,8 +4,8 @@ import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 import moment from "moment";
-import { GuaranteeService } from "../../../core/_services/guarantee.service";
-import { LoanService } from "../../../core/_services/loan.service";
+import { CustomerService } from "../../../core/_services/customer.service";
+import { SharedService } from "../../../core/_services/shared.service";
 
 @Component({
   selector: "app-loan-detail",
@@ -20,14 +20,15 @@ export class LoanDetailComponent {
 
   private sub: any;
   id!: number;
-  loan_file: any;
+  customer: any;
+  age: number = 0;
 
   constructor(
     private authservice: AuthenticationService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private guaranteeService: GuaranteeService,
-    private loanService: LoanService,
+    private sharedService: SharedService,
+    private customerService: CustomerService,
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +40,22 @@ export class LoanDetailComponent {
     this.sub = this.route.params.subscribe((params) => {
       this.id = +params["id"];
       this.getData(this.id);
+      this.getGuarantees();
+      this.getVehicles();
+      this.getLoanFiles();
     });
+  }
+
+  getGuarantees() {
+    this.getData(this.id);
+  }
+
+  getVehicles() {
+    this.getData(this.id);
+  }
+
+  getLoanFiles() {
+    this.getData(this.id);
   }
 
   generateUniqueKey() {
@@ -49,13 +65,33 @@ export class LoanDetailComponent {
   }
 
   getData(id: number) {
-    this.loanService.getLoanFile({ id: id }).subscribe((data) => {
+    this.customerService.getCustomer({ id: id }).subscribe((data) => {
       if (data.status) {
-        this.loan_file = data.loan_file;
+        this.customer = data.customer;
 
         this.LoadUI = true;
+        if (this.customer.dob) {
+          const birthDate = moment(this.customer.dob);
+          this.age = moment().diff(birthDate, "years");
+        }
       }
     });
+  }
+
+  formatPeriod(totalMonths: number | undefined): string {
+    if (!totalMonths && totalMonths !== 0) return "";
+
+    const years = Math.floor(totalMonths / 12);
+    const months = totalMonths % 12;
+
+    let result = "";
+    if (years > 0) result += `${years} year${years > 1 ? "s" : ""}`;
+    if (months > 0)
+      result +=
+        (years > 0 ? " " : "") + `${months} month${months > 1 ? "s" : ""}`;
+
+    // If totalMonths = 0
+    return result || "0 month";
   }
 
   updateStatus(value: number) {
@@ -72,7 +108,7 @@ export class LoanDetailComponent {
     swal
       .fire({
         title:
-          "Please confirm that you want to mark this loan_file as " +
+          "Please confirm that you want to mark this customer as " +
           statusString,
         icon: "question",
         showCancelButton: true,
@@ -93,11 +129,11 @@ export class LoanDetailComponent {
             id: this.id,
             uniquekey: this.uniqueid,
           };
-          this.guaranteeService.updateGuaranteeStatus(obj).subscribe(
+          this.customerService.updateCustomerStatus(obj).subscribe(
             (data) => {
               if (data.status) {
                 this.toastr.success(
-                  "Vehicle status has been updated successfully.",
+                  "Customer status has been updated successfully.",
                   "Success",
                   {
                     positionClass: "toast-top-right",
@@ -126,24 +162,32 @@ export class LoanDetailComponent {
       });
   }
 
+  openAddGuaranteeModal() {
+    this.sharedService.setGuaranteeData({
+      navigate: true,
+      patient_id: this.id,
+    });
+    this.sharedService.openAddGuaranteeModal();
+  }
+
+  openAddVehicleModal() {
+    this.sharedService.setVehicleData({
+      navigate: true,
+      patient_id: this.id,
+    });
+    this.sharedService.openAddVehicleModal();
+  }
+
+  openAddLoanFileModal() {
+    this.sharedService.setLoanFileData({
+      navigate: true,
+      patient_id: this.id,
+    });
+    this.sharedService.openAddLoanFileModal();
+  }
+
   openPatientEditModal() {
     // this.sharedService.setPatientData(this.customer);
     // this.sharedService.openEditPatientModal();
-  }
-
-  formatPeriod(totalMonths: number | undefined): string {
-    if (!totalMonths && totalMonths !== 0) return "";
-
-    const years = Math.floor(totalMonths / 12);
-    const months = totalMonths % 12;
-
-    let result = "";
-    if (years > 0) result += `${years} year${years > 1 ? "s" : ""}`;
-    if (months > 0)
-      result +=
-        (years > 0 ? " " : "") + `${months} month${months > 1 ? "s" : ""}`;
-
-    // If totalMonths = 0
-    return result || "0 month";
   }
 }
