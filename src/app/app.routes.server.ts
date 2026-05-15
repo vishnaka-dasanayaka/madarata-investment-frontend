@@ -26,6 +26,14 @@ export const serverRoutes: ServerRoute[] = [
       return ids.map((id) => ({ id }));
     },
   },
+  {
+    path: "loans/payment-schedule/:id",
+    renderMode: RenderMode.Prerender,
+    async getPrerenderParams() {
+      const ids = routesIDs;
+      return ids.map((id) => ({ id }));
+    },
+  },
 
   // sethneth
 
