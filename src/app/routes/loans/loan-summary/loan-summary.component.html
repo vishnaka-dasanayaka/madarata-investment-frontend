@@ -126,20 +126,26 @@
 
               <div class="text-center" *ngSwitchCase="'status'">
                 <span
-                  *ngIf="rowData[col.field] == 0"
+                  *ngIf="rowData?.loan?.status && rowData?.loan?.status == 0"
                   class="badge badge-primary"
                 >
                   Pending
                 </span>
                 <span
-                  *ngIf="rowData[col.field] == 2"
+                  *ngIf="!rowData?.loan?.status"
+                  class="badge badge-primary"
+                >
+                  Pending
+                </span>
+                <span
+                  *ngIf="rowData?.loan?.status && rowData?.loan?.status == 2"
                   class="badge badge-success"
                 >
                   Approved
                 </span>
 
                 <span
-                  *ngIf="rowData[col.field] == -2"
+                  *ngIf="rowData?.loan?.status && rowData?.loan?.status == -2"
                   class="badge badge-danger"
                 >
                   Rejected
