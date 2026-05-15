@@ -1,14 +1,8 @@
 <section class="">
   <h6 class="text-xs mb-2">
+    Loan FIles >
     <span
-      [routerLink]="['/customers/customer-summary']"
-      routerLinkActive="router-link-active"
-      class="text-blue-500 cursor-pointer"
-      >Loan FIles</span
-    >
-    >
-    <span
-      [routerLink]="['/customers/customer-summary']"
+      [routerLink]="['/loans/loan-summary']"
       routerLinkActive="router-link-active"
       class="text-blue-500 cursor-pointer"
       >Loan FIles Summary</span
@@ -21,19 +15,19 @@
       <h1 class="text-xl font-semibold">Loan FIle Details</h1>
       <h5 class="text-xs font-thin">{{ customer?.loan_file_code }}</h5>
     </div>
-    <div>
+    <div *ngIf="customer.loan">
       <button
-        [disabled]="customer?.status == 2"
+        [disabled]="customer?.loan?.status == 2"
         class="mr-2 btn-lg btn-success"
-        [ngClass]="{ 'btn-disable': customer?.status == 2 }"
+        [ngClass]="{ 'btn-disable': customer?.loan?.status == 2 }"
         (click)="updateStatus(2)"
       >
         <i class="fa-solid fa-circle-check mr-2"></i>Mark as Approved
       </button>
       <button
         *hasPermission="[[5], sysuser]"
-        [disabled]="customer?.status == 0"
-        [ngClass]="{ 'btn-disable': customer?.status == 0 }"
+        [disabled]="customer?.loan?.status == 0"
+        [ngClass]="{ 'btn-disable': customer?.loan?.status == 0 }"
         class="mr-2 btn-lg btn-primary"
         (click)="updateStatus(0)"
       >
@@ -41,9 +35,9 @@
       </button>
       <button
         *hasPermission="[[5], sysuser]"
-        [disabled]="customer?.status == -2"
+        [disabled]="customer?.loan?.status == -2"
         class="mr-2 btn-lg btn-danger"
-        [ngClass]="{ 'btn-disable': customer?.status == -2 }"
+        [ngClass]="{ 'btn-disable': customer?.loan?.status == -2 }"
         (click)="updateStatus(-2)"
       >
         <i class="fa-solid fa-circle-check mr-2"></i>Mark as Rejected
@@ -247,7 +241,7 @@
         </button> -->
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
         <div class="space-y-4">
           <div>
             <p class="text-sm text-gray-500">Branch</p>
@@ -269,12 +263,21 @@
 
         <div class="space-y-4">
           <div>
+            <p class="text-sm text-gray-500">Interest Rate P.A. %</p>
+            <p class="font-medium">
+              {{ customer?.loan?.eir }}
+            </p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
             <p class="text-sm text-gray-500">Loan Period</p>
             <p class="font-medium">
               {{ formatPeriod(customer?.loan?.period) }}
             </p>
           </div>
         </div>
+
         <div class="space-y-4">
           <div>
             <p class="text-sm text-gray-500">Created By</p>
@@ -285,12 +288,19 @@
           </div>
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-4 flex items-center justify-between">
           <div>
             <p class="text-sm text-gray-500">Created On</p>
             <p class="font-medium">
               {{ customer?.loan?.created_on | date: "mediumDate" }}
             </p>
+          </div>
+
+          <div *ngIf="customer?.loan?.status == 2" class="pr-5 2xl:pr-10">
+            <i
+              routerLink="/loans/payment-schedule/{{ customer?.loan?.id }}"
+              class="fa-regular fa-circle-right text-primary cursor-pointer text-4xl fa-fade"
+            ></i>
           </div>
         </div>
       </div>
@@ -551,7 +561,7 @@
           </p-tablist>
           <p-tabpanels>
             <p-tabpanel value="0">
-              <app-note [f_key]="id" [type]="'CUSTOMER'"></app-note>
+              <app-note [f_key]="id" [type]="'LOAN'"></app-note>
             </p-tabpanel>
           </p-tabpanels>
         </p-tabs>

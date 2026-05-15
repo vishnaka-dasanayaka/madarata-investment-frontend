@@ -63,4 +63,15 @@ export class LoanService {
       catchError(this.handleError),
     );
   }
+
+  getPaymentSchedule(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-payment-schedule";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
 }
