@@ -10,6 +10,15 @@ import { LoanService } from "../../../core/_services/loan.service";
   styleUrl: "./payment-schedule.component.css",
 })
 export class PaymentScheduleComponent {
+  test() {
+    this.loanService
+      .getLoanFilesPerCustomer({ cus_id: this.id })
+      .subscribe((data) => {
+        if (data.status) {
+          this.getPaymentSchedule(this.id);
+        }
+      });
+  }
   uniqueid: any;
   sysuser: any;
   LoadUI: boolean = false;

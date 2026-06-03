@@ -13,6 +13,7 @@ import { BranchSummaryComponent } from "./branch-summary/branch-summary.componen
 import { BranchDetailsComponent } from "./branch-details/branch-details.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { VehicleSettingsComponent } from "./vehicle-settings/vehicle-settings.component";
+import { SystemSettingsComponent } from "./system-settings/system-settings.component";
 
 const routes: Routes = [
   // Client paths
@@ -53,6 +54,10 @@ const routes: Routes = [
     path: "vehicle-settings",
     component: VehicleSettingsComponent,
   },
+  {
+    path: "system-settings",
+    component: SystemSettingsComponent,
+  },
 ];
 
 @NgModule({
@@ -67,6 +72,7 @@ const routes: Routes = [
     BranchDetailsComponent,
     ProfileComponent,
     VehicleSettingsComponent,
+    SystemSettingsComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
   exports: [RouterModule],

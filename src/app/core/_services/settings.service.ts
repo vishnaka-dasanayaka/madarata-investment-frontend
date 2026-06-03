@@ -57,6 +57,28 @@ export class SettingsService {
     );
   }
 
+  getSytemSettings() {
+    let APIurl = this.BaseAPIurl + "org/get-org-settings";
+
+    return this.http.get<any>(APIurl).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  updateSytemSettings(obj: any) {
+    let APIurl = this.BaseAPIurl + "org/update-org-settings";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
   //
 
   createSupplier(obj: any) {
