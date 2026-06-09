@@ -53,6 +53,28 @@ export class LoanService {
     );
   }
 
+  getAllPagedOtherExpenses(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-all-paged-other-expenses";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  createOtherExpense(obj: any) {
+    let APIurl = this.BaseAPIurl + "create-other-expense";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
   getLoanFile(obj: any) {
     let APIurl = this.BaseAPIurl + "get-loan-file";
 
