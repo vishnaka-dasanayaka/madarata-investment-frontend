@@ -35,7 +35,7 @@ export class AddStockComponent {
     private fb: FormBuilder,
     private settingsService: SettingsService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
   ) {
     this.valForm = this.fb.group({
       date: [this.getTodayDate(), Validators.required],
@@ -255,7 +255,7 @@ export class AddStockComponent {
         },
         (error) => {
           alert("API ERROR [ERRCODE:001]");
-        }
+        },
       );
     }
   }

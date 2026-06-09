@@ -594,6 +594,32 @@ export class SharedService {
   //   return this.edit_supplier.asObservable();
   // }
 
+  // Other Expenses
+  private add_expense = new Subject<void>();
+  private edit_expense = new Subject<any>();
+  private expense_data: any = undefined;
+
+  setExpenseData(data: any) {
+    this.expense_data = data;
+  }
+  openAddExpenseModal() {
+    this.add_expense.next();
+  }
+  getAddExpenseClickEvent(): Observable<any> {
+    return this.add_expense.asObservable();
+  }
+  getExpenseData(): any {
+    return this.expense_data;
+  }
+
+  // openEditClientModal() {
+  //   this.edit_supplier.next();
+  // }
+
+  // getEditClientClickEvent(): Observable<any> {
+  //   return this.edit_supplier.asObservable();
+  // }
+
   // Change Password
 
   private change_password = new Subject<void>();
