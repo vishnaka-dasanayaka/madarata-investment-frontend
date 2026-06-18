@@ -96,4 +96,26 @@ export class LoanService {
       catchError(this.handleError),
     );
   }
+
+  getOverduePayablesPerLoan(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-overdue-payables-per-loan";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  getAllPayableExpensesPerLoan(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-all-payable-expenses-per-loan";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
 }

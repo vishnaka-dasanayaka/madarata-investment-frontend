@@ -126,4 +126,9 @@ export class PaymentScheduleComponent {
     // If totalMonths = 0
     return result || "0 month";
   }
+
+  openAdPaymentModal() {
+    this.sharedService.setPaymentData({ navigate: true, inv_id: this.id });
+    this.sharedService.openAdPaymentrModal();
+  }
 }

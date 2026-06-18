@@ -1,213 +1,357 @@
-<!-- Modal Backdrop -->
 <div
   *ngIf="showModal"
-  class="fixed inset-0 bg-black/50 z-100 flex items-center justify-center"
+  class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-all"
 >
-  <!-- Modal Container -->
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto z-50">
-    <!-- Modal Header -->
-    <div class="flex justify-between items-center px-6 py-4 border-b">
-      <h4 class="text-xl font-semibold text-gray-800">Add Payment</h4>
+  <div
+    class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-auto flex flex-col max-h-[90vh] overflow-hidden transform transition-all"
+  >
+    <div
+      class="flex justify-between items-center px-6 py-4 border-b border-gray-100 bg-slate-50"
+    >
+      <div>
+        <h4 class="text-xl font-bold text-gray-800">Add Payment</h4>
+        <p class="text-xs text-gray-500 mt-0.5">
+          Process installment payments and record additional expenses.
+        </p>
+      </div>
       <button
         type="button"
-        class="text-gray-500 hover:text-red-600 text-xl"
+        class="text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors duration-200"
         (click)="closeModal()"
       >
-        &times;
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </button>
     </div>
 
-    <!-- Modal Body -->
-    <div class="px-6 py-4">
+    <div class="px-6 py-6 overflow-y-auto custom-scrollbar">
       <form
         [formGroup]="valForm"
         (ngSubmit)="submitForm(valForm.value)"
-        class="space-y-4"
+        class="space-y-6"
       >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          *ngIf="schedule_list && schedule_list.length > 0"
+          class="space-y-3"
+        >
+          <h3
+            class="text-sm font-semibold uppercase tracking-wider text-slate-700 flex items-center gap-2"
+          >
+            <span class="h-2 w-2 rounded-full bg-red-500"></span>
+            Overdue Installments
+          </h3>
+          <div
+            class="border border-gray-200 rounded-xl overflow-hidden shadow-sm"
+          >
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr
+                  class="bg-slate-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase"
+                >
+                  <th class="p-3">Date</th>
+                  <th class="p-3 text-right">Installment</th>
+                  <th class="p-3 text-right">Fine</th>
+                  <th class="p-3 text-right">Paid</th>
+                  <th class="p-3 text-right">Due</th>
+                  <th class="p-3 text-right bg-red-50/50 text-red-700">
+                    Total Due
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                <tr
+                  *ngFor="let item of schedule_list"
+                  class="hover:bg-slate-50/80 transition-colors"
+                >
+                  <td class="p-3 font-medium text-gray-600">
+                    {{ item.payment_date | date: "yyyy-MM-dd" }}
+                  </td>
+                  <td class="p-3 text-right font-mono">
+                    {{ item.installment | number: "0.2" }}
+                  </td>
+                  <td
+                    class="p-3 text-right font-mono text-red-500 font-semibold"
+                  >
+                    +{{ item.fine | number: "0.2" }}
+                  </td>
+                  <td class="p-3 text-right font-mono text-gray-500">
+                    {{ item.installment_paid | number: "0.2" }}
+                  </td>
+                  <td class="p-3 text-right font-mono text-red-500">
+                    {{
+                      item.installment - item.installment_paid | number: "0.2"
+                    }}
+                  </td>
+                  <td
+                    class="p-3 text-right font-mono text-red-600 font-bold bg-red-50/30"
+                  >
+                    {{
+                      item.installment - item.installment_paid + item.fine
+                        | number: "0.2"
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          *ngIf="expenses_list && expenses_list.length > 0"
+          class="space-y-3"
+        >
+          <h3
+            class="text-sm font-semibold uppercase tracking-wider text-slate-700 flex items-center gap-2"
+          >
+            <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+            Other Expenses
+          </h3>
+          <div
+            class="border border-gray-200 rounded-xl overflow-hidden shadow-sm"
+          >
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr
+                  class="bg-slate-50 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase"
+                >
+                  <th class="p-3">Date</th>
+                  <th class="p-3">Description</th>
+                  <th class="p-3 text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                <tr
+                  *ngFor="let item of expenses_list"
+                  class="hover:bg-slate-50/80 transition-colors"
+                >
+                  <td class="p-3 text-gray-500">
+                    {{ item.created_on | date: "yyyy-MM-dd" }}
+                  </td>
+                  <td class="p-3 font-medium">{{ item.description }}</td>
+                  <td
+                    class="p-3 text-right font-mono text-red-500 font-semibold"
+                  >
+                    {{ item.amount | number: "0.2" }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr class="border-gray-100" />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label class="block text-sm font-medium mb-1 text-gray-700"
-              >Patient
-              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            <label
+              class="block text-sm font-semibold mb-1.5 text-gray-700 flex items-center gap-1"
+            >
+              Installment Amount
+              <span class="text-red-500 text-xs">*</span>
             </label>
-            <p-select
-              [options]="patient_list"
-              formControlName="patient"
-              [checkmark]="true"
+            <div class="relative">
+              <input
+                (ngModelChange)="calTot()"
+                type="number"
+                formControlName="ins_amount"
+                class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm"
+                placeholder="0.00"
+              />
+            </div>
+            <div class="mt-1 min-h-[16px]">
+              <span
+                class="text-red-500 text-xs flex items-center gap-1"
+                *ngIf="
+                  valForm.controls['ins_amount'].hasError('required') &&
+                  (valForm.controls['ins_amount'].dirty ||
+                    valForm.controls['ins_amount'].touched)
+                "
+              >
+                This field is required
+              </span>
+              <span
+                class="text-orange-500 text-xs flex items-center gap-1"
+                *ngIf="
+                  valForm.controls['ins_amount'].hasError(
+                    'invalidDecimalFormat'
+                  )
+                "
+              >
+                Accepts up to two decimal places only
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label
+              class="block text-sm font-semibold mb-1.5 text-gray-700 flex items-center gap-1"
+            >
+              Fine Amount
+              <span class="text-red-500 text-xs">*</span>
+            </label>
+            <input
+              (ngModelChange)="calTot()"
+              type="number"
+              formControlName="fine_amount"
+              class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm"
+              placeholder="0.00"
+            />
+            <div class="mt-1 min-h-[16px]">
+              <span
+                class="text-red-500 text-xs flex items-center gap-1"
+                *ngIf="
+                  valForm.controls['fine_amount'].hasError('required') &&
+                  (valForm.controls['fine_amount'].dirty ||
+                    valForm.controls['fine_amount'].touched)
+                "
+              >
+                This field is required
+              </span>
+              <span
+                class="text-orange-500 text-xs flex items-center gap-1"
+                *ngIf="
+                  valForm.controls['fine_amount'].hasError(
+                    'invalidDecimalFormat'
+                  )
+                "
+              >
+                Accepts up to two decimal places only
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label
+              class="block text-sm font-semibold mb-1.5 text-gray-700 flex items-center gap-1"
+            >
+              Other Expenses
+              <span class="text-red-500 text-xs">*</span>
+            </label>
+            <p-multiselect
+              [options]="expenses_list_dropdown"
+              formControlName="selected_expenses"
               optionLabel="label"
               optionValue="value"
-              [showClear]="true"
-              placeholder="Select a patient"
-              class="w-full"
+              placeholder="Select expenses"
+              [maxSelectedLabels]="3"
+              class="w-full [&>.p-multiselect]:w-full [&>.p-multiselect]:rounded-xl [&>.p-multiselect]:border-gray-300 [&>.p-multiselect]:shadow-none"
               [filter]="true"
-              (ngModelChange)="onPatientCHange()"
+              [showClear]="true"
+              appendTo="body"
+              (onChange)="onExpenseChange()"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium mb-1 text-gray-700"
-              >Name
-            </label>
-            <input
-              type="text"
-              formControlName="p_name"
-              class="w-full bg-gray-200 text-gray-600 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-1 text-gray-700"
-              >Contact No
-            </label>
-            <input
-              type="text"
-              formControlName="p_no"
-              class="w-full px-3 py-2 border bg-gray-200 text-gray-600 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-1 text-gray-700"
-              >NIC
-            </label>
-            <input
-              type="text"
-              formControlName="p_nic"
-              class="w-full px-3 py-2 border bg-gray-200 text-gray-600 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium mb-1 text-gray-700"
-              >Amount
-              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
+            <label
+              class="block text-sm font-semibold mb-1.5 text-gray-700 flex items-center gap-1"
+            >
+              For Other Expenses
+              <span class="text-red-500 text-xs">*</span>
             </label>
             <input
               type="number"
-              formControlName="amount"
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+              formControlName="other_expense_amount"
+              class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm"
+              placeholder="0.00"
             />
-
-            <span
-              class="text-orange-500 text-xs"
-              *ngIf="
-                valForm.controls['amount'].hasError('invalidDecimalFormat')
-              "
-              >Accept only upto two decimal points</span
-            >
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium mb-1 text-gray-700"
-              >Date
-              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
-            </label>
-            <p-datepicker
-              formControlName="date"
-              class="w-full"
-              [inputStyle]="{ width: '100%' }"
-              dateFormat="yy.mm.dd"
-            />
-          </div>
-
-          <div class="col-span-2">
-            <label class="block text-sm font-medium mb-1 text-gray-700"
-              >Invoice
-              <i class="fa-solid fa-asterisk fa-2xs" style="color: #ff0000"></i>
-            </label>
-            <p-select
-              [options]="inv_list"
-              formControlName="inv"
-              [checkmark]="true"
-              optionLabel="label"
-              optionValue="value"
-              [showClear]="true"
-              placeholder="Select a invoice"
-              class="w-full"
-              [filter]="true"
-              (ngModelChange)="onInvChange()"
-            >
-              <ng-template let-item pTemplate="item">
-                <div
-                  [ngClass]="
-                    item.value?.openbalance > 0
-                      ? 'text-green-700'
-                      : 'text-red-600'
-                  "
-                >
-                  <span *ngIf="item.value == null" class="text-gray-700">
-                    {{ item.label }}</span
-                  >
-                  <span *ngIf="item.value != null"> {{ item.label }}</span>
-                </div>
-              </ng-template></p-select
-            >
+            <div class="mt-1 min-h-[16px]">
+              <span
+                class="text-red-500 text-xs flex items-center gap-1"
+                *ngIf="
+                  valForm.controls['other_expense_amount'].hasError(
+                    'required'
+                  ) &&
+                  (valForm.controls['other_expense_amount'].dirty ||
+                    valForm.controls['other_expense_amount'].touched)
+                "
+              >
+                This field is required
+              </span>
+              <span
+                class="text-orange-500 text-xs flex items-center gap-1"
+                *ngIf="
+                  valForm.controls['other_expense_amount'].hasError(
+                    'invalidDecimalFormat'
+                  )
+                "
+              >
+                Accepts up to two decimal places only
+              </span>
+            </div>
           </div>
 
           <div
-            *ngIf="inv"
-            class="bg-orange-100 p-3 rounded-md border border-orange-300"
+            class="md:col-span-2 bg-orange-50/50 border border-orange-100 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
           >
-            <div class="grid grid-cols-2 gap-2 text-sm">
-              <div class="font-medium">Invoice:</div>
-              <div class="text-right">{{ inv?.code }}</div>
-
-              <div class="font-medium">Gross Total:</div>
-              <div class="text-right">
-                LKR {{ inv?.grosstotal | number: "0.2" }}
-              </div>
-
-              <div class="font-medium">Discount:</div>
-              <div class="text-right">
-                LKR {{ inv?.discount | number: "0.2" }}
-              </div>
-
-              <div class="font-medium">Grand Total:</div>
-              <div class="text-right">
-                LKR {{ inv?.grandtotal | number: "0.2" }}
-              </div>
-
-              <div class="font-medium">Paid Amount:</div>
-              <div class="text-green-500 text-right">
-                LKR {{ inv?.paidamount | number: "0.2" }}
-              </div>
-
-              <div class="font-medium">Open Balance:</div>
-              <div class="text-red-500 text-right">
-                LKR {{ inv?.openbalance | number: "0.2" }}
-              </div>
+            <div>
+              <span class="text-sm font-bold text-gray-800 block"
+                >Total Due Summary</span
+              >
+              <span class="text-xs text-gray-500"
+                >Calculated sum of active fields</span
+              >
+            </div>
+            <div class="relative w-full sm:w-64">
+              <span
+                class="absolute inset-y-0 left-0 flex items-center pl-3 text-orange-600 font-semibold text-sm"
+              >
+                LKR
+              </span>
+              <input
+                type="number"
+                formControlName="total"
+                readonly
+                class="w-full pl-7 pr-3 py-2.5 bg-white border border-orange-200 text-orange-700 font-bold rounded-lg focus:outline-none shadow-inner text-right font-mono text-base"
+              />
             </div>
           </div>
         </div>
+
         <div>
-          <label class="block text-sm font-medium mb-1 text-gray-700"
+          <label class="block text-sm font-semibold mb-1.5 text-gray-700"
             >Notes</label
           >
           <textarea
-            rows="1"
-            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            rows="3"
+            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm placeholder:text-gray-400"
             pTextarea
             formControlName="note"
+            placeholder="Add any extra details regarding this payment..."
           ></textarea>
         </div>
 
-        <div class="flex justify-end space-x-2 pt-4">
+        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
           <button
             type="button"
-            class="px-4 py-2 border rounded text-gray-700 border-gray-400 hover:bg-gray-100"
+            class="px-5 py-2.5 border rounded-xl text-gray-700 border-gray-300 bg-white hover:bg-gray-50 active:scale-98 transition-all font-medium text-sm"
             (click)="closeModal()"
           >
-            Close
+            Cancel
           </button>
           <button
             type="submit"
-            class="px-5 py-2 rounded text-white"
+            class="px-6 py-2.5 rounded-xl text-white font-medium text-sm shadow-md transition-all active:scale-98"
             [ngClass]="
               valForm.valid
-                ? 'bg-orange-500 hover:bg-orange-600'
-                : 'bg-orange-400 cursor-not-allowed'
+                ? 'bg-orange-500 hover:bg-orange-600 hover:shadow-orange-500/20'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
             "
             [disabled]="valForm.invalid"
           >
-            Submit
+            Confirm Payment
           </button>
         </div>
       </form>
