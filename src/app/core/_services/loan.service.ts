@@ -64,6 +64,39 @@ export class LoanService {
     );
   }
 
+  getAllPagedPaymentsPerLoan(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-all-paged-payments-per-loan";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  getAllPagedRemovedFinesPerLoan(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-all-paged-removed-fines-per-loan";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  getInvItems(obj: any) {
+    let APIurl = this.BaseAPIurl + "get-inv-items";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
+    );
+  }
+
   createOtherExpense(obj: any) {
     let APIurl = this.BaseAPIurl + "create-other-expense";
 

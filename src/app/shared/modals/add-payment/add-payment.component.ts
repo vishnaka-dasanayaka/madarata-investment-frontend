@@ -30,6 +30,10 @@ export class AddPaymentComponent {
   expenses_list: any[] = [];
   expenses_list_dropdown: SelectItem[] = [];
 
+  initial_ins_amount: number = 0;
+  initial_fine_amount: number = 0;
+  initial_other_expenses_amount: number = 0;
+
   constructor(
     private sharedService: SharedService,
     private fb: FormBuilder,
@@ -51,6 +55,7 @@ export class AddPaymentComponent {
       ],
       selected_expenses: [null],
       note: [null],
+      permanently_removed_fine: [null, [CustomValidators.strictDecimal]],
     });
 
     this.clickEventSubscription = this.sharedService
@@ -108,6 +113,8 @@ export class AddPaymentComponent {
               label: element.description + " - " + element.amount,
               value: element,
             });
+
+            this.initial_other_expenses_amount += element.amount;
           });
         }
       });
@@ -123,11 +130,14 @@ export class AddPaymentComponent {
     var ins = 0;
     for (var item of this.schedule_list) {
       ins += item.installment - item.installment_paid;
-      fine += item.fine;
+      fine += item.fine - item.fine_balance;
     }
 
-    this.valForm.patchValue({ ins_amount: ins });
-    this.valForm.patchValue({ fine_amount: fine });
+    this.valForm.patchValue({ ins_amount: parseFloat(ins.toFixed(2)) });
+    this.valForm.patchValue({ fine_amount: parseFloat(fine.toFixed(2)) });
+
+    this.initial_ins_amount = parseFloat(ins.toFixed(2));
+    this.initial_fine_amount = parseFloat(fine.toFixed(2));
 
     this.calTot();
 
@@ -140,7 +150,6 @@ export class AddPaymentComponent {
   }
 
   submitForm(value: any) {
-    return;
     for (let c in this.valForm.controls) {
       this.valForm.controls[c].markAsTouched();
     }
@@ -148,34 +157,78 @@ export class AddPaymentComponent {
     if (this.valForm.valid) {
       value = this.sharedService.sanitizeFormValues(value);
       value.uniquekey = this.uniqueid;
+      value.loan_id = this.loan_id;
 
-      this.paymentService.createPayment(value).subscribe(
-        (data) => {
-          if (data.status) {
-            this.parentFun.emit();
-            this.closeModal();
-            this.valForm.reset();
-            swal.fire({
-              title: "Success!",
-              text: "Payment has been created successfully.",
-              icon: "success",
-              confirmButtonColor: "#28a745", // Optional: green color for success
-            });
-            this.router.navigate([
-              "/payments/payment-details/" + data.payment_id,
-            ]);
+      if (value.permanently_removed_fine == null) {
+        value.permanently_removed_fine = 0;
+      }
+
+      if (
+        value.fine_amount >
+        parseFloat(
+          (this.initial_fine_amount - value.permanently_removed_fine).toFixed(
+            2,
+          ),
+        )
+      ) {
+        swal.fire({
+          title: "Warning!",
+          text: "Fines are miss matched",
+          icon: "warning",
+          confirmButtonColor: "#ff820d",
+        });
+        return;
+      }
+      swal
+        .fire({
+          title:
+            "Are you sure you want to proceed with this payment? Any excess amount will be applied to the next installment as an early payment. This action can only be reversed by users with the required permissions.",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#28a745", // ✅ Green button
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, proceed",
+          cancelButtonText: "Cancel",
+          customClass: {
+            title: "swal-title-sm",
+            confirmButton: "swal-confirm-sm",
+            cancelButton: "swal-cancel-sm",
+          },
+        })
+
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.paymentService.createPayment(value).subscribe(
+              (data) => {
+                if (data.status) {
+                  this.parentFun.emit();
+                  this.closeModal();
+                  this.valForm.reset();
+                  swal.fire({
+                    title: "Success!",
+                    text: "Payment has been created successfully.",
+                    icon: "success",
+                    confirmButtonColor: "#28a745", // Optional: green color for success
+                  });
+                } else {
+                  this.toastr.warning(data.err, "ERROR !!", {
+                    positionClass: "toast-top-right",
+                    closeButton: true,
+                  });
+                  this.generateUniqueKey();
+                }
+              },
+              (error) => {
+                alert("API ERROR [ERRCODE:001]");
+              },
+            );
           } else {
-            this.toastr.warning(data.err, "ERROR !!", {
+            this.toastr.info("Payment cancelled", "Cancelled", {
               positionClass: "toast-top-right",
               closeButton: true,
             });
-            this.generateUniqueKey();
           }
-        },
-        (error) => {
-          alert("API ERROR [ERRCODE:001]");
-        },
-      );
+        });
     }
   }
 

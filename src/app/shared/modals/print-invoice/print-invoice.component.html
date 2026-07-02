@@ -1,0 +1,159 @@
+<!-- Modal Backdrop -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 bg-black/50 z-99 flex items-center justify-center"
+>
+  <!-- Modal Container -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl mx-auto z-50">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h4 class="text-xl font-semibold text-gray-800">Add Expense</h4>
+      <button
+        type="button"
+        class="text-gray-500 hover:text-red-600 text-xl"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div
+      class="px-6 py-6 overflow-y-auto max-h-[75vh] scrollbar-hidden bg-slate-100"
+    >
+      <div
+        class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg border border-slate-200"
+      >
+        <!-- Header -->
+        <div class="bg-primary text-white p-6 rounded-t-xl">
+          <div class="flex justify-between items-start">
+            <div>
+              <h2 class="text-2xl font-bold tracking-wide">PAYMENT RECEIPT</h2>
+
+              <p class="text-sm opacity-90 mt-1">Transaction Receipt</p>
+            </div>
+
+            <div class="text-right text-sm">
+              <p class="font-semibold">{{ inv_data.payment.code }}</p>
+              <p>{{ inv_data.payment.created_on | date: "dd MMM yyyy" }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Details -->
+
+        <div class="p-6 border-b">
+          <h3 class="font-semibold text-primary mb-4 uppercase tracking-wide">
+            Customer Details
+          </h3>
+
+          <div class="grid grid-cols-2 gap-y-3 text-sm">
+            <div class="text-gray-500">Customer</div>
+
+            <div class="font-medium">
+              {{ inv_data.customer.title }}
+              {{ inv_data.customer.initials }}
+              {{ inv_data.customer.surname }}
+            </div>
+
+            <div class="text-gray-500">Loan No</div>
+
+            <div>
+              {{ inv_data.inv.loan_id.code }}
+            </div>
+
+            <div class="text-gray-500">Phone</div>
+
+            <div>
+              {{ inv_data.customer.phone }}
+            </div>
+
+            <div class="text-gray-500">Address</div>
+
+            <div>
+              {{ inv_data.customer.address_1 }},
+              {{ inv_data.customer.address_2 }},
+              {{ inv_data.customer.address_3 }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Invoice -->
+
+        <div class="p-6 border-b">
+          <h3 class="font-semibold text-primary mb-4 uppercase tracking-wide">
+            Invoice Information
+          </h3>
+
+          <div class="grid grid-cols-2 gap-y-3 text-sm">
+            <div class="text-gray-500">Invoice No</div>
+
+            <div>
+              {{ inv_data.inv.code }}
+            </div>
+
+            <div class="text-gray-500">Payment Status</div>
+
+            <div>PAID</div>
+
+            <div class="text-gray-500">Payment Method</div>
+
+            <div>Cash</div>
+          </div>
+        </div>
+
+        <!-- Items -->
+
+        <div class="p-6">
+          <h3 class="font-semibold text-primary mb-4 uppercase tracking-wide">
+            Payment Breakdown
+          </h3>
+
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-100">
+                <th class="text-left px-4 py-3">Description</th>
+
+                <th class="text-right px-4 py-3">Amount</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of inv_data.inv_items"
+                class="border-b hover:bg-slate-50"
+              >
+                <td class="px-4 py-3">
+                  {{ item.description }}
+                </td>
+
+                <td class="px-4 py-3 text-right font-medium">
+                  {{ item.amount | number: "1.2-2" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Total -->
+
+        <div class="bg-slate-50 border-t">
+          <div class="flex justify-between items-center px-6 py-5">
+            <span class="text-lg font-semibold"> Total Paid </span>
+
+            <span class="text-2xl font-bold text-primary">
+              Rs.
+              {{ inv_data.payment.amount | number: "1.2-2" }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Footer -->
+
+        <div class="px-6 py-5 text-center text-xs text-gray-500">
+          This is a computer generated receipt and does not require a signature.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -64,7 +64,7 @@
                   <th class="p-3 text-right">Installment</th>
                   <th class="p-3 text-right">Fine</th>
                   <th class="p-3 text-right">Paid</th>
-                  <th class="p-3 text-right">Due</th>
+                  <th class="p-3 text-right">Installment Due</th>
                   <th class="p-3 text-right bg-red-50/50 text-red-700">
                     Total Due
                   </th>
@@ -84,7 +84,7 @@
                   <td
                     class="p-3 text-right font-mono text-red-500 font-semibold"
                   >
-                    +{{ item.fine | number: "0.2" }}
+                    +{{ item.fine - item.fine_balance | number: "0.2" }}
                   </td>
                   <td class="p-3 text-right font-mono text-gray-500">
                     {{ item.installment_paid | number: "0.2" }}
@@ -98,8 +98,36 @@
                     class="p-3 text-right font-mono text-red-600 font-bold bg-red-50/30"
                   >
                     {{
-                      item.installment - item.installment_paid + item.fine
-                        | number: "0.2"
+                      item.installment -
+                        item.installment_paid +
+                        item.fine -
+                        item.fine_balance | number: "0.2"
+                    }}
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td
+                    class="p-3 text-left text-xs font-semibold uppercase bg-red-50/50 text-red-700"
+                  >
+                    Total Due
+                  </td>
+                  <td></td>
+                  <td
+                    class="p-3 text-right font-mono text-red-600 font-bold bg-red-50/30"
+                  >
+                    +{{ initial_fine_amount | number: "0.2" }}
+                  </td>
+                  <td></td>
+                  <td
+                    class="p-3 text-right font-mono text-red-600 font-bold bg-red-50/30"
+                  >
+                    {{ initial_ins_amount | number: "0.2" }}
+                  </td>
+                  <td
+                    class="p-3 text-right font-mono text-red-600 font-bold bg-red-50/30"
+                  >
+                    {{
+                      initial_fine_amount + initial_ins_amount | number: "0.2"
                     }}
                   </td>
                 </tr>
@@ -144,6 +172,20 @@
                     class="p-3 text-right font-mono text-red-500 font-semibold"
                   >
                     {{ item.amount | number: "0.2" }}
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td></td>
+                  <td
+                    class="p-3 text-left text-xs font-semibold uppercase bg-red-50/50 text-red-700"
+                  >
+                    Total Due
+                  </td>
+
+                  <td
+                    class="p-3 text-right font-mono text-red-600 font-bold bg-red-50/30"
+                  >
+                    {{ initial_other_expenses_amount | number: "0.2" }}
                   </td>
                 </tr>
               </tbody>
@@ -208,7 +250,7 @@
               class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm"
               placeholder="0.00"
             />
-            <div class="mt-1 min-h-[16px]">
+            <div class="mt-1 min-h-4">
               <span
                 class="text-red-500 text-xs flex items-center gap-1"
                 *ngIf="
@@ -284,6 +326,32 @@
                 class="text-orange-500 text-xs flex items-center gap-1"
                 *ngIf="
                   valForm.controls['other_expense_amount'].hasError(
+                    'invalidDecimalFormat'
+                  )
+                "
+              >
+                Accepts up to two decimal places only
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label
+              class="block text-sm font-semibold mb-1.5 text-gray-700 flex items-center gap-1"
+            >
+              Permanently Remove Fine
+            </label>
+            <input
+              type="number"
+              formControlName="permanently_removed_fine"
+              class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm"
+              placeholder="0.00"
+            />
+            <div class="mt-1 min-h-[16px]">
+              <span
+                class="text-orange-500 text-xs flex items-center gap-1"
+                *ngIf="
+                  valForm.controls['permanently_removed_fine'].hasError(
                     'invalidDecimalFormat'
                   )
                 "

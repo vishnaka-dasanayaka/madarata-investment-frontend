@@ -36,6 +36,16 @@ export class PaymentScheduleComponent {
   expenses: any[] = [];
   event1: any;
 
+  no_of_payments: number = 0;
+  payments_cols: any[] = [];
+  payments: any[] = [];
+  event2: any;
+
+  no_of_removed_fines: number = 0;
+  removed_fines_cols: any[] = [];
+  removed_fines: any[] = [];
+  event3: any;
+
   constructor(
     private authservice: AuthenticationService,
     private route: ActivatedRoute,
@@ -62,6 +72,44 @@ export class PaymentScheduleComponent {
     });
   }
 
+  getAllPayments(event?: TableLazyLoadEvent) {
+    const finalEvent = event ?? this.event2;
+    this.event2 = finalEvent;
+
+    this.event2 = event;
+
+    var obj = {
+      offset: finalEvent.first,
+      rows: finalEvent.rows,
+      event: finalEvent,
+      loan_id: this.id,
+    };
+
+    this.loanService.getAllPagedPaymentsPerLoan(obj).subscribe((data) => {
+      this.payments = data.payments;
+      this.no_of_payments = data.no_of_payments;
+    });
+  }
+
+  getAllRemovedFines(event?: TableLazyLoadEvent) {
+    const finalEvent = event ?? this.event3;
+    this.event3 = finalEvent;
+
+    this.event3 = event;
+
+    var obj = {
+      offset: finalEvent.first,
+      rows: finalEvent.rows,
+      event: finalEvent,
+      loan_id: this.id,
+    };
+
+    this.loanService.getAllPagedRemovedFinesPerLoan(obj).subscribe((data) => {
+      this.removed_fines = data.removed_fines;
+      this.no_of_removed_fines = data.removed_fines;
+    });
+  }
+
   ngOnInit(): void {
     this.cols = [
       { field: "description", header: "Description" },
@@ -70,6 +118,22 @@ export class PaymentScheduleComponent {
       { field: "created_on", header: "Created On" },
       { field: "created_by", header: "Created By" },
       { field: "actions", header: "Actions", sortable: true, width: "200px" },
+    ];
+
+    this.payments_cols = [
+      { field: "code", header: "Code" },
+      { field: "amount", header: "Amount (LKR)" },
+      { field: "note", header: "Note", sortable: true },
+      { field: "created_on", header: "Created On" },
+      { field: "created_by", header: "Created By" },
+      { field: "status", header: "Status" },
+      { field: "actions", header: "Actions", sortable: true, width: "200px" },
+    ];
+
+    this.removed_fines_cols = [
+      { field: "created_on", header: "Created On" },
+      { field: "amount", header: "Amount (LKR)" },
+      { field: "created_by", header: "Created By" },
     ];
     this.generateUniqueKey();
     this.authservice.validateUser().subscribe((sysuser) => {
@@ -130,5 +194,12 @@ export class PaymentScheduleComponent {
   openAdPaymentModal() {
     this.sharedService.setPaymentData({ navigate: true, inv_id: this.id });
     this.sharedService.openAdPaymentrModal();
+  }
+
+  onInvClick(id: number) {
+    console.log(id);
+
+    this.sharedService.setPrintInvData({ navigate: true, payment_id: id });
+    this.sharedService.openAdPrintInvModal();
   }
 }

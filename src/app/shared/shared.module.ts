@@ -57,6 +57,7 @@ import { AddGuaranteeModalComponent } from "./modals/add-guarantee-modal/add-gua
 import { AddVehicleModalComponent } from "./modals/add-vehicle-modal/add-vehicle-modal.component";
 import { AddLoanFileModalComponent } from "./modals/add-loan-file-modal/add-loan-file-modal.component";
 import { AddExpenseModalComponent } from "./modals/add-expense-modal/add-expense-modal.component";
+import { PrintInvoiceComponent } from "./modals/print-invoice/print-invoice.component";
 
 @NgModule({
   imports: [
@@ -117,6 +118,7 @@ import { AddExpenseModalComponent } from "./modals/add-expense-modal/add-expense
     AddVehicleModalComponent,
     AddLoanFileModalComponent,
     AddExpenseModalComponent,
+    PrintInvoiceComponent,
   ],
   exports: [
     BlockUIModule,
@@ -171,6 +173,7 @@ import { AddExpenseModalComponent } from "./modals/add-expense-modal/add-expense
     AddVehicleModalComponent,
     AddLoanFileModalComponent,
     AddExpenseModalComponent,
+    PrintInvoiceComponent,
   ],
 })
 

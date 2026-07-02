@@ -409,6 +409,23 @@ export class SharedService {
   //   return this.edit_supplier.asObservable();
   // }
 
+  // Order
+  private add_print_inv = new Subject<void>();
+  private inv_data: any = undefined;
+
+  setPrintInvData(data: any) {
+    this.inv_data = data;
+  }
+  openAdPrintInvModal() {
+    this.add_print_inv.next();
+  }
+  getAddPrintInvClickEvent(): Observable<any> {
+    return this.add_print_inv.asObservable();
+  }
+  getPrintInvData(): any {
+    return this.inv_data;
+  }
+
   // Invoice
   private add_invoice = new Subject<void>();
   private edit_invoice = new Subject<void>();
