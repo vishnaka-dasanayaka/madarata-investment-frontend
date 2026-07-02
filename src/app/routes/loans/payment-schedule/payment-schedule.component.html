@@ -113,12 +113,13 @@
     <!-- Supplier Information Section -->
     <p-tabs value="0">
       <p-tablist>
-        <p-tab value="2">Payment Schedule (LKR)</p-tab>
+        <p-tab value="0">Payment Schedule (LKR)</p-tab>
         <p-tab value="1">Other Expenses (LKR)</p-tab>
-        <p-tab value="0">Payments (LKR)</p-tab>
+        <p-tab value="2">Payments (LKR)</p-tab>
+        <p-tab value="3">Permanently Removed Fine (LKR)</p-tab>
       </p-tablist>
       <p-tabpanels>
-        <p-tabpanel value="2">
+        <p-tabpanel value="0">
           <div
             class="overflow-y-auto scrollbar-hide max-h-250 max-w-full rounded-2xl border border-gray-100 bg-white shadow-card"
           >
@@ -246,8 +247,10 @@
 
                   <td class="px-2 py-4 text-red-500">
                     {{
-                      item?.installment - item?.installment_paid + item?.fine
-                        | number: "2.2"
+                      item?.installment -
+                        item?.installment_paid +
+                        item?.fine -
+                        item?.fine_paid | number: "2.2"
                     }}
                   </td>
                   <td class="px-2 py-4">
@@ -406,7 +409,7 @@
             </div>
           </div>
         </p-tabpanel>
-        <p-tabpanel value="0">
+        <p-tabpanel value="2">
           <div class="flex items-end justify-end">
             <button (click)="openAdPaymentModal()" class="add_btn">
               <i class="fa-solid fa-plus mr-2"></i>Add Payment
@@ -416,8 +419,8 @@
             <div>
               <p-table
                 #dt1
-                [columns]="cols"
-                [value]="expenses"
+                [columns]="payments_cols"
+                [value]="payments"
                 [paginator]="true"
                 [rows]="10"
                 [globalFilterFields]="[
@@ -435,8 +438,8 @@
                 [rowHover]="true"
                 [rowsPerPageOptions]="[10, 25, 50]"
                 [lazy]="true"
-                (onLazyLoad)="getAllOtherExpenses($event)"
-                [totalRecords]="no_of_expenses"
+                (onLazyLoad)="getAllPayments($event)"
+                [totalRecords]="no_of_payments"
                 [sortOrder]="1"
               >
                 <ng-template #caption>
@@ -488,8 +491,13 @@
                       class="px-3 py-2 text-sm text-center"
                       [ngSwitch]="col.field"
                     >
-                      <div class="text-start" *ngSwitchCase="'description'">
-                        {{ rowData?.description }}
+                      <div class="text-start" *ngSwitchCase="'code'">
+                        {{ rowData?.code }}
+                      </div>
+
+                      <div class="text-start" *ngSwitchCase="'note'">
+                        {{ rowData?.note }}
+                        <span *ngIf="!rowData.note">[ NOT PROVIDED ]</span>
                       </div>
                       <div class="text-start" *ngSwitchCase="'amount'">
                         {{ rowData?.amount | number: "2.2" }}
@@ -498,23 +506,23 @@
                       <div class="text-start" *ngSwitchCase="'status'">
                         <span
                           *ngIf="rowData?.status == 2"
-                          class="badge badge-orange"
+                          class="badge badge-success"
                         >
-                          Active
+                          Approved
                         </span>
 
                         <span
-                          *ngIf="rowData?.status == 4"
-                          class="badge badge-success"
+                          *ngIf="rowData?.status == 0"
+                          class="badge badge-primary"
                         >
-                          Settled
+                          Pending
                         </span>
 
                         <span
                           *ngIf="rowData?.status == -2"
                           class="badge badge-danger"
                         >
-                          Deleted
+                          Rejected
                         </span>
                       </div>
 
@@ -527,9 +535,146 @@
                       </div>
 
                       <div *ngSwitchCase="'actions'">
-                        <button class="btn btn-outline-danger">Delete</button>
+                        <button class="btn btn-outline-danger">Reject</button>
+                        <button
+                          (click)="onInvClick(rowData.id)"
+                          class="btn btn-outline-warning ml-3"
+                        >
+                          Invoice
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel value="3">
+          <div class="flex items-end justify-end"></div>
+          <div *ngIf="LoadUI" class="min-h-screen p-2 mt-5 bg-gray-50">
+            <div>
+              <p-table
+                #dt1
+                [columns]="removed_fines_cols"
+                [value]="removed_fines"
+                [paginator]="true"
+                [rows]="10"
+                [globalFilterFields]="[
+                  'code',
+                  'name',
+                  'phone',
+                  'address',
+                  'nic',
+                ]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [responsive]="false"
+                [autoLayout]="true"
+                styleClass="p-datatable-sm p-datatable-striped"
+                [rowHover]="true"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [lazy]="true"
+                (onLazyLoad)="getAllRemovedFines($event)"
+                [totalRecords]="no_of_removed_fines"
+                [sortOrder]="1"
+              >
+                <ng-template #caption>
+                  <div class="flex">
+                    <p-iconfield iconPosition="left" class="ml-auto">
+                      <p-inputicon>
+                        <i class="pi pi-search"></i>
+                      </p-inputicon>
+                      <input
+                        pInputText
+                        type="text"
+                        (input)="
+                          dt1.filterGlobal(
+                            $any($event.target).value,
+                            'contains'
+                          )
+                        "
+                        placeholder="Search keyword"
+                      />
+                    </p-iconfield>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr class="bg-primary text-white text-sm">
+                    <th
+                      *ngFor="let col of columns"
+                      [pSortableColumn]="col.field"
+                      [pSortableColumnDisabled]="col.sortable"
+                      [style.width]="col.width"
+                      class="px-3 py-2 text-center font-medium"
+                    >
+                      {{ col.header }}
+                      <p-sortIcon
+                        *ngIf="!col.sortable"
+                        [field]="col.field"
+                        ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"
+                        styleClass="ml-2"
+                      ></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr class="hover:bg-orange-50 transition">
+                    <td
+                      *ngFor="let col of columns; let i = index"
+                      class="px-3 py-2 text-sm text-center"
+                      [ngSwitch]="col.field"
+                    >
+                      <div class="text-start" *ngSwitchCase="'code'">
+                        {{ rowData?.code }}
+                      </div>
+
+                      <div class="text-start" *ngSwitchCase="'note'">
+                        {{ rowData?.note }}
+                        <span *ngIf="!rowData.note">[ NOT PROVIDED ]</span>
+                      </div>
+                      <div class="text-start" *ngSwitchCase="'amount'">
+                        {{ rowData?.amount | number: "2.2" }}
+                      </div>
+
+                      <div class="text-start" *ngSwitchCase="'status'">
+                        <span
+                          *ngIf="rowData?.status == 2"
+                          class="badge badge-success"
+                        >
+                          Approved
+                        </span>
+
+                        <span
+                          *ngIf="rowData?.status == 0"
+                          class="badge badge-primary"
+                        >
+                          Pending
+                        </span>
+
+                        <span
+                          *ngIf="rowData?.status == -2"
+                          class="badge badge-danger"
+                        >
+                          Rejected
+                        </span>
+                      </div>
+
+                      <div class="text-start" *ngSwitchCase="'created_on'">
+                        {{ rowData?.created_on | date: "mediumDate" }}
+                      </div>
+
+                      <div class="text-start" *ngSwitchCase="'created_by'">
+                        {{ rowData?.firstname }} {{ rowData?.lastname }}
+                      </div>
+
+                      <div *ngSwitchCase="'actions'">
+                        <button class="btn btn-outline-danger">Reject</button>
                         <button class="btn btn-outline-warning ml-3">
-                          Edit
+                          Invoice
                         </button>
                       </div>
                     </td>
@@ -571,4 +716,7 @@
   (parentFun)="getAllOtherExpenses(event1)"
 ></app-add-expense-modal>
 
-<app-add-payment [loan_id]="id"> </app-add-payment>
+<app-add-payment [loan_id]="id" (parentFun)="getAllPayments(event1)">
+</app-add-payment>
+
+<app-print-invoice></app-print-invoice>
