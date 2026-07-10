@@ -89,6 +89,10 @@ export class PaymentScheduleComponent {
       this.payments = data.payments;
       this.no_of_payments = data.no_of_payments;
     });
+
+    this.getPaymentSchedule(this.id);
+    this.getAllOtherExpenses(this.event1);
+    this.getAllRemovedFines(this.event3);
   }
 
   getAllRemovedFines(event?: TableLazyLoadEvent) {

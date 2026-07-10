@@ -63,7 +63,7 @@
                   <th class="p-3">Date</th>
                   <th class="p-3 text-right">Installment</th>
                   <th class="p-3 text-right">Fine</th>
-                  <th class="p-3 text-right">Paid</th>
+                  <th class="p-3 text-right">Installment Paid</th>
                   <th class="p-3 text-right">Installment Due</th>
                   <th class="p-3 text-right bg-red-50/50 text-red-700">
                     Total Due
@@ -84,7 +84,7 @@
                   <td
                     class="p-3 text-right font-mono text-red-500 font-semibold"
                   >
-                    +{{ item.fine - item.fine_balance | number: "0.2" }}
+                    +{{ item.fine - item.fine_paid | number: "0.2" }}
                   </td>
                   <td class="p-3 text-right font-mono text-gray-500">
                     {{ item.installment_paid | number: "0.2" }}
@@ -101,7 +101,7 @@
                       item.installment -
                         item.installment_paid +
                         item.fine -
-                        item.fine_balance | number: "0.2"
+                        item.fine_paid | number: "0.2"
                     }}
                   </td>
                 </tr>

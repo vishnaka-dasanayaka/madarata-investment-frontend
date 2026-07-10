@@ -7,7 +7,7 @@
   <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl mx-auto z-50">
     <!-- Modal Header -->
     <div class="flex justify-between items-center px-6 py-4 border-b">
-      <h4 class="text-xl font-semibold text-gray-800">Add Expense</h4>
+      <h4 class="text-xl font-semibold text-gray-800">Receipt</h4>
       <button
         type="button"
         class="text-gray-500 hover:text-red-600 text-xl"
@@ -28,9 +28,11 @@
         <div class="bg-primary text-white p-6 rounded-t-xl">
           <div class="flex justify-between items-start">
             <div>
-              <h2 class="text-2xl font-bold tracking-wide">PAYMENT RECEIPT</h2>
+              <h2 class="text-2xl font-bold tracking-wide">
+                Madarata Investment (PVT) Ltd
+              </h2>
 
-              <p class="text-sm opacity-90 mt-1">Transaction Receipt</p>
+              <p class="text-sm opacity-90 mt-1">PAYMENT RECEIPT</p>
             </div>
 
             <div class="text-right text-sm">
@@ -74,6 +76,13 @@
               {{ inv_data.customer.address_1 }},
               {{ inv_data.customer.address_2 }},
               {{ inv_data.customer.address_3 }}
+            </div>
+
+            <div class="text-gray-500">Branch</div>
+
+            <div>
+              {{ inv_data.inv?.loan_id?.branch_id?.code }} :
+              {{ inv_data.inv?.loan_id?.branch_id?.name }}
             </div>
           </div>
         </div>

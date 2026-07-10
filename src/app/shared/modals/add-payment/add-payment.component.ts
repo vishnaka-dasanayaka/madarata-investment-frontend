@@ -89,6 +89,10 @@ export class AddPaymentComponent {
   }
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData() {
     this.loanService
       .getOverduePayablesPerLoan({ loan_id: this.loan_id })
       .subscribe((data) => {
@@ -130,7 +134,7 @@ export class AddPaymentComponent {
     var ins = 0;
     for (var item of this.schedule_list) {
       ins += item.installment - item.installment_paid;
-      fine += item.fine - item.fine_balance;
+      fine += item.fine - item.fine_paid;
     }
 
     this.valForm.patchValue({ ins_amount: parseFloat(ins.toFixed(2)) });
@@ -204,6 +208,7 @@ export class AddPaymentComponent {
                   this.parentFun.emit();
                   this.closeModal();
                   this.valForm.reset();
+                  this.getData();
                   swal.fire({
                     title: "Success!",
                     text: "Payment has been created successfully.",
