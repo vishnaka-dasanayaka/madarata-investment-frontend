@@ -20,17 +20,6 @@ export class InvoiceService {
     return throwError(() => error); // This is the correct way in RxJS 7+
   }
 
-  createInvItem(obj: any) {
-    let APIurl = this.BaseAPIurl + "create-inv-item";
-
-    return this.http.post<any>(APIurl, obj).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError(this.handleError)
-    );
-  }
-
   getAllInvoices(obj: any) {
     let APIurl = this.BaseAPIurl + "get-all-paged-invoices";
 
@@ -38,7 +27,18 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
+    );
+  }
+
+  createInvItem(obj: any) {
+    let APIurl = this.BaseAPIurl + "create-inv-item";
+
+    return this.http.post<any>(APIurl, obj).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError(this.handleError),
     );
   }
 
@@ -49,7 +49,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -60,7 +60,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -71,7 +71,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -82,7 +82,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -93,7 +93,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -104,7 +104,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -115,7 +115,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -136,7 +136,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -147,7 +147,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 
@@ -158,7 +158,7 @@ export class InvoiceService {
       map((response) => {
         return response;
       }),
-      catchError(this.handleError)
+      catchError(this.handleError),
     );
   }
 }

@@ -23,6 +23,7 @@ import { ReportsModule } from "./reports/reports.module";
 import { GuaranteesModule } from "./guarantees/guarantees.module";
 import { VehiclesModule } from "./vehicles/vehicles.module";
 import { LoansModule } from "./loans/loans.module";
+import { ReceiptsModule } from "./receipts/receipts.module";
 
 export const routes: Routes = [
   {
@@ -55,6 +56,12 @@ export const routes: Routes = [
         path: "loans",
         loadChildren: () =>
           import("./loans/loans.module").then((m) => LoansModule),
+      },
+
+      {
+        path: "receipts",
+        loadChildren: () =>
+          import("./receipts/receipts.module").then((m) => ReceiptsModule),
       },
 
       // Madarata ends

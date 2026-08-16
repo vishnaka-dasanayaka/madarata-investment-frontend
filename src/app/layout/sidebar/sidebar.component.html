@@ -93,6 +93,49 @@
         </div>
       </div>
 
+      <div>
+        <h3
+          class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
+        >
+          Payments
+        </h3>
+
+        <div
+          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
+          [ngClass]="{
+            'bg-primary text-white':
+              currentPath === '/receipts/receipt-summary',
+            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
+              currentPath !== '/receipts/receipt-summary',
+          }"
+          (click)="onClickMenu('/receipts/receipt-summary', 7)"
+        >
+          <i class="fa-solid w-5 mr-3 fa-receipt"></i>
+          <span class="text-sm font-medium">Receipts</span>
+        </div>
+      </div>
+
+      <div>
+        <h3
+          class="text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 px-3 mb-2"
+        >
+          Statistics
+        </h3>
+
+        <div
+          class="flex items-center py-2 px-3 rounded-lg cursor-pointer transition-all duration-200"
+          [ngClass]="{
+            'bg-primary text-white': currentPath === '/reports/report-summary',
+            'hover:bg-primary/20 text-gray-700 dark:text-gray-200':
+              currentPath !== '/reports/report-summary',
+          }"
+          (click)="onClickMenu('/reports/report-summary', 7)"
+        >
+          <i class="fa-solid w-5 mr-3 fa-receipt"></i>
+          <span class="text-sm font-medium">Reports</span>
+        </div>
+      </div>
+
       <!-- Settings Section -->
       <div>
         <h3
@@ -110,6 +153,7 @@
           (click)="onClickMenu('/settings/settings-menu', 4)"
         >
           <i class="fa-solid fa-gear w-5 mr-3"></i>
+
           <span class="text-sm font-medium">Settings</span>
         </div>
       </div>
