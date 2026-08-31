@@ -26,16 +26,14 @@
   </div>
 
   <!-- Stats Grid -->
-  <div
-    class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"
-  >
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
     <!-- Text Blocks Card -->
     <div
-      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-orange-500 border-l-5"
+      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-primary border-l-5"
     >
       <div class="flex justify-between items-start">
         <div>
-          <p class="text-gray-500 text-sm">Total Patients</p>
+          <p class="text-gray-500 text-sm">Active Loan Files</p>
           <p class="text-3xl font-bold text-gray-800 mt-2">
             <span *ngIf="!data_loaded"
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
@@ -46,9 +44,9 @@
           </p>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center"
+          class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center"
         >
-          <i class="fa-solid fa-eye-low-vision text-orange-500"></i>
+          <i class="fa-regular text-primary fa-folder-open"></i>
         </div>
       </div>
       <div class="mt-4 pt-4 border-t border-gray-100">
@@ -84,7 +82,7 @@
 
     <!-- Active Snapfires Card -->
     <div
-      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-purple-500 border-l-5"
+      class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-blue-700 border-l-5"
     >
       <div class="flex justify-between items-start">
         <div>
@@ -99,9 +97,9 @@
           </p>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-purple-50 flex items-center justify-center"
+          class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center"
         >
-          <i class="fa-solid text-purple-500 fa-glasses"></i>
+          <i class="fa-solid text-blue-500 fa-car-rear"></i>
         </div>
       </div>
       <div class="mt-4 pt-4 border-t border-gray-100">
@@ -137,11 +135,11 @@
 
     <!-- Inventory Value Card -->
     <div
-      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-cyan-500 border-l-5"
+      class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-cyan-500 border-l-5"
     >
       <div class="flex justify-between items-start">
         <div>
-          <p class="text-gray-500 text-sm">Consultations</p>
+          <p class="text-gray-500 text-sm">Total Receivables</p>
           <p class="text-3xl font-bold text-gray-800 mt-2">
             <span *ngIf="!data_loaded"
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
@@ -154,7 +152,7 @@
         <div
           class="w-12 h-12 rounded-lg bg-cyan-50 flex items-center justify-center"
         >
-          <i class="fa-solid text-cyan-500 fa-stethoscope"></i>
+          <i class="fa-solid text-cyan-500 fa-sack-dollar"></i>
         </div>
       </div>
       <div class="mt-4 pt-4 border-t border-gray-100">
@@ -188,13 +186,15 @@
       </div>
     </div>
 
+    <div></div>
+    <div></div>
+
     <div
-      *hasPermission="[[12], sysuser]"
-      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-pink-500 border-l-5 bg-"
+      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-green-600 border-l-5 bg-"
     >
       <div class="flex justify-between items-start">
         <div>
-          <p class="text-gray-500 text-sm">Available Stock Buying Value</p>
+          <p class="text-gray-500 text-sm">Total Receivables</p>
           <p class="text-xl font-bold text-gray-800 mt-2">
             <span *ngIf="!data_loaded"
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
@@ -205,20 +205,25 @@
           </p>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-pink-50 flex items-center justify-center"
+          class="w-12 h-12 rounded-lg bg-green-50 flex items-center justify-center"
         >
-          <i class="fa-solid text-pink-500 fa-dollar-sign"></i>
+          <i class="fa-solid text-green-500 fa-dollar-sign"></i>
         </div>
       </div>
     </div>
 
     <div
-      *hasPermission="[[12], sysuser]"
-      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-green-500 border-l-5"
+      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-red-600 border-l-5"
     >
       <div class="flex justify-between items-start">
         <div>
-          <p class="text-gray-500 text-sm">Available Stock Selling Value</p>
+          <p class="text-gray-500 text-sm">
+            Overdue Amount
+            <span
+              class="border-red-600 bg-red-50 text-[0.5rem] px-2 py-1 rounded-full text-red-500 border"
+              >High Risk</span
+            >
+          </p>
           <p class="text-xl font-bold text-gray-800 mt-2">
             <span *ngIf="!data_loaded"
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
@@ -229,9 +234,55 @@
           </p>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-green-50 flex items-center justify-center"
+          class="w-12 h-12 rounded-lg bg-red-50 flex items-center justify-center"
         >
-          <i class="fa-solid fa-sack-dollar text-green-500"></i>
+          <i class="fa-solid fa-triangle-exclamation text-red-500"></i>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-blue-600 border-l-5"
+    >
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Today's Collection</p>
+          <p class="text-xl font-bold text-gray-800 mt-2">
+            <span *ngIf="!data_loaded"
+              ><i class="fa-solid fa-spinner fa-spin-pulse"></i
+            ></span>
+            <span *ngIf="data_loaded">
+              LKR {{ inventory_value.selling_value | number: "2.2" }}
+            </span>
+          </p>
+        </div>
+        <div
+          class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center"
+        >
+          <i class="fa-regular fa-circle-check text-blue-500"></i>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-l-purple-600 border-l-5"
+    >
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Monthly Collection</p>
+          <p class="text-xl font-bold text-gray-800 mt-2">
+            <span *ngIf="!data_loaded"
+              ><i class="fa-solid fa-spinner fa-spin-pulse"></i
+            ></span>
+            <span *ngIf="data_loaded">
+              LKR {{ inventory_value.selling_value | number: "2.2" }}
+            </span>
+          </p>
+        </div>
+        <div
+          class="w-12 h-12 rounded-lg bg-purple-50 flex items-center justify-center"
+        >
+          <i class="fa-regular fa-calendar-check text-purple-500"></i>
         </div>
       </div>
     </div>
