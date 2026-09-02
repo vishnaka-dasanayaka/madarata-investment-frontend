@@ -8,9 +8,9 @@
         Welcome back, {{ sysuser?.firstname }} {{ sysuser?.lastname }} !
       </span>
 
-      <span class="hidden mx-2">•</span>
+      <span class="mx-2">•</span>
 
-      <span class="hidden">
+      <span class="">
         <p-skeleton
           *ngIf="!data_loaded"
           width="100px"
@@ -39,7 +39,7 @@
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
             ></span>
             <span *ngIf="data_loaded">
-              {{ counts.active_patient_count }}
+              {{ counts.active_loan_file_count }}
             </span>
           </p>
         </div>
@@ -52,29 +52,29 @@
       <div class="mt-4 pt-4 border-t border-gray-100">
         <div class="flex items-center text-sm">
           <i
-            *ngIf="patient_trend?.trend === 'increase'"
+            *ngIf="loan_file_trend?.trend === 'increase'"
             class="fa-solid fa-arrow-trend-up mr-2 text-green-600"
           ></i>
 
           <i
-            *ngIf="patient_trend?.trend === 'decrease'"
+            *ngIf="loan_file_trend?.trend === 'decrease'"
             class="fa-solid fa-arrow-trend-down mr-2 text-red-600"
           ></i>
 
           <i
-            *ngIf="patient_trend?.trend === 'nochange'"
+            *ngIf="loan_file_trend?.trend === 'nochange'"
             class="fa-solid fa-minus mr-2 text-cyan-600"
           ></i>
 
           <span
             [ngClass]="{
-              'text-green-600': patient_trend?.trend === 'increase',
-              'text-red-600': patient_trend?.trend === 'decrease',
-              'text-cyan-600': patient_trend?.trend === 'nochange',
+              'text-green-600': loan_file_trend?.trend === 'increase',
+              'text-red-600': loan_file_trend?.trend === 'decrease',
+              'text-cyan-600': loan_file_trend?.trend === 'nochange',
             }"
           >
-            {{ patient_trend?.trend === "decrease" ? "-" : "+" }}
-            {{ patient_trend?.percentage }}% from last month
+            {{ loan_file_trend?.trend === "decrease" ? "-" : "+" }}
+            {{ loan_file_trend?.percentage }}% from last month
           </span>
         </div>
       </div>
@@ -105,29 +105,29 @@
       <div class="mt-4 pt-4 border-t border-gray-100">
         <div class="flex items-center text-sm">
           <i
-            *ngIf="order_trend?.trend === 'increase'"
+            *ngIf="loan_file_trend?.trend === 'increase'"
             class="fa-solid fa-arrow-trend-up mr-2 text-green-600"
           ></i>
 
           <i
-            *ngIf="order_trend?.trend === 'decrease'"
+            *ngIf="loan_file_trend?.trend === 'decrease'"
             class="fa-solid fa-arrow-trend-down mr-2 text-red-600"
           ></i>
 
           <i
-            *ngIf="order_trend?.trend === 'nochange'"
+            *ngIf="loan_file_trend?.trend === 'nochange'"
             class="fa-solid fa-minus mr-2 text-cyan-600"
           ></i>
 
           <span
             [ngClass]="{
-              'text-green-600': order_trend?.trend === 'increase',
-              'text-red-600': order_trend?.trend === 'decrease',
-              'text-cyan-600': order_trend?.trend === 'nochange',
+              'text-green-600': loan_file_trend?.trend === 'increase',
+              'text-red-600': loan_file_trend?.trend === 'decrease',
+              'text-cyan-600': loan_file_trend?.trend === 'nochange',
             }"
           >
-            {{ order_trend?.trend === "decrease" ? "-" : "+" }}
-            {{ order_trend?.percentage }}% from last month
+            {{ loan_file_trend?.trend === "decrease" ? "-" : "+" }}
+            {{ loan_file_trend?.percentage }}% from last month
           </span>
         </div>
       </div>
@@ -158,29 +158,29 @@
       <div class="mt-4 pt-4 border-t border-gray-100">
         <div class="flex items-center text-sm">
           <i
-            *ngIf="invoice_trend?.trend === 'increase'"
+            *ngIf="loan_file_trend?.trend === 'increase'"
             class="fa-solid fa-arrow-trend-up mr-2 text-green-600"
           ></i>
 
           <i
-            *ngIf="invoice_trend?.trend === 'decrease'"
+            *ngIf="loan_file_trend?.trend === 'decrease'"
             class="fa-solid fa-arrow-trend-down mr-2 text-red-600"
           ></i>
 
           <i
-            *ngIf="invoice_trend?.trend === 'nochange'"
+            *ngIf="loan_file_trend?.trend === 'nochange'"
             class="fa-solid fa-minus mr-2 text-cyan-600"
           ></i>
 
           <span
             [ngClass]="{
-              'text-green-600': invoice_trend?.trend === 'increase',
-              'text-red-600': invoice_trend?.trend === 'decrease',
-              'text-cyan-600': invoice_trend?.trend === 'nochange',
+              'text-green-600': loan_file_trend?.trend === 'increase',
+              'text-red-600': loan_file_trend?.trend === 'decrease',
+              'text-cyan-600': loan_file_trend?.trend === 'nochange',
             }"
           >
-            {{ invoice_trend?.trend === "decrease" ? "-" : "+" }}
-            {{ invoice_trend?.percentage }}% from last month
+            {{ loan_file_trend?.trend === "decrease" ? "-" : "+" }}
+            {{ loan_file_trend?.percentage }}% from last month
           </span>
         </div>
       </div>
@@ -200,7 +200,7 @@
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
             ></span>
             <span *ngIf="data_loaded">
-              LKR {{ inventory_value.buying_value | number: "2.2" }}
+              LKR {{ amounts.total_receivable_amount | number: "2.2" }}
             </span>
           </p>
         </div>
@@ -229,7 +229,7 @@
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
             ></span>
             <span *ngIf="data_loaded">
-              LKR {{ inventory_value.selling_value | number: "2.2" }}
+              LKR {{ amounts.total_overdue_amount | number: "2.2" }}
             </span>
           </p>
         </div>
@@ -252,7 +252,7 @@
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
             ></span>
             <span *ngIf="data_loaded">
-              LKR {{ inventory_value.selling_value | number: "2.2" }}
+              LKR {{ amounts.today_payments_amount | number: "2.2" }}
             </span>
           </p>
         </div>
@@ -275,7 +275,7 @@
               ><i class="fa-solid fa-spinner fa-spin-pulse"></i
             ></span>
             <span *ngIf="data_loaded">
-              LKR {{ inventory_value.selling_value | number: "2.2" }}
+              LKR {{ amounts.month_payments_amount | number: "2.2" }}
             </span>
           </p>
         </div>
