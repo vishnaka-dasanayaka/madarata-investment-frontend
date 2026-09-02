@@ -16,14 +16,12 @@ export class HomeComponent implements OnInit {
 
   last_login: any;
   counts: any;
-  patient_trend: any;
-  order_trend: any;
-  invoice_trend: any;
-  inventory_value: any;
+  loan_file_trend: any;
+  amounts: any;
 
   constructor(
     private authservice: AuthenticationService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {}
 
   ngOnInit(): void {
@@ -40,10 +38,8 @@ export class HomeComponent implements OnInit {
         this.data_loaded = true;
         this.last_login = data.last_login;
         this.counts = data.counts;
-        this.patient_trend = data.patient_trend;
-        this.order_trend = data.order_trend;
-        this.invoice_trend = data.invoice_trend;
-        this.inventory_value = data.inventory_value;
+        this.loan_file_trend = data.loan_file_trend;
+        this.amounts = data.amounts;
       }
     });
   }
