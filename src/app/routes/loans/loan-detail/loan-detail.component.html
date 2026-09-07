@@ -15,7 +15,11 @@
       <h1 class="text-xl font-semibold">Loan FIle Details</h1>
       <h5 class="text-xs font-thin">{{ customer?.loan_file_code }}</h5>
     </div>
-    <div *ngIf="customer.loan">
+    <div
+      *ngIf="
+        customer.loan && customer.guarantee.length == 2 && customer?.vehicle
+      "
+    >
       <button
         [disabled]="customer?.loan?.status == 2"
         class="mr-2 btn-lg btn-success"
